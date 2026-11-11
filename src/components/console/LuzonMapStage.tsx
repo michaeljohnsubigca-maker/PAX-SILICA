@@ -30,8 +30,8 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
     return `
       <div class="corridor-node-wrapper w-12 h-12 group cursor-pointer">
         <span class="${haloClass} ${haloSize}" style="background-color: ${node.color}33; border: 1.5px solid ${node.color};"></span>
-        <div class="relative z-10 w-3.5 h-3.5 rounded-full border-2 border-[#fff7ed] transition-transform duration-200 ${coreScale}" style="background-color: ${node.color}; box-shadow: 0 0 16px ${node.color};"></div>
-        <div class="absolute left-9 top-1/2 -translate-y-1/2 whitespace-nowrap px-2.5 py-0.5 rounded-lg bg-[#141210]/95 backdrop-blur-md border text-[10px] font-mono font-bold tracking-tight shadow-xl pointer-events-none" style="border-color: ${node.color}88; color: #FFF7ED;">
+        <div class="relative z-10 w-3.5 h-3.5 rounded-full border-2 border-[#ffffff] transition-transform duration-200 ${coreScale}" style="background-color: ${node.color}; box-shadow: 0 0 16px ${node.color};"></div>
+        <div class="absolute left-9 top-1/2 -translate-y-1/2 whitespace-nowrap px-2.5 py-0.5 rounded-lg bg-[#0a1226]/95 backdrop-blur-md border text-[10px] font-mono font-bold tracking-tight shadow-xl pointer-events-none" style="border-color: ${node.color}aa; color: #ffffff;">
           ${node.name}
         </div>
       </div>
@@ -61,7 +61,7 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
         ? {
             url: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${cartoKey}`,
             attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a> | PAX SILICA SAHARA ATLAS',
+              '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a> | PAX SILICA ATLAS',
             subdomains: 'abcd',
             maxZoom: 20,
             detectRetina: true,
@@ -69,7 +69,7 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
         : {
             url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
             attribution:
-              'Tiles &copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer">Esri</a> &mdash; Esri, DeLorme, NAVTEQ | PAX SILICA SAHARA ATLAS',
+              'Tiles &copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer">Esri</a> &mdash; Esri, DeLorme, NAVTEQ | PAX SILICA ATLAS',
             subdomains: 'abcd',
             maxZoom: 16,
             detectRetina: false,
@@ -96,9 +96,9 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
         CORRIDOR_NODES.batangas.coords,
       ];
 
-      const railGlow = L.polyline(railCoords, { color: '#c2652a', weight: 6, opacity: 0.3 });
+      const railGlow = L.polyline(railCoords, { color: '#1d4ed8', weight: 6, opacity: 0.4 });
       const railCore = L.polyline(railCoords, {
-        color: '#e07a3f',
+        color: '#38bdf8',
         weight: 2.5,
         opacity: 0.95,
         className: 'rail-spine-flow',
@@ -112,11 +112,11 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
       // 2. 1,620-ha Economic Security Zone
       const nccRing = L.circle(CORRIDOR_NODES.ncc.coords, {
         radius: 11500,
-        color: '#10B981',
+        color: '#38bdf8',
         weight: 1.2,
         dashArray: '4, 6',
-        fillColor: '#10B981',
-        fillOpacity: 0.06,
+        fillColor: '#38bdf8',
+        fillOpacity: 0.08,
       });
 
       const eszPoly = L.polygon(
@@ -127,10 +127,10 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
           [15.298, 120.502],
         ],
         {
-          color: '#10B981',
+          color: '#60a5fa',
           weight: 2,
-          fillColor: '#10B981',
-          fillOpacity: 0.24,
+          fillColor: '#3b82f6',
+          fillOpacity: 0.22,
         }
       ).bindTooltip('1,620-ha (4,000-acre) Pax Silica Security Zone (Capas, Tarlac)', {
         sticky: true,
@@ -148,9 +148,9 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
           CORRIDOR_NODES.ncc.coords,
         ],
         {
-          color: '#f59e0b',
+          color: '#93c5fd',
           weight: 2.2,
-          opacity: 0.92,
+          opacity: 0.95,
           className: 'mineral-feed-flow',
         }
       ).bindTooltip('Zambales Critical Mineral Feed (Nickel, Copper, Chromite → Tarlac)', {
@@ -161,10 +161,10 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
       const batangasGridConnect = L.polyline(
         [CORRIDOR_NODES.batangas.coords, [14.15, 121.15], CORRIDOR_NODES.manila.coords],
         {
-          color: '#10b981',
+          color: '#38bdf8',
           weight: 2,
           dashArray: '3, 6',
-          opacity: 0.85,
+          opacity: 0.9,
         }
       ).bindTooltip('Southern Luzon Clean Power Grid (Batangas LNG/Solar → Corridor)', {
         sticky: true,

@@ -48,9 +48,9 @@ export const BottomHud: React.FC<BottomHudProps> = ({
       {isDrawerOpen && (
         <div
           id="nodeInspectorDrawer"
-          className="glass-panel rounded-2xl p-3 border border-saharaTerracotta-500/30 shadow-glass-elevated space-y-2.5 transition-all duration-300 animate-in fade-in"
+          className="glass-panel rounded-2xl p-3 border border-white/18 shadow-glass-elevated space-y-2.5 transition-all duration-300 animate-in fade-in"
         >
-          <div className="flex items-center justify-between border-b border-saharaTerracotta-500/20 pb-2">
+          <div className="flex items-center justify-between border-b border-white/12 pb-2">
             <div className="flex items-center gap-2">
               <span
                 className="w-2.5 h-2.5 rounded-full"
@@ -65,63 +65,63 @@ export const BottomHud: React.FC<BottomHudProps> = ({
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="font-mono text-[10px] text-stone-400">
+              <span className="font-mono text-[10px] text-slate-400">
                 {inspectedNode.coordsText}
               </span>
               <button
                 onClick={() => onSelectNode(inspectedNode.id)}
-                className="px-2 py-0.5 rounded-lg bg-saharaTerracotta-500/20 hover:bg-saharaTerracotta-500/30 text-sandOchre-200 border border-saharaTerracotta-500/40 font-mono text-[10px] flex items-center gap-1 transition"
+                className="px-2 py-0.5 rounded-lg bg-blue-600/25 hover:bg-blue-600/40 text-white border border-blue-400/40 font-mono text-[10px] flex items-center gap-1 transition cursor-pointer"
               >
                 <span>Focus Camera</span>
-                <ExternalLink className="w-2.5 h-2.5" />
+                <ExternalLink className="w-2.5 h-2.5 text-blue-400" />
               </button>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
             {/* Allocation */}
-            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-saharaTerracotta-500/20 space-y-1">
-              <div className="font-mono text-[9px] uppercase tracking-wider text-saharaTerracotta-400 font-bold flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-saharaTerracotta-400" />
+            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-white/12 space-y-1">
+              <div className="font-mono text-[9px] uppercase tracking-wider text-blue-400 font-bold flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-blue-400" />
                 <span>Zone Allocation</span>
               </div>
-              <p className="text-stone-200 leading-snug">{inspectedNode.allocation}</p>
+              <p className="text-slate-200 leading-snug">{inspectedNode.allocation}</p>
             </div>
 
             {/* Suitors */}
-            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-saharaTerracotta-500/20 space-y-1">
-              <div className="font-mono text-[9px] uppercase tracking-wider text-siliconAmber-400 font-bold flex items-center gap-1">
-                <Cpu className="w-3 h-3 text-siliconAmber-400" />
+            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-white/12 space-y-1">
+              <div className="font-mono text-[9px] uppercase tracking-wider text-sky-300 font-bold flex items-center gap-1">
+                <Cpu className="w-3 h-3 text-sky-300" />
                 <span>Suitors &amp; Consortia</span>
               </div>
-              <p className="text-stone-200 leading-snug">{inspectedNode.suitors}</p>
+              <p className="text-slate-200 leading-snug">{inspectedNode.suitors}</p>
             </div>
 
             {/* Dependencies */}
-            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-saharaTerracotta-500/20 space-y-1">
-              <div className="font-mono text-[9px] uppercase tracking-wider text-telemetryEmerald-400 font-bold">
+            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-white/12 space-y-1">
+              <div className="font-mono text-[9px] uppercase tracking-wider text-cyan-300 font-bold">
                 Critical Dependencies
               </div>
-              <p className="text-stone-200 leading-snug">{inspectedNode.dependencies}</p>
+              <p className="text-slate-200 leading-snug">{inspectedNode.dependencies}</p>
             </div>
           </div>
 
-          <p className="text-[11px] text-stone-300 leading-relaxed font-normal bg-black/30 p-2 rounded-lg border border-stone-800">
+          <p className="text-[11px] text-slate-300 leading-relaxed font-normal bg-black/40 p-2 rounded-lg border border-white/10">
             {inspectedNode.summary}
           </p>
         </div>
       )}
 
       {/* Floating Control Bar */}
-      <div className="glass-panel rounded-2xl px-3 py-1.5 flex items-center justify-between gap-2 border border-saharaTerracotta-500/30 shadow-glass-elevated">
+      <div className="glass-panel rounded-2xl px-3 py-1.5 flex items-center justify-between gap-2 border border-white/18 shadow-glass-elevated">
         {/* Node Buttons */}
         <div className="flex items-center gap-1 overflow-x-auto py-0.5">
           {[
-            { id: 'ncc', label: 'Capas Hub', dotColor: '#c2652a' },
-            { id: 'bulacan', label: 'Wafer Lab', dotColor: '#fbbf24' },
-            { id: 'batangas', label: 'Batangas AI', dotColor: '#d97706' },
-            { id: 'subic', label: 'Subic Port', dotColor: '#e07a3f' },
-            { id: 'manila', label: 'Metro Manila', dotColor: '#10b981' },
+            { id: 'ncc', label: 'Capas Hub', dotColor: '#3b82f6' },
+            { id: 'bulacan', label: 'Wafer Lab', dotColor: '#38bdf8' },
+            { id: 'batangas', label: 'Batangas AI', dotColor: '#0284c7' },
+            { id: 'subic', label: 'Subic Port', dotColor: '#2563eb' },
+            { id: 'manila', label: 'Metro Manila', dotColor: '#60a5fa' },
           ].map((item) => {
             const isSelected = selectedNodeId === item.id;
             return (
@@ -132,8 +132,8 @@ export const BottomHud: React.FC<BottomHudProps> = ({
                 onClick={() => onSelectNode(item.id)}
                 className={`px-2.5 py-1 rounded-xl font-mono text-[11px] transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
                   isSelected
-                    ? 'bg-saharaTerracotta-500/30 text-sandOchre-100 border border-saharaTerracotta-400/60 shadow-sm'
-                    : 'bg-surfaceObsidian/80 hover:bg-stone-800/80 text-stone-300 border border-saharaTerracotta-500/20'
+                    ? 'bg-blue-600/35 text-white border border-blue-400/70 shadow-sm'
+                    : 'bg-surfaceObsidian/85 hover:bg-slate-800/80 text-slate-300 border border-white/12'
                 }`}
               >
                 <span
@@ -149,8 +149,8 @@ export const BottomHud: React.FC<BottomHudProps> = ({
             onClick={() => onSelectNode('ALL')}
             className={`px-2.5 py-1 rounded-xl font-mono text-[11px] transition cursor-pointer whitespace-nowrap ${
               selectedNodeId === 'ALL'
-                ? 'bg-saharaTerracotta-500/30 text-sandOchre-100 border border-saharaTerracotta-400/60'
-                : 'bg-surfaceObsidian/80 hover:bg-stone-800/80 text-stone-400 border border-saharaTerracotta-500/20'
+                ? 'bg-blue-600/35 text-white border border-blue-400/70'
+                : 'bg-surfaceObsidian/85 hover:bg-slate-800/80 text-slate-400 border border-white/12'
             }`}
           >
             Reset
@@ -160,13 +160,13 @@ export const BottomHud: React.FC<BottomHudProps> = ({
         {/* Toggle Drawer Button */}
         <button
           onClick={onToggleDrawer}
-          className="px-3 py-1 rounded-xl bg-saharaTerracotta-500/15 hover:bg-saharaTerracotta-500/25 border border-saharaTerracotta-500/35 font-mono text-[11px] text-sandOchre-200 flex items-center gap-1.5 shrink-0 transition cursor-pointer"
+          className="px-3 py-1 rounded-xl bg-blue-600/20 hover:bg-blue-600/35 border border-blue-400/40 font-mono text-[11px] text-white flex items-center gap-1.5 shrink-0 transition cursor-pointer"
         >
           <span>{inspectedNode.name} Specs</span>
           {isDrawerOpen ? (
-            <ChevronDown className="w-3.5 h-3.5 text-saharaTerracotta-400" />
+            <ChevronDown className="w-3.5 h-3.5 text-blue-400" />
           ) : (
-            <ChevronUp className="w-3.5 h-3.5 text-saharaTerracotta-400" />
+            <ChevronUp className="w-3.5 h-3.5 text-blue-400" />
           )}
         </button>
       </div>

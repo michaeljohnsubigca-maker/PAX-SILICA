@@ -48,21 +48,21 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
       }}
     >
       {/* KPI Bento Grid (2x2) */}
-      <div className="p-3 border-b border-saharaTerracotta-500/20 bg-surfaceObsidian/85 shrink-0">
+      <div className="p-3 border-b border-white/12 bg-surfaceObsidian/90 shrink-0">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-telemetryEmerald-400"></span>
-            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-sandOchre-100 flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-telemetryEmerald-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white flex items-center gap-1">
+              <ShieldCheck className="w-3 h-3 text-blue-400" />
               Project Ledger
             </h2>
           </div>
           <div className="flex items-center gap-1">
-            <span className="font-mono text-[9px] text-telemetryEmerald-400 bg-telemetryEmerald-500/15 border border-telemetryEmerald-500/35 px-1.5 py-0.5 rounded-full font-semibold">
+            <span className="font-mono text-[9px] text-sky-300 bg-sky-500/15 border border-sky-400/35 px-1.5 py-0.5 rounded-full font-semibold">
               DTI / BCDA
             </span>
             <button
-              className="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-stone-400 hover:text-white flex items-center justify-center border border-white/10 transition"
+              className="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center border border-white/10 transition cursor-pointer"
               onClick={onToggleCollapse}
               title="Minimize Ledger Panel"
             >
@@ -73,69 +73,69 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
         <div className="grid grid-cols-2 gap-1.5">
           {/* KPI 1 */}
-          <div className="glass-subtle rounded-lg p-2 border border-saharaTerracotta-500/20">
-            <div className="flex items-center justify-between text-[9px] font-mono text-stone-400">
+          <div className="glass-subtle rounded-lg p-2 border border-white/12">
+            <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
               <span>CAPAS ZONE</span>
-              <span className="text-saharaTerracotta-300 font-semibold">17.1% NCC</span>
+              <span className="text-sky-300 font-semibold">17.1% NCC</span>
             </div>
             <div className="font-mono text-base font-bold text-white mt-0.5 leading-none">
               1,620 ha
             </div>
-            <div className="w-full h-1 bg-stone-700/50 rounded-full mt-1.5 overflow-hidden">
-              <div className="h-full bg-saharaTerracotta-400 rounded-full" style={{ width: '68%' }}></div>
+            <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+              <div className="h-full bg-blue-500 rounded-full" style={{ width: '68%' }}></div>
             </div>
-            <div className="text-[9px] text-stone-400 mt-1 truncate">
+            <div className="text-[9px] text-slate-400 mt-1 truncate">
               4,000 acres in 9,450ha
             </div>
           </div>
 
           {/* KPI 2 */}
-          <div className="glass-subtle rounded-lg p-2 border border-saharaTerracotta-500/20">
-            <div className="flex items-center justify-between text-[9px] font-mono text-stone-400">
+          <div className="glass-subtle rounded-lg p-2 border border-white/12">
+            <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
               <span>CAPEX TARGET</span>
-              <span className="text-siliconAmber-400 font-semibold">50+ SUITORS</span>
+              <span className="text-sky-300 font-semibold">50+ SUITORS</span>
             </div>
-            <div className="font-mono text-base font-bold text-siliconAmber-400 mt-0.5 leading-none">
+            <div className="font-mono text-base font-bold text-sky-300 mt-0.5 leading-none">
               $40B–$70B
             </div>
-            <div className="w-full h-1 bg-stone-700/50 rounded-full mt-1.5 overflow-hidden">
-              <div className="h-full bg-siliconAmber-400 rounded-full" style={{ width: '82%' }}></div>
+            <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+              <div className="h-full bg-sky-400 rounded-full" style={{ width: '82%' }}></div>
             </div>
-            <div className="text-[9px] text-stone-400 mt-1 truncate">
+            <div className="text-[9px] text-slate-400 mt-1 truncate">
               KR, SG, US, JP, TW
             </div>
           </div>
 
           {/* KPI 3 */}
-          <div className="glass-subtle rounded-lg p-2 border border-saharaTerracotta-500/20">
-            <div className="flex items-center justify-between text-[9px] font-mono text-stone-400">
+          <div className="glass-subtle rounded-lg p-2 border border-white/12">
+            <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
               <span>GROSS YIELD</span>
-              <span className="text-telemetryEmerald-400 font-semibold">MATURITY</span>
+              <span className="text-emerald-400 font-semibold">MATURITY</span>
             </div>
-            <div className="font-mono text-base font-bold text-telemetryEmerald-400 mt-0.5 leading-none">
+            <div className="font-mono text-base font-bold text-emerald-400 mt-0.5 leading-none">
               ₱180B / yr
             </div>
-            <div className="w-full h-1 bg-stone-700/50 rounded-full mt-1.5 overflow-hidden">
-              <div className="h-full bg-telemetryEmerald-400 rounded-full" style={{ width: '55%' }}></div>
+            <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+              <div className="h-full bg-emerald-400 rounded-full" style={{ width: '55%' }}></div>
             </div>
-            <div className="text-[9px] text-stone-400 mt-1 truncate">
+            <div className="text-[9px] text-slate-400 mt-1 truncate">
               Recurring industrial
             </div>
           </div>
 
           {/* KPI 4 */}
-          <div className="glass-subtle rounded-lg p-2 border border-saharaTerracotta-500/20">
-            <div className="flex items-center justify-between text-[9px] font-mono text-stone-400">
+          <div className="glass-subtle rounded-lg p-2 border border-white/12">
+            <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
               <span>WORKFORCE</span>
-              <span className="text-sandOchre-300 font-semibold">STEM / FAB</span>
+              <span className="text-blue-200 font-semibold">STEM / FAB</span>
             </div>
             <div className="font-mono text-base font-bold text-white mt-0.5 leading-none">
               130K–200K
             </div>
-            <div className="w-full h-1 bg-stone-700/50 rounded-full mt-1.5 overflow-hidden">
-              <div className="h-full bg-sandOchre-400 rounded-full" style={{ width: '75%' }}></div>
+            <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+              <div className="h-full bg-blue-400 rounded-full" style={{ width: '75%' }}></div>
             </div>
-            <div className="text-[9px] text-stone-400 mt-1 truncate">
+            <div className="text-[9px] text-slate-400 mt-1 truncate">
               Wafer R&amp;D &amp; mineral fab
             </div>
           </div>
@@ -143,41 +143,41 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
       </div>
 
       {/* Ledger Tab Switcher */}
-      <div className="px-3 pt-2 pb-1.5 border-b border-saharaTerracotta-500/20 shrink-0">
-        <div className="grid grid-cols-3 gap-1 bg-surfaceObsidian p-1 rounded-xl border border-saharaTerracotta-500/25">
+      <div className="px-3 pt-2 pb-1.5 border-b border-white/12 shrink-0">
+        <div className="grid grid-cols-3 gap-1 bg-surfaceObsidian p-1 rounded-xl border border-white/15">
           <button
             onClick={() => onTabChange('milestones')}
-            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 ${
+            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
               activeTab === 'milestones'
-                ? 'bg-saharaTerracotta-500/20 text-sandOchre-200 border border-saharaTerracotta-500/40'
-                : 'text-stone-400 hover:text-stone-200'
+                ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Milestone className="w-3 h-3 text-saharaTerracotta-400" />
+            <Milestone className="w-3 h-3 text-blue-400" />
             <span>Milestones</span>
           </button>
 
           <button
             onClick={() => onTabChange('myths')}
-            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 ${
+            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
               activeTab === 'myths'
-                ? 'bg-saharaTerracotta-500/20 text-sandOchre-200 border border-saharaTerracotta-500/40'
-                : 'text-stone-400 hover:text-stone-200'
+                ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Scale className="w-3 h-3 text-saharaTerracotta-400" />
+            <Scale className="w-3 h-3 text-blue-400" />
             <span>Law Audit</span>
           </button>
 
           <button
             onClick={() => onTabChange('supply')}
-            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 ${
+            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
               activeTab === 'supply'
-                ? 'bg-saharaTerracotta-500/20 text-sandOchre-200 border border-saharaTerracotta-500/40'
-                : 'text-stone-400 hover:text-stone-200'
+                ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Network className="w-3 h-3 text-saharaTerracotta-400" />
+            <Network className="w-3 h-3 text-blue-400" />
             <span>Value Chain</span>
           </button>
         </div>
@@ -188,23 +188,23 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* TAB 1: MILESTONES */}
         {activeTab === 'milestones' && (
           <div className="space-y-2.5">
-            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-stone-300 flex items-start gap-1.5 border border-saharaTerracotta-500/20">
-              <Clock className="w-3.5 h-3.5 text-saharaTerracotta-400 shrink-0 mt-0.5" />
+            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
+              <Clock className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
               <div>
-                <span className="font-mono font-bold text-sandOchre-200">
+                <span className="font-mono font-bold text-white">
                   PHASED INDUSTRIAL TIMELINE:
                 </span>{' '}
                 Click any milestone to focus geographical anchor.
               </div>
             </div>
 
-            <div className="space-y-2 border-l border-stone-800 ml-2 pl-3">
+            <div className="space-y-2 border-l border-slate-800 ml-2 pl-3">
               {MILESTONES.map((ms) => {
-                let badgeClass = 'text-telemetryEmerald-400 bg-telemetryEmerald-500/10 border-telemetryEmerald-500/30';
+                let badgeClass = 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30';
                 if (ms.statusColor === 'amber') {
-                  badgeClass = 'text-siliconAmber-400 bg-siliconAmber-500/10 border-siliconAmber-500/30';
+                  badgeClass = 'text-sky-300 bg-sky-500/15 border-sky-400/30';
                 } else if (ms.statusColor === 'stone' || ms.statusColor === 'slate') {
-                  badgeClass = 'text-stone-400 bg-stone-800 border-stone-700';
+                  badgeClass = 'text-slate-400 bg-slate-800 border-slate-700';
                 }
 
                 return (
@@ -213,24 +213,24 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     onMouseEnter={() => onHoverNode(ms.nodeId)}
                     onMouseLeave={() => onHoverNode(null)}
                     onClick={() => onSelectNode(ms.nodeId)}
-                    className="intel-card rounded-xl p-2.5 space-y-1.5 cursor-pointer hover:border-saharaTerracotta-400/50 transition"
+                    className="intel-card rounded-xl p-2.5 space-y-1.5 cursor-pointer hover:border-blue-400/60 transition"
                   >
                     <div className="flex items-center justify-between gap-1 flex-wrap">
                       <span className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded border ${badgeClass}`}>
                         {ms.status}
                       </span>
-                      <span className="font-mono text-[9px] text-stone-400">{ms.date}</span>
+                      <span className="font-mono text-[9px] text-slate-400">{ms.date}</span>
                     </div>
 
                     <h4 className="text-xs font-semibold text-white leading-snug">{ms.title}</h4>
-                    <p className="text-[10px] text-stone-300 leading-relaxed">{ms.details}</p>
+                    <p className="text-[10px] text-slate-300 leading-relaxed">{ms.details}</p>
 
-                    <div className="pt-1 flex items-center justify-between text-[9px] font-mono text-stone-400 border-t border-stone-800/80">
-                      <span className="flex items-center gap-1 text-sandOchre-300">
-                        <span className="w-1.5 h-1.5 rounded-full bg-saharaTerracotta-400"></span>
+                    <div className="pt-1 flex items-center justify-between text-[9px] font-mono text-slate-400 border-t border-slate-800/80">
+                      <span className="flex items-center gap-1 text-sky-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
                         {ms.nodeName}
                       </span>
-                      <span className="text-saharaTerracotta-400">Focus Node →</span>
+                      <span className="text-blue-400">Focus Node →</span>
                     </div>
                   </div>
                 );
@@ -242,10 +242,10 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* TAB 2: LAW AUDIT / MYTHS */}
         {activeTab === 'myths' && (
           <div className="space-y-2.5">
-            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-stone-300 flex items-start gap-1.5 border border-saharaTerracotta-500/20">
-              <Scale className="w-3.5 h-3.5 text-siliconAmber-400 shrink-0 mt-0.5" />
+            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
+              <Scale className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
               <div>
-                <span className="font-mono font-bold text-sandOchre-200">
+                <span className="font-mono font-bold text-white">
                   CONSTITUTIONAL &amp; SOVEREIGNTY AUDIT:
                 </span>{' '}
                 Fact-checked provisions under Philippine jurisdiction.
@@ -254,11 +254,11 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
             <div className="space-y-2">
               {MYTHS_DATA.map((myth) => {
-                let verdictPill = 'bg-hazardRose-500/15 text-hazardRose-400 border-hazardRose-500/35';
+                let verdictPill = 'bg-rose-500/15 text-rose-300 border-rose-400/35';
                 if (myth.verdictType === 'amber') {
-                  verdictPill = 'bg-siliconAmber-500/15 text-siliconAmber-400 border-siliconAmber-500/35';
+                  verdictPill = 'bg-sky-500/15 text-sky-300 border-sky-400/35';
                 } else if (myth.verdictType === 'emerald') {
-                  verdictPill = 'bg-telemetryEmerald-500/15 text-telemetryEmerald-400 border-telemetryEmerald-500/35';
+                  verdictPill = 'bg-emerald-500/15 text-emerald-400 border-emerald-500/35';
                 }
 
                 return (
@@ -270,30 +270,30 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     className="intel-card rounded-xl p-2.5 space-y-1.5 cursor-pointer"
                   >
                     <div className="flex items-center justify-between gap-1">
-                      <span className="font-mono text-[9px] font-bold text-stone-400">CLAIM CHECK</span>
+                      <span className="font-mono text-[9px] font-bold text-slate-400">CLAIM CHECK</span>
                       <span className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded border ${verdictPill}`}>
                         {myth.verdict}
                       </span>
                     </div>
 
-                    <p className="text-xs font-medium text-sandOchre-100 italic">
+                    <p className="text-xs font-medium text-slate-100">
                       “{myth.claim}”
                     </p>
 
-                    <div className="bg-surfaceObsidian/90 rounded-lg p-2 border border-saharaTerracotta-500/20 space-y-1">
-                      <div className="font-mono text-[9px] text-saharaTerracotta-400 flex items-center justify-between">
+                    <div className="bg-surfaceObsidian/95 rounded-lg p-2 border border-white/10 space-y-1">
+                      <div className="font-mono text-[9px] text-blue-400 flex items-center justify-between">
                         <span>LEGAL REF:</span>
-                        <span className="text-stone-300 font-semibold truncate max-w-[170px]">
+                        <span className="text-white font-semibold truncate max-w-[170px]">
                           {myth.legalRef}
                         </span>
                       </div>
-                      <p className="text-[10px] text-stone-300 leading-relaxed font-normal">
+                      <p className="text-[10px] text-slate-300 leading-relaxed font-normal">
                         {myth.explanation}
                       </p>
                     </div>
 
-                    <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-stone-400">
-                      <span className="text-stone-400 truncate max-w-[180px]">
+                    <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-400">
+                      <span className="text-slate-400 truncate max-w-[180px]">
                         Authority: {myth.authority}
                       </span>
                       {myth.citationUrl && (
@@ -302,7 +302,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-saharaTerracotta-400 hover:text-sandOchre-200 flex items-center gap-0.5"
+                          className="text-blue-400 hover:text-sky-300 flex items-center gap-0.5"
                         >
                           <span>Verify</span>
                           <ExternalLink className="w-2.5 h-2.5" />
@@ -319,10 +319,10 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* TAB 3: VALUE CHAIN */}
         {activeTab === 'supply' && (
           <div className="space-y-2.5">
-            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-stone-300 flex items-start gap-1.5 border border-saharaTerracotta-500/20">
-              <Layers className="w-3.5 h-3.5 text-telemetryEmerald-400 shrink-0 mt-0.5" />
+            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
+              <Layers className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
               <div>
-                <span className="font-mono font-bold text-telemetryEmerald-400">
+                <span className="font-mono font-bold text-blue-400">
                   MINERAL-TO-WAFER:
                 </span>{' '}
                 Click any phase to inspect geographic anchor node.
@@ -331,17 +331,20 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
             <div className="space-y-2">
               {SUPPLY_CHAIN_STAGES.map((st, idx) => {
-                let borderAccent = 'border-l-siliconAmber-500';
-                let pillStyle = 'bg-siliconAmber-500/15 text-siliconAmber-400 border-siliconAmber-500/30';
+                let borderAccent = 'border-l-blue-500';
+                let pillStyle = 'bg-blue-500/20 text-white border-blue-400/40';
                 if (st.color === 'terracotta') {
-                  borderAccent = 'border-l-saharaTerracotta-400';
-                  pillStyle = 'bg-saharaTerracotta-500/20 text-sandOchre-200 border-saharaTerracotta-500/40';
+                  borderAccent = 'border-l-blue-600';
+                  pillStyle = 'bg-blue-600/25 text-white border-blue-400/40';
+                } else if (st.color === 'siliconGold' || st.color === 'amber') {
+                  borderAccent = 'border-l-sky-400';
+                  pillStyle = 'bg-sky-500/20 text-sky-200 border-sky-400/40';
                 } else if (st.color === 'emerald') {
-                  borderAccent = 'border-l-telemetryEmerald-400';
-                  pillStyle = 'bg-telemetryEmerald-500/15 text-telemetryEmerald-400 border-telemetryEmerald-500/30';
+                  borderAccent = 'border-l-cyan-400';
+                  pillStyle = 'bg-cyan-500/20 text-cyan-200 border-cyan-400/40';
                 } else if (st.color === 'sandstone') {
-                  borderAccent = 'border-l-sandOchre-400';
-                  pillStyle = 'bg-sandOchre-400/20 text-sandOchre-300 border-sandOchre-400/35';
+                  borderAccent = 'border-l-indigo-400';
+                  pillStyle = 'bg-indigo-500/20 text-indigo-200 border-indigo-400/40';
                 }
 
                 return (
@@ -353,7 +356,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                       className={`intel-card border-l-4 ${borderAccent} rounded-r-xl p-2.5 space-y-1 cursor-pointer`}
                     >
                       <div className="flex items-center justify-between gap-1 flex-wrap">
-                        <span className="font-mono text-[9px] font-bold text-stone-400">
+                        <span className="font-mono text-[9px] font-bold text-slate-400">
                           {st.stage}
                         </span>
                         <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded border ${pillStyle} font-semibold`}>
@@ -362,15 +365,15 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                       </div>
 
                       <h4 className="text-[11px] font-bold text-white">{st.title}</h4>
-                      <div className="font-mono text-[9px] text-saharaTerracotta-300 font-semibold">
+                      <div className="font-mono text-[9px] text-sky-300 font-semibold">
                         {st.metrics}
                       </div>
-                      <p className="text-[10px] text-stone-300 leading-relaxed">{st.description}</p>
+                      <p className="text-[10px] text-slate-300 leading-relaxed">{st.description}</p>
                     </div>
 
                     {idx < SUPPLY_CHAIN_STAGES.length - 1 && (
-                      <div className="flex items-center justify-center gap-1 text-stone-500 font-mono text-[9px] py-0.5">
-                        <ArrowDown className="w-2.5 h-2.5 text-saharaTerracotta-400/70" />
+                      <div className="flex items-center justify-center gap-1 text-slate-500 font-mono text-[9px] py-0.5">
+                        <ArrowDown className="w-2.5 h-2.5 text-blue-400/80" />
                         <span>SCMB RAIL FEED</span>
                       </div>
                     )}

@@ -124,7 +124,7 @@ export const App: React.FC = () => {
   }, [isWideView]);
 
   return (
-    <div id="scrollRunway" className="relative w-full h-[220vh] selection:bg-saharaTerracotta-500/30 selection:text-sandOchre-300">
+    <div id="scrollRunway" className="relative w-full h-[220vh] selection:bg-blue-500/30 selection:text-white">
       {/* FIXED 100VW x 100VH GEOSPATIAL STAGE */}
       <div id="viewportStage" className="fixed inset-0 w-screen h-screen overflow-hidden bg-deepNavy">
         {/* LEAFLET MAP OF LUZON */}
@@ -186,7 +186,7 @@ export const App: React.FC = () => {
           <button
             id="floatingLeftOpenBtn"
             onClick={() => setLeftPanelCollapsed(false)}
-            className="hidden lg:flex absolute left-3 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-saharaTerracotta-400 hover:text-white transition cursor-pointer"
+            className="hidden lg:flex absolute left-3 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-blue-400 hover:text-white transition cursor-pointer border border-white/20"
             title="Expand Dispatches Panel"
           >
             <ChevronRight className="w-4 h-4" />
@@ -213,7 +213,7 @@ export const App: React.FC = () => {
           <button
             id="floatingRightOpenBtn"
             onClick={() => setRightPanelCollapsed(false)}
-            className="hidden lg:flex absolute right-3 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-saharaTerracotta-400 hover:text-white transition cursor-pointer"
+            className="hidden lg:flex absolute right-3 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-blue-400 hover:text-white transition cursor-pointer border border-white/20"
             title="Expand Ledger Panel"
           >
             <ChevronLeft className="w-4 h-4" />

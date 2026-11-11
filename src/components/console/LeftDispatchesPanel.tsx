@@ -65,19 +65,19 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
   const getStakeholderStyles = (stakeholder: string) => {
     if (stakeholder === 'Think Tank / Academic') {
       return {
-        pill: 'bg-siliconAmber-500/15 text-siliconAmber-400 border-siliconAmber-500/30',
-        quoteBorder: 'border-siliconAmber-400',
+        pill: 'bg-sky-500/15 text-sky-200 border-sky-400/35',
+        quoteBorder: 'border-sky-400',
       };
     }
     if (stakeholder === 'Civil Society / Local') {
       return {
-        pill: 'bg-hazardRose-500/15 text-hazardRose-400 border-hazardRose-500/30',
-        quoteBorder: 'border-hazardRose-400',
+        pill: 'bg-rose-500/15 text-rose-200 border-rose-400/35',
+        quoteBorder: 'border-rose-400',
       };
     }
     return {
-      pill: 'bg-saharaTerracotta-500/15 text-sandOchre-200 border-saharaTerracotta-500/35',
-      quoteBorder: 'border-saharaTerracotta-500',
+      pill: 'bg-blue-500/20 text-white border-blue-400/40',
+      quoteBorder: 'border-blue-400',
     };
   };
 
@@ -92,24 +92,24 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
       }}
     >
       {/* Panel Header */}
-      <div className="p-3 border-b border-saharaTerracotta-500/20 bg-surfaceObsidian/85 space-y-2.5 shrink-0">
+      <div className="p-3 border-b border-white/12 bg-surfaceObsidian/90 space-y-2.5 shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-saharaTerracotta-400"></span>
-            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-sandOchre-100 flex items-center gap-1">
-              <Radio className="w-3 h-3 text-saharaTerracotta-400" />
+            <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white flex items-center gap-1">
+              <Radio className="w-3 h-3 text-blue-400" />
               Intelligence Dispatches
             </h2>
           </div>
           <div className="flex items-center gap-1.5">
             <span
               id="newsCountIndicator"
-              className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full bg-saharaTerracotta-500/15 text-sandOchre-200 border border-saharaTerracotta-500/35"
+              className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full bg-blue-600/25 text-white border border-blue-400/40"
             >
               {filteredCards.length}
             </span>
             <button
-              className="hidden lg:flex w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-stone-400 hover:text-white items-center justify-center border border-white/10 transition"
+              className="hidden lg:flex w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white items-center justify-center border border-white/10 transition cursor-pointer"
               onClick={onToggleCollapse}
               title="Minimize Dispatches Panel"
             >
@@ -131,10 +131,10 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
               <button
                 key={item.id}
                 onClick={() => onStakeholderFilterChange(item.id)}
-                className={`stakeholder-pill px-2 py-0.5 rounded-md text-[9px] font-mono transition font-semibold ${
+                className={`stakeholder-pill px-2 py-0.5 rounded-md text-[9px] font-mono transition font-semibold cursor-pointer ${
                   isActive
-                    ? 'bg-saharaTerracotta-500/25 text-sandOchre-200 border border-saharaTerracotta-500/50'
-                    : 'bg-stone-800/40 text-stone-400 border border-stone-700/60 hover:text-stone-200'
+                    ? 'bg-blue-600/35 text-white border border-blue-400/70 shadow-sm'
+                    : 'bg-slate-900/60 text-slate-400 border border-white/10 hover:text-white hover:bg-slate-800/60'
                 }`}
               >
                 {item.label}
@@ -145,14 +145,14 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
         {/* Vector Select */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[9px] font-mono uppercase tracking-wider text-stone-400 shrink-0">
+          <span className="text-[9px] font-mono uppercase tracking-wider text-slate-400 shrink-0">
             Vector:
           </span>
           <select
             id="topicFilterSelect"
             value={topicFilter}
             onChange={(e) => onTopicFilterChange(e.target.value)}
-            className="flex-1 bg-surfaceObsidian border border-saharaTerracotta-500/25 rounded-lg px-2 py-1 text-[11px] font-mono text-stone-200 focus:outline-none focus:border-saharaTerracotta-400/80 truncate"
+            className="flex-1 bg-surfaceObsidian border border-white/15 rounded-lg px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-blue-400/80 truncate cursor-pointer"
           >
             <option value="ALL">All Vectors</option>
             <option value="Semiconductors & AI">Semiconductors, Wafer Lab & AI</option>
@@ -167,11 +167,11 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
       <div className="flex-1 overflow-y-auto glass-scroll p-2.5 space-y-2.5" id="newsFeedContainer">
         {filteredCards.length === 0 ? (
           <div className="intel-card rounded-xl p-4 text-center space-y-2">
-            <div className="font-mono text-[10px] text-stone-400">NO DISPATCHES MATCH FILTER</div>
-            <p className="text-[11px] text-stone-400">Reset scope or search parameters.</p>
+            <div className="font-mono text-[10px] text-slate-400">NO DISPATCHES MATCH FILTER</div>
+            <p className="text-[11px] text-slate-400">Reset scope or search parameters.</p>
             <button
               onClick={onResetFilters}
-              className="mt-1 px-3 py-1 rounded-lg bg-saharaTerracotta-500/20 text-sandOchre-200 border border-saharaTerracotta-500/40 font-mono text-[10px] hover:bg-saharaTerracotta-500/30 transition cursor-pointer"
+              className="mt-1 px-3 py-1 rounded-lg bg-blue-600/20 text-white border border-blue-400/40 font-mono text-[10px] hover:bg-blue-600/30 transition cursor-pointer"
             >
               Reset Filters
             </button>
@@ -189,21 +189,21 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 onClick={() => onSelectNode(card.nodeId)}
                 className={`intel-card cursor-pointer rounded-xl p-3 space-y-2 ${
                   isNodeActive
-                    ? 'ring-1 ring-saharaTerracotta-400/60 border-saharaTerracotta-400/50'
+                    ? 'ring-1 ring-blue-400/80 border-blue-400/70 shadow-glow-blue'
                     : ''
                 }`}
               >
                 {/* Top Row */}
                 <div className="flex items-center justify-between gap-1 flex-wrap">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded bg-stone-800 text-sandOchre-100 border border-stone-700/60">
+                    <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-900 text-white border border-white/12">
                       {card.source}
                     </span>
-                    <span className="font-mono text-[9px] text-stone-400">{card.date}</span>
+                    <span className="font-mono text-[9px] text-slate-400">{card.date}</span>
                   </div>
 
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-full bg-saharaTerracotta-500/10 text-sandOchre-300 border border-saharaTerracotta-500/30 flex items-center gap-1 font-medium">
-                    <span className="w-1.5 h-1.5 rounded-full bg-saharaTerracotta-400"></span>
+                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-sky-200 border border-blue-400/30 flex items-center gap-1 font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
                     {card.nodeLabel}
                   </span>
                 </div>
@@ -213,7 +213,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                   <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded border ${pill} font-semibold`}>
                     {card.stakeholder}
                   </span>
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-surfaceObsidian text-stone-300 border border-saharaTerracotta-500/20 truncate max-w-[170px]">
+                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-surfaceObsidian text-slate-300 border border-white/10 truncate max-w-[170px]">
                     {card.topic}
                   </span>
                 </div>
@@ -222,34 +222,34 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 <h3 className="text-xs font-semibold text-white leading-snug">{card.headline}</h3>
 
                 {/* Summary */}
-                <p className="text-[11px] text-stone-300 leading-relaxed font-normal">
+                <p className="text-[11px] text-slate-300 leading-relaxed font-normal">
                   {card.summary}
                 </p>
 
-                {/* Verbatim Soundbite with Editorial Serif Polish */}
+                {/* Verbatim Soundbite with High-Contrast Polish */}
                 <blockquote
                   className={`bg-surfaceObsidian/95 border-l-2 ${quoteBorder} rounded-r-lg p-2.5 space-y-1 shadow-sm`}
                 >
-                  <p className="font-display italic text-[12px] text-sandOchre-100 leading-snug">
-                    {card.quote}
+                  <p className="font-sans text-[12px] text-slate-100 leading-snug font-medium">
+                    “{card.quote}”
                   </p>
-                  <footer className="font-mono text-[9px] text-stone-400 font-medium">
+                  <footer className="font-mono text-[9px] text-slate-400 font-medium">
                     — {card.speaker}
                   </footer>
                 </blockquote>
 
                 {/* Footer Action */}
-                <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-stone-400">
-                  <span className="text-saharaTerracotta-400 flex items-center gap-1">
+                <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-400">
+                  <span className="text-blue-400 flex items-center gap-1">
                     <span>Focus Map</span>
-                    <ArrowRight className="w-2.5 h-2.5 text-saharaTerracotta-400" />
+                    <ArrowRight className="w-2.5 h-2.5 text-blue-400" />
                   </span>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       onSelectNode(card.nodeId);
                     }}
-                    className="px-1.5 py-0.5 rounded bg-stone-800/40 hover:bg-stone-800/80 text-stone-200 border border-stone-700/60 transition"
+                    className="px-1.5 py-0.5 rounded bg-slate-800/60 hover:bg-slate-700/80 text-white border border-white/15 transition cursor-pointer"
                   >
                     Isolate
                   </button>

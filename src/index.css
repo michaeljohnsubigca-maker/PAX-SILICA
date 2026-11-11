@@ -5,98 +5,106 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #0c0a09;
-    color: #ede8e3;
+    background-color: #050a18;
+    color: #f8fafc;
     font-family: 'Manrope', sans-serif;
   }
 
   body {
-    background-color: #0c0a09;
+    background-color: #050a18;
     overflow-x: hidden;
     margin: 0;
-    color: #f5f0eb;
+    color: #f8fafc;
   }
 }
 
-/* Sahara Warm Glass Scrollbar */
+/* Blue & White Glassmorphism Scrollbar */
 .glass-scroll::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 }
 .glass-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 .glass-scroll::-webkit-scrollbar-thumb {
-  background: rgba(224, 122, 63, 0.25);
+  background: rgba(96, 165, 250, 0.28);
   border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .glass-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(194, 101, 42, 0.7);
+  background: rgba(59, 130, 246, 0.7);
 }
 
-/* Sahara Warm Structural Glass Surfaces */
+/* Structural Glassmorphism Surfaces */
 .glass-panel {
-  background: rgba(24, 20, 18, 0.88);
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  border: 1px solid rgba(224, 122, 63, 0.2);
-  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.9), inset 0 1px 0 0 rgba(254, 215, 170, 0.14);
+  background: rgba(10, 20, 44, 0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 24px 48px -12px rgba(2, 6, 23, 0.85),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 0 rgba(59, 130, 246, 0.14),
+    0 0 24px -4px rgba(59, 130, 246, 0.16);
 }
 
 .glass-subtle {
-  background: rgba(35, 29, 25, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(224, 122, 63, 0.15);
-  box-shadow: inset 0 1px 0 0 rgba(255, 237, 213, 0.08);
+  background: rgba(14, 26, 56, 0.58);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
 }
 
-/* Card Micro-interactions */
+/* Card Micro-interactions (Frosted Glass) */
 .intel-card {
-  background: rgba(28, 25, 23, 0.72);
-  border: 1px solid rgba(254, 215, 170, 0.12);
-  box-shadow: inset 0 1px 0 0 rgba(255, 237, 213, 0.06);
+  background: rgba(13, 24, 52, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 4px 12px rgba(2, 6, 23, 0.35);
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .intel-card:hover {
   transform: translateY(-1.5px);
-  background: rgba(38, 32, 28, 0.92);
-  border-color: rgba(194, 101, 42, 0.55);
-  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.8), 0 0 18px -6px rgba(194, 101, 42, 0.3), inset 0 1px 0 0 rgba(254, 215, 170, 0.22);
+  background: rgba(22, 38, 78, 0.85);
+  border-color: rgba(96, 165, 250, 0.55);
+  box-shadow: 0 14px 28px -8px rgba(2, 6, 23, 0.8),
+    0 0 20px -6px rgba(59, 130, 246, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
 }
 
-/* Sahara Warm Map Calibration */
+/* Oceanic Midnight Leaflet Map Calibration */
 .leaflet-container {
-  background-color: #0c0a09 !important;
+  background-color: #050a18 !important;
   font-family: 'Manrope', sans-serif;
 }
 .leaflet-tile-pane {
-  filter: contrast(1.15) brightness(0.78) sepia(0.35) hue-rotate(-15deg) saturate(1.1);
+  filter: contrast(1.18) brightness(0.82) hue-rotate(185deg) saturate(1.4);
 }
 .leaflet-control-attribution {
-  background: rgba(12, 10, 9, 0.82) !important;
-  color: rgba(214, 196, 178, 0.75) !important;
+  background: rgba(5, 10, 24, 0.88) !important;
+  color: rgba(203, 213, 225, 0.85) !important;
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 9px !important;
-  border: 1px solid rgba(194, 101, 42, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 6px;
   margin: 0 12px 8px 0 !important;
   padding: 3px 8px !important;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
 }
 
-/* Ambient Spatial Vignette */
+/* Ambient Deep Blue Spatial Vignette */
 .map-vignette {
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(12, 10, 9, 0) 35%,
-    rgba(12, 10, 9, 0.55) 75%,
-    rgba(12, 10, 9, 0.94) 100%
+    rgba(5, 10, 24, 0) 30%,
+    rgba(5, 10, 24, 0.55) 70%,
+    rgba(5, 10, 24, 0.95) 100%
   );
   pointer-events: none;
 }
 
-/* Glowing Geographic Node Markers */
+/* Glowing Geographic Node Markers (Electric Blue / White Pulse) */
 .corridor-node-wrapper {
   position: relative;
   display: flex;
@@ -124,7 +132,7 @@
   100% { transform: scale(3.4); opacity: 0; }
 }
 
-/* Animated Infrastructure Dash Vectors */
+/* Animated Vector Infrastructure Lines */
 .rail-spine-flow {
   stroke-dasharray: 10, 10;
   animation: vectorDash 20s linear infinite;
@@ -147,17 +155,18 @@
   animation: scrollWheel 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
-/* Leaflet Tooltip with Warm Sahara Palette */
+/* Glassmorphic Leaflet Tooltip */
 .leaflet-tooltip.pax-tooltip {
-  background: rgba(20, 17, 15, 0.95);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(194, 101, 42, 0.4);
-  color: #FFF7ED;
+  background: rgba(10, 20, 44, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   padding: 6px 11px;
   border-radius: 8px;
-  box-shadow: 0 14px 28px -6px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 14px 28px -6px rgba(2, 6, 23, 0.85), 0 0 16px -2px rgba(59, 130, 246, 0.35);
 }
 .leaflet-tooltip-top.pax-tooltip::before,
 .leaflet-tooltip-bottom.pax-tooltip::before,
@@ -166,7 +175,7 @@
   display: none;
 }
 
-/* Floating dock handles when collapsed */
+/* Floating dock handles */
 .panel-dock-pill {
-  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.7), 0 0 15px -3px rgba(194, 101, 42, 0.3);
+  box-shadow: 0 10px 25px -4px rgba(2, 6, 23, 0.8), 0 0 18px -3px rgba(59, 130, 246, 0.4);
 }
