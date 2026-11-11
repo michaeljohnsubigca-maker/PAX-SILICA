@@ -21,11 +21,13 @@ describe('Domain Data Integrity', () => {
     });
   });
 
-  it('contains verified myth provisions with valid authorities', () => {
+  it('contains verified myth provisions with valid authorities and citation URLs', () => {
     expect(MYTH_PROVISIONS.length).toBeGreaterThanOrEqual(4);
     MYTH_PROVISIONS.forEach((myth) => {
       expect(myth.authority.length).toBeGreaterThan(0);
       expect(myth.explanation.length).toBeGreaterThan(0);
+      expect(myth.citationUrl).toBeDefined();
+      expect(myth.citationUrl?.startsWith('https://')).toBe(true);
     });
   });
 

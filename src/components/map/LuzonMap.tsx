@@ -12,15 +12,16 @@ interface LuzonMapProps {
 export const LuzonMap: React.FC<LuzonMapProps> = ({ activeNode, onSelectNode }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
   const markersRef = useRef<Record<string, L.Marker>>({});
   const { theme } = useTheme();
 
+  // 1. Initialize map once on mount
   useEffect(() => {
     if (!mapContainerRef.current) return;
     if (mapInstanceRef.current) return;
 
     try {
-      // Initialize Leaflet map
       const map = L.map(mapContainerRef.current, {
         center: [14.9, 120.8],
         zoom: 8,
@@ -30,16 +31,17 @@ export const LuzonMap: React.FC<LuzonMapProps> = ({ activeNode, onSelectNode }) 
         attributionControl: true,
       });
 
-      // CartoDB / OSM warm and dark tiles
       const tileUrl =
         theme === 'dark'
           ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
           : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
-      L.tileLayer(tileUrl, {
+      const tileLayer = L.tileLayer(tileUrl, {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
         maxZoom: 19,
       }).addTo(map);
+
+      tileLayerRef.current = tileLayer;
 
       // Connect Corridor Polyline
       const corridorCoords: [number, number][] = [
@@ -87,18 +89,46 @@ export const LuzonMap: React.FC<LuzonMapProps> = ({ activeNode, onSelectNode }) 
 
       mapInstanceRef.current = map;
     } catch {
-      // In non-browser/test environments, ignore map initialization errors
+      // Graceful fallback for non-browser/test environments
     }
 
+    // Window resize & visibility handlers (Review Focus #2)
+    const handleResize = () => {
+      if (mapInstanceRef.current) {
+        try {
+          mapInstanceRef.current.invalidateSize();
+        } catch {
+          // Safe fallback
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    document.addEventListener('visibilitychange', handleResize);
+
     return () => {
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleResize);
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
+        tileLayerRef.current = null;
       }
     };
+  }, []);
+
+  // 2. Seamlessly update tile layer on theme switch without recreating map instance
+  useEffect(() => {
+    if (tileLayerRef.current) {
+      const tileUrl =
+        theme === 'dark'
+          ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+          : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+      tileLayerRef.current.setUrl(tileUrl);
+    }
   }, [theme]);
 
-  // Pan to active node if selected
+  // 3. Pan to active node if selected
   useEffect(() => {
     if (activeNode && mapInstanceRef.current) {
       try {

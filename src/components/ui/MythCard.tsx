@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertCircle, ChevronDown, ChevronUp, Scale, CheckCircle2 } from 'lucide-react';
+import { AlertCircle, ChevronDown, ChevronUp, Scale, CheckCircle2, ExternalLink } from 'lucide-react';
 import { MythProvision } from '../../types/domain';
 
 interface MythCardProps {
@@ -71,6 +71,19 @@ export const MythCard: React.FC<MythCardProps> = ({ myth }) => {
               <span className="font-mono text-stone-500 dark:text-stone-400 uppercase tracking-wider">Legal Framework: </span>
               <span className="text-stone-800 dark:text-stone-200">{myth.legalRef}</span>
             </div>
+            {myth.citationUrl && (
+              <div className="pt-1">
+                <a
+                  href={myth.citationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-saharaTerracotta-600 dark:text-saharaTerracotta-400 hover:underline"
+                >
+                  <span>Verify official authority source</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            )}
             <div className="pt-1 flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="w-3 h-3" />
               <span>Verified against Official Gazette and Republic Acts</span>

@@ -20,7 +20,7 @@ export const NodeInspectorDrawer: React.FC<NodeInspectorDrawerProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Node inspector drawer"
-      className="absolute top-4 right-4 bottom-4 w-full sm:w-96 max-w-[calc(100vw-2rem)] z-30 rounded-2xl bg-sandLinen/95 dark:bg-deepNavy/95 backdrop-blur-md border border-sandMuted/70 dark:border-stone-800 p-6 shadow-sahara-card flex flex-col justify-between overflow-y-auto animate-fadeIn"
+      className="absolute top-4 inset-x-4 bottom-4 sm:inset-x-auto sm:right-4 sm:w-96 z-30 rounded-2xl bg-sandLinen/95 dark:bg-deepNavy/95 backdrop-blur-md border border-sandMuted/70 dark:border-stone-800 p-6 shadow-sahara-card flex flex-col justify-between overflow-y-auto animate-fadeIn"
     >
       <div>
         {/* Drawer Header */}

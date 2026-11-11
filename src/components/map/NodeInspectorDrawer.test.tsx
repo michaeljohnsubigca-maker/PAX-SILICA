@@ -15,6 +15,9 @@ describe('NodeInspectorDrawer', () => {
     expect(screen.getAllByText(/New Clark City/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/1,620 Hectares inside 9,450-ha BCDA Estate/i)).toBeDefined();
     expect(screen.getByText(/50\+ Global Tech Companies/i)).toBeDefined();
+    const dialog = screen.getByRole('dialog');
+    expect(dialog.className).toContain('inset-x-4');
+    expect(dialog.className).toContain('sm:w-96');
   });
 
   it('calls onClose when close button is clicked', () => {

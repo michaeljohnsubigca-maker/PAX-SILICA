@@ -23,6 +23,7 @@ export interface MythProvision {
   authority: string;
   legalRef: string;
   explanation: string;
+  citationUrl?: string;
 }
 
 export interface SupplyChainStage {
