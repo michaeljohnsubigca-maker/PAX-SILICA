@@ -3,15 +3,18 @@ export interface CorridorNode {
   name: string;
   fullTitle: string;
   role: string;
+  iconName?: string;
   coords: [number, number];
   coordsText: string;
   color: string;
   badgeClass: string;
   allocation: string;
   suitors: string;
-  logistics: string;
-  description: string;
-  keyProjects: string[];
+  dependencies: string;
+  summary: string;
+  logistics?: string;
+  description?: string;
+  keyProjects?: string[];
 }
 
 export interface MythProvision {
@@ -33,25 +36,27 @@ export interface SupplyChainStage {
   title: string;
   nodeId: string;
   nodeTag: string;
-  color: 'amber' | 'terracotta' | 'emerald' | 'blue';
+  color: 'terracotta' | 'siliconGold' | 'amber' | 'emerald' | 'sandstone' | 'blue';
   metrics: string;
   description: string;
-  inputs: string;
-  domesticValueAdd: string;
+  inputs?: string;
+  domesticValueAdd?: string;
 }
 
 export interface IntelligenceDispatch {
   id: string;
   source: string;
   date: string;
-  stakeholder: 'State / Official' | 'Industry' | 'Allied Governments' | 'Civil Society';
+  stakeholder: string;
   topic: string;
   nodeId: string;
   nodeLabel: string;
   secondaryNodes?: string[];
   headline: string;
   summary: string;
-  verifiedOfficial: boolean;
+  quote: string;
+  speaker: string;
+  verifiedOfficial?: boolean;
   citationUrl?: string;
 }
 
@@ -59,8 +64,8 @@ export interface ProjectMilestone {
   id: string;
   date: string;
   title: string;
-  status: 'COMPLETED' | 'IN PROGRESS' | 'SCHEDULED';
-  statusColor: 'emerald' | 'amber' | 'slate';
+  status: string;
+  statusColor: 'emerald' | 'amber' | 'slate' | 'stone';
   nodeId: string;
   nodeName: string;
   details: string;

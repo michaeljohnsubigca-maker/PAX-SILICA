@@ -46,7 +46,7 @@ describe('Domain Data Integrity', () => {
   it('contains milestones with valid statuses', () => {
     expect(MILESTONES.length).toBeGreaterThanOrEqual(3);
     MILESTONES.forEach((ms) => {
-      expect(['COMPLETED', 'IN PROGRESS', 'SCHEDULED']).toContain(ms.status);
+      expect(['COMPLETED', 'IMMINENT', 'IN PROGRESS', 'SCHEDULED']).toContain(ms.status);
     });
   });
 });
