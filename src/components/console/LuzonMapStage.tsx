@@ -56,9 +56,11 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CARTO | PAX SILICA SAHARA ATLAS',
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a> | PAX SILICA SAHARA ATLAS',
         subdomains: 'abcd',
-        maxZoom: 19,
+        maxZoom: 20,
+        detectRetina: true,
       }).addTo(map);
 
       map.on('mousemove', (e) => {
