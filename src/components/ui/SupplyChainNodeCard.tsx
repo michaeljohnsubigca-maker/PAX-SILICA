@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, MapPin, ArrowRight, CheckCircle, Factory } from 'lucide-react';
+import { Layers, MapPin, CheckCircle, Factory } from 'lucide-react';
 import { SupplyChainStage } from '../../types/domain';
 
 interface SupplyChainNodeCardProps {

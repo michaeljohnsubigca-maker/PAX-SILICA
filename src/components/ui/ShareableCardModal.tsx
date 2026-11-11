@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Copy, Check, ShieldCheck, Share2 } from 'lucide-react';
+import { X, Copy, Check, ShieldCheck } from 'lucide-react';
 import { IntelligenceDispatch } from '../../types/domain';
 
 interface ShareableCardModalProps {

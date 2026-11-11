@@ -1,11 +1,31 @@
-export default function App() {
+import React from 'react';
+import { ThemeProvider } from './context/ThemeContext';
+import Navbar from './components/layout/Navbar';
+import HeroSection from './components/sections/HeroSection';
+import ExplainerSection from './components/sections/ExplainerSection';
+import MythBusterSection from './components/sections/MythBusterSection';
+import SupplyChainSection from './components/sections/SupplyChainSection';
+import CorridorAtlasSection from './components/sections/CorridorAtlasSection';
+import LedgerSection from './components/sections/LedgerSection';
+import Footer from './components/layout/Footer';
+
+export const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-sandLinen text-stone-900 dark:bg-deepNavy dark:text-stone-100">
-      <header className="py-6 px-4 max-w-7xl mx-auto">
-        <h1 className="font-serif text-3xl font-normal text-saharaTerracotta-500">
-          Pax Silica // Philippines
-        </h1>
-      </header>
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-sandLinen text-stone-900 dark:bg-deepNavy dark:text-stone-100 transition-colors duration-200">
+        <Navbar />
+        <main>
+          <HeroSection />
+          <ExplainerSection />
+          <MythBusterSection />
+          <SupplyChainSection />
+          <CorridorAtlasSection />
+          <LedgerSection />
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
-}
+};
+
+export default App;

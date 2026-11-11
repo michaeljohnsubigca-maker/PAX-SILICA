@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Map, MapPin, Eye, Navigation } from 'lucide-react';
+import { Map, MapPin, Eye } from 'lucide-react';
 import { CORRIDOR_NODES } from '../../data/nodes';
 import { CorridorNode } from '../../types/domain';
 import LuzonMap from '../map/LuzonMap';

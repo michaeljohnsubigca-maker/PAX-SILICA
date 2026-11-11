@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GitCommit, ArrowRight, Check } from 'lucide-react';
+import { GitCommit, Check } from 'lucide-react';
 import { SUPPLY_CHAIN_STAGES } from '../../data/supplyChain';
 import SupplyChainNodeCard from '../ui/SupplyChainNodeCard';
 
