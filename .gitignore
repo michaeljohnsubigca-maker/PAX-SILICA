@@ -3,3 +3,5 @@ dist
 .superpowers
 .DS_Store
 *.local
+stitch_redesign/
+stitch_ui_theme_redesign.zip
