@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PAX SILICA // Luzon Economic Corridor &amp; Semiconductor Security Atlas</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Instrument Serif, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#06090F',
+            glassDark: '#0B101A',
+            siliconGold: '#F59E0B',
+            waferAmber: '#FBBF24',
+            corridorCyan: '#06B6D4',
+            corridorCyanLight: '#22D3EE',
+            verifiedEmerald: '#10B981',
+            scrutinyRose: '#F43F5E'
+          },
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --scroll-p: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: #06090F;
+      color: #F1F5F9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: #06090F;
+      overflow-x: hidden;
+      margin: 0;
+    }
+
+    /* Ultra-clean custom scrollbars for internal glass panels */
+    .glass-scroll::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .glass-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .glass-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 9999px;
+    }
+    .glass-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(245, 158, 11, 0.6);
+    }
+
+    /* Architectural Floating Glass Surface (Palantir / Stripe Press Aesthetic) */
+    .arch-glass {
+      background: rgba(11, 16, 26, 0.78);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow:
+        0 24px 48px -12px rgba(0, 0, 0, 0.75),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .arch-glass-subtle {
+      background: rgba(15, 23, 38, 0.65);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.09);
+    }
+
+    /* Specular Card Hover */
+    .intel-card {
+      background: rgba(15, 22, 36, 0.68);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+      transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.24s ease,
+                  background-color 0.24s ease,
+                  box-shadow 0.24s ease;
+    }
+    .intel-card:hover {
+      transform: translateY(-2px);
+      background: rgba(20, 29, 47, 0.85);
+      border-color: rgba(245, 158, 11, 0.35);
+      box-shadow:
+        0 14px 28px -10px rgba(0, 0, 0, 0.65),
+        0 0 20px -6px rgba(245, 158, 11, 0.18),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
+    }
+
+    /* Leaflet Dark Map Color-Grading for Deep Midnight Navy Water & Crisp Contours */
+    .leaflet-container {
+      background-color: #05080e !important;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .leaflet-tile-pane {
+      filter: contrast(1.08) brightness(0.95) saturate(1.15) hue-rotate(-6deg);
+    }
+    .leaflet-control-attribution {
+      background: rgba(6, 9, 15, 0.65) !important;
+      color: rgba(148, 163, 184, 0.6) !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 9px !important;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      margin: 0 12px 8px 0 !important;
+      padding: 2px 6px !important;
+      backdrop-filter: blur(8px);
+    }
+    .leaflet-control-attribution a {
+      color: rgba(226, 232, 240, 0.75) !important;
+    }
+
+    /* Vignette & Subtle Reticle Overlay on Map */
+    .map-vignette {
+      background: radial-gradient(
+        circle at 50% 50%,
+        rgba(6, 9, 15, 0) 45%,
+        rgba(6, 9, 15, 0.42) 82%,
+        rgba(6, 9, 15, 0.82) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Custom Glowing Map Node Markers */
+    .corridor-node-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .node-halo {
+      position: absolute;
+      border-radius: 9999px;
+      animation: haloPulse 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      pointer-events: none;
+    }
+    .node-halo-fast {
+      position: absolute;
+      border-radius: 9999px;
+      animation: haloPulseFast 0.95s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      pointer-events: none;
+    }
+    @keyframes haloPulse {
+      0% {
+        transform: scale(0.7);
+        opacity: 0.85;
+      }
+      80%, 100% {
+        transform: scale(2.6);
+        opacity: 0;
+      }
+    }
+    @keyframes haloPulseFast {
+      0% {
+        transform: scale(0.75);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(3.3);
+        opacity: 0;
+      }
+    }
+
+    /* Animated Vector Flow Lines */
+    .rail-spine-flow {
+      stroke-dasharray: 10, 10;
+      animation: vectorDash 22s linear infinite;
+    }
+    .mineral-feed-flow {
+      stroke-dasharray: 6, 9;
+      animation: vectorDash 16s linear infinite;
+    }
+    @keyframes vectorDash {
+      to {
+        stroke-dashoffset: -400;
+      }
+    }
+
+    /* Scroll Mouse Indicator Animation */
+    @keyframes scrollWheel {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      70% {
+        transform: translateY(8px);
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+    }
+    .animate-scroll-wheel {
+      animation: scrollWheel 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    /* Custom Tooltip Override for Leaflet */
+    .leaflet-tooltip.pax-tooltip {
+      background: rgba(11, 16, 26, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #F8FAFC;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.7);
+    }
+    .leaflet-tooltip-top.pax-tooltip::before,
+    .leaflet-tooltip-bottom.pax-tooltip::before,
+    .leaflet-tooltip-left.pax-tooltip::before,
+    .leaflet-tooltip-right.pax-tooltip::before {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="selection:bg-siliconGold/30 selection:text-amber-200">
+
+  <!-- =====================================================================
+       SCROLL RUNWAY (Drives 0% -> 100% Scroll Choreography)
+       Scrolling down eases in the floating side panels, top command bar, and
+       bottom dock. Scrolling back to top returns to the pure Luzon Map view.
+       ===================================================================== -->
+  <div id="scrollRunway" class="relative w-full h-[225vh]">
+
+    <!-- FIXED 100VW x 100VH GEOSPATIAL STAGE -->
+    <div id="viewportStage" class="fixed inset-0 w-screen h-screen overflow-hidden bg-obsidian">
+
+      <!-- =================================================================
+           LAYER 0: FULL-BLEED INTERACTIVE LEAFLET MAP OF LUZON
+           ================================================================= -->
+      <div id="luzonMap" class="absolute inset-0 w-full h-full z-10"></div>
+
+      <!-- Subtle Radial Vignette & Corner Crosshairs -->
+      <div class="map-vignette absolute inset-0 z-10"></div>
+
+      <!-- =================================================================
+           LAYER 1: LANDING HERO OVERLAY (Visible at Scroll Progress = 0%)
+           Fades out & lifts smoothly as user scrolls into the workspace
+           ================================================================= -->
+      <div
+        id="landingHeroOverlay"
+        class="absolute inset-0 z-20 pointer-events-none flex flex-col justify-between p-6 sm:p-10 transition-none"
+      >
+        <!-- Top Editorial Header Badge & Live Telemetry -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="arch-glass rounded-2xl px-4 py-2.5 pointer-events-auto flex items-center gap-3">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-siliconGold"></span>
+            </span>
+            <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-slate-200 font-semibold">
+              PAX SILICA // LUZON CORRIDOR ATLAS
+            </span>
+            <span class="hidden md:inline-block text-slate-600">|</span>
+            <span class="hidden md:inline-block font-mono text-[11px] text-amber-300/90">
+              13TH SIGNATORY: PHILIPPINES
+            </span>
+          </div>
+
+          <!-- Top-Right Coordinate & Quick Workspace Trigger -->
+          <div class="arch-glass rounded-2xl px-4 py-2 pointer-events-auto flex items-center gap-3">
+            <div class="font-mono text-[11px] text-slate-400 flex items-center gap-2">
+              <span class="text-corridorCyanLight">WGS84</span>
+              <span id="landingCursorCoords" class="text-slate-200">15.3410° N, 120.5360° E</span>
+            </div>
+            <button
+              onclick="scrollToWorkspace()"
+              class="px-3 py-1 rounded-xl bg-siliconGold/20 hover:bg-siliconGold/30 text-amber-300 border border-siliconGold/40 font-mono text-[11px] font-medium transition cursor-pointer"
+            >
+              Open Split Workspace →
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom Editorial Title Card + Scroll Prompt -->
+        <div class="flex flex-col items-center text-center max-w-3xl mx-auto mb-2 sm:mb-4">
+          <div class="arch-glass rounded-3xl px-6 sm:px-10 py-6 sm:py-8 pointer-events-auto border border-white/10 shadow-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-[10px] uppercase tracking-[0.2em] text-amber-300 mb-3">
+              <span>Subic Bay</span>
+              <span class="text-slate-600">•</span>
+              <span>New Clark City (1,620 ha)</span>
+              <span class="text-slate-600">•</span>
+              <span>Bulacan</span>
+              <span class="text-slate-600">•</span>
+              <span>Metro Manila</span>
+              <span class="text-slate-600">•</span>
+              <span>Batangas</span>
+            </div>
+
+            <h1 class="font-serif italic text-4xl sm:text-6xl text-white tracking-tight leading-[1.05]">
+              Pax Silica &amp; the Luzon Economic Corridor
+            </h1>
+
+            <p class="mt-3 text-xs sm:text-sm text-slate-300/90 max-w-xl mx-auto leading-relaxed font-normal">
+              Interactive geopolitical and infrastructure intelligence ledger tracking the Philippines’ <span class="text-white font-medium">$40B–$70B semiconductor, wafer fabrication, and critical minerals security zone</span>. Explore the live corridor map below or scroll to reveal curated news soundbites and verified statutory provisions.
+            </p>
+
+            <!-- Interactive Action Row -->
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+              <button
+                onclick="scrollToWorkspace()"
+                class="group inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-sans font-semibold text-xs tracking-wide shadow-lg shadow-amber-500/20 hover:brightness-110 transition cursor-pointer"
+              >
+                <span>Scroll or Click to Enter Intelligence Workspace</span>
+                <span class="w-5 h-5 rounded-full bg-slate-950/15 flex items-center justify-center group-hover:translate-y-0.5 transition">
+                  ↓
+                </span>
+              </button>
+
+              <!-- Quick Node Pills on Landing -->
+              <div class="flex items-center gap-1.5 bg-slate-950/60 border border-white/10 rounded-full p-1">
+                <button onclick="focusNodeFromLanding('ncc')" class="px-2.5 py-1 rounded-full text-[11px] font-mono text-cyan-300 hover:bg-white/10 transition">
+                  Capas 1,620-ha Hub
+                </button>
+                <button onclick="focusNodeFromLanding('bulacan')" class="px-2.5 py-1 rounded-full text-[11px] font-mono text-amber-300 hover:bg-white/10 transition">
+                  Bulacan Wafer Lab
+                </button>
+                <button onclick="focusNodeFromLanding('batangas')" class="px-2.5 py-1 rounded-full text-[11px] font-mono text-purple-300 hover:bg-white/10 transition">
+                  Batangas AI Compute
+                </button>
+              </div>
+            </div>
+
+            <!-- Animated Mouse Scroll Indicator -->
+            <div class="mt-5 flex items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">
+              <div class="w-4 h-6 rounded-full border border-slate-500/70 flex justify-center pt-1">
+                <span class="w-1 h-1.5 rounded-full bg-amber-400 animate-scroll-wheel"></span>
+              </div>
+              <span>Scroll Down to Ease In Panels</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =================================================================
+           LAYER 2: TOP FLOATING TELEMETRY & NAVIGATION BAR
+           Eases down from top (translateY(-120% -> 0)) as user scrolls
+           ================================================================= -->
+      <header
+        id="topCommandHeader"
+        style="transform: translate3d(0, -120%, 0); opacity: 0; pointer-events: none;"
+        class="absolute top-3 left-3 right-3 sm:left-4 sm:right-4 z-30 arch-glass rounded-2xl px-3.5 sm:px-5 py-2.5 transition-none"
+      >
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5">
+
+          <!-- Brand Title & Live Framework Status -->
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <button
+                onclick="scrollToPureMap()"
+                title="Return to Pure Map Landing View"
+                class="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-siliconGold hover:bg-amber-500/25 transition shrink-0"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>
+              </button>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-serif italic text-xl sm:text-2xl text-white tracking-tight leading-none">
+                    Pax Silica
+                  </span>
+                  <span class="text-slate-600 font-mono text-xs">//</span>
+                  <span class="font-mono text-[11px] font-semibold tracking-wider uppercase text-amber-300">
+                    Luzon Corridor Watch
+                  </span>
+                </div>
+                <div class="flex items-center gap-2 text-[10px] font-mono text-slate-400 mt-0.5">
+                  <span class="inline-flex items-center gap-1 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-verifiedEmerald animate-pulse"></span>
+                    OP VETTED (OCT 2026)
+                  </span>
+                  <span>•</span>
+                  <span>STANDALONE SIGNING: Q4 2026</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile Pure Map Button -->
+            <button
+              onclick="scrollToPureMap()"
+              class="lg:hidden px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 font-mono text-[10px] text-slate-300"
+            >
+              ↑ Pure Map
+            </button>
+          </div>
+
+          <!-- Center Search Bar & Active Node Scope Pill -->
+          <div class="flex items-center gap-2 flex-1 max-w-xl">
+            <div class="relative flex-1">
+              <svg class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                id="globalSearchInput"
+                type="text"
+                placeholder="Search soundbites, Rodolfo, Bingcang, wafer lab, RA 12252..."
+                class="w-full bg-slate-950/75 border border-white/10 focus:border-siliconGold/60 rounded-xl pl-8 pr-7 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none transition"
+              />
+              <button
+                id="clearSearchBtn"
+                onclick="clearGlobalSearch()"
+                class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs font-mono"
+                title="Clear search"
+              >
+                ✕
+              </button>
+            </div>
+
+            <!-- Active Node Filter Indicator -->
+            <div id="activeNodeHeaderBadge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-[11px] font-mono shrink-0">
+              <span class="w-2 h-2 rounded-full bg-corridorCyanLight"></span>
+              <span id="activeNodeHeaderText" class="text-slate-200">ALL LUZON</span>
+              <button
+                id="resetNodeFilterBtn"
+                onclick="setNodeFilter('ALL')"
+                class="hidden ml-1 px-1.5 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-[10px] border border-amber-500/30 transition"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Controls: Scroll Choreography Progress & Pure Map Toggle -->
+          <div class="hidden lg:flex items-center gap-2.5 shrink-0">
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/70 border border-white/10 font-mono text-[11px]">
+              <span class="text-slate-400">ATMOS</span>
+              <span id="cursorCoordsDisplay" class="text-corridorCyanLight">15.3410° N, 120.5360° E</span>
+            </div>
+
+            <button
+              onclick="scrollToPureMap()"
+              class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 font-mono text-[11px] text-slate-200 flex items-center gap-1.5 transition cursor-pointer"
+              title="Retract panels and return to full-screen Luzon map"
+            >
+              <span>↑ Pure Map View</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile / Tablet Panel Switcher (Visible below lg breakpoint when scrolled in) -->
+        <div class="grid grid-cols-3 gap-1.5 mt-2.5 pt-2 border-t border-white/10 lg:hidden">
+          <button
+            id="mobileTabNews"
+            onclick="switchMobilePanel('news')"
+            class="py-1.5 px-2 rounded-lg text-[11px] font-mono font-medium bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center justify-center gap-1.5"
+          >
+            <span>News Soundbites</span>
+            <span id="mobileNewsCountBadge" class="px-1.5 py-0.2 bg-amber-500/20 rounded text-[10px]">7</span>
+          </button>
+          <button
+            id="mobileTabMap"
+            onclick="switchMobilePanel('map')"
+            class="py-1.5 px-2 rounded-lg text-[11px] font-mono font-medium bg-white/5 text-slate-400 border border-white/5 flex items-center justify-center gap-1.5"
+          >
+            <span>Corridor Map</span>
+          </button>
+          <button
+            id="mobileTabLedger"
+            onclick="switchMobilePanel('ledger')"
+            class="py-1.5 px-2 rounded-lg text-[11px] font-mono font-medium bg-white/5 text-slate-400 border border-white/5 flex items-center justify-center gap-1.5"
+          >
+            <span>Verified Ledger</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- =================================================================
+           LAYER 3: LEFT FLOATING GLASS PANEL — CURATED NEWS & SOUNDBITES
+           Eases in from left (translateX(-115% -> 0)) as user scrolls
+           ================================================================= -->
+      <aside
+        id="leftGlassPanel"
+        style="transform: translate3d(-115%, 0, 0); opacity: 0; pointer-events: none;"
+        class="absolute top-[116px] lg:top-[76px] bottom-4 left-3 right-3 sm:left-4 lg:right-auto lg:w-[385px] xl:w-[405px] z-20 arch-glass rounded-2xl flex flex-col overflow-hidden transition-none"
+      >
+        <!-- Left Panel Header & Filters -->
+        <div class="p-4 border-b border-white/10 bg-slate-950/40 space-y-3 shrink-0">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-siliconGold"></span>
+                <h2 class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-slate-200">
+                  Dispatches &amp; Soundbites
+                </h2>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-0.5">
+                Hover card to pulse Luzon node • Click to fly camera
+              </p>
+            </div>
+            <span id="newsCountIndicator" class="font-mono text-[10px] font-semibold px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">
+              7 DISPATCHES
+            </span>
+          </div>
+
+          <!-- Stakeholder Filter Pills -->
+          <div class="flex flex-wrap gap-1" id="stakeholderPillsContainer">
+            <button onclick="setStakeholderFilter('ALL')" data-stakeholder="ALL" class="stakeholder-pill px-2.5 py-1 rounded-lg text-[10px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40 transition">
+              All Sources
+            </button>
+            <button onclick="setStakeholderFilter('State / Official')" data-stakeholder="State / Official" class="stakeholder-pill px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/5 text-slate-400 border border-white/10 hover:text-slate-200 transition">
+              State / Official
+            </button>
+            <button onclick="setStakeholderFilter('Think Tank / Academic')" data-stakeholder="Think Tank / Academic" class="stakeholder-pill px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/5 text-slate-400 border border-white/10 hover:text-slate-200 transition">
+              Think Tank / Legal
+            </button>
+            <button onclick="setStakeholderFilter('Civil Society / Local')" data-stakeholder="Civil Society / Local" class="stakeholder-pill px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/5 text-slate-400 border border-white/10 hover:text-slate-200 transition">
+              Civil Society
+            </button>
+          </div>
+
+          <!-- Topic Select Bar -->
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 shrink-0">Vector:</span>
+            <select
+              id="topicFilterSelect"
+              onchange="setTopicFilter(this.value)"
+              class="flex-1 bg-slate-950/80 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-siliconGold/60"
+            >
+              <option value="ALL">All Intelligence Vectors</option>
+              <option value="Semiconductors & AI">Semiconductors, Wafer Lab &amp; AI</option>
+              <option value="Sovereignty & Legal">Sovereignty &amp; RA 12252 Legal</option>
+              <option value="Minerals & Power">Critical Minerals &amp; Power Grid</option>
+              <option value="Land & Community">Watershed &amp; Ancestral Land</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Scrollable News Cards List -->
+        <div id="newsFeedContainer" class="flex-1 overflow-y-auto glass-scroll p-3.5 space-y-3">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </aside>
+
+      <!-- =================================================================
+           LAYER 4: RIGHT FLOATING GLASS PANEL — VERIFIED PROJECT LEDGER
+           Eases in from right (translateX(115% -> 0)) as user scrolls
+           ================================================================= -->
+      <aside
+        id="rightGlassPanel"
+        style="transform: translate3d(115%, 0, 0); opacity: 0; pointer-events: none;"
+        class="hidden lg:flex absolute top-[116px] lg:top-[76px] bottom-4 left-3 right-3 lg:left-auto sm:right-4 lg:w-[400px] xl:w-[425px] z-20 arch-glass rounded-2xl flex-col overflow-hidden transition-none"
+      >
+        <!-- Verified Baseline KPI Bento Grid (2x2) -->
+        <div class="p-4 border-b border-white/10 bg-slate-950/40 shrink-0">
+          <div class="flex items-center justify-between mb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-verifiedEmerald"></span>
+              <h2 class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-slate-200">
+                Verified Project Ledger
+              </h2>
+            </div>
+            <span class="font-mono text-[10px] text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+              DTI / BCDA AUDIT
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <!-- KPI 1 -->
+            <div class="arch-glass-subtle rounded-xl p-2.5">
+              <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                <span>CAPAS SECURITY ZONE</span>
+                <span class="text-corridorCyanLight">17.1% OF NCC</span>
+              </div>
+              <div class="font-mono text-lg font-bold text-white mt-0.5">
+                1,620 ha
+              </div>
+              <div class="w-full h-1 bg-white/10 rounded-full mt-1.5 overflow-hidden">
+                <div class="h-full bg-corridorCyanLight rounded-full" style="width: 68%"></div>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">
+                4,000 acres inside 9,450-ha estate
+              </div>
+            </div>
+
+            <!-- KPI 2 -->
+            <div class="arch-glass-subtle rounded-xl p-2.5">
+              <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                <span>10-YR CAPEX TARGET</span>
+                <span class="text-amber-300">50+ SUITORS</span>
+              </div>
+              <div class="font-mono text-lg font-bold text-amber-300 mt-0.5">
+                $40B–$70B
+              </div>
+              <div class="w-full h-1 bg-white/10 rounded-full mt-1.5 overflow-hidden">
+                <div class="h-full bg-siliconGold rounded-full" style="width: 82%"></div>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">
+                US, KR (250ha), SG (300ha), JP, TW
+              </div>
+            </div>
+
+            <!-- KPI 3 -->
+            <div class="arch-glass-subtle rounded-xl p-2.5">
+              <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                <span>ANNUAL GROSS YIELD</span>
+                <span class="text-verifiedEmerald">MATURITY</span>
+              </div>
+              <div class="font-mono text-lg font-bold text-emerald-400 mt-0.5">
+                ₱180B / yr
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">
+                Projected recurring industrial output
+              </div>
+            </div>
+
+            <!-- KPI 4 -->
+            <div class="arch-glass-subtle rounded-xl p-2.5">
+              <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                <span>DIRECT WORKFORCE</span>
+                <span class="text-cyan-300">STEM / FAB</span>
+              </div>
+              <div class="font-mono text-lg font-bold text-white mt-0.5">
+                130K–200K
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">
+                Wafer R&amp;D, OSAT &amp; mineral refining
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Segmented Pill Switcher -->
+        <div class="px-4 pt-3 pb-2 border-b border-white/10 shrink-0">
+          <div class="grid grid-cols-3 gap-1 bg-slate-950/80 p-1 rounded-xl border border-white/10">
+            <button
+              id="rightTabBtnMilestones"
+              onclick="switchRightTab('milestones')"
+              class="py-1.5 px-2 rounded-lg font-mono text-[11px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition"
+            >
+              Milestones
+            </button>
+            <button
+              id="rightTabBtnMyths"
+              onclick="switchRightTab('myths')"
+              class="py-1.5 px-2 rounded-lg font-mono text-[11px] font-medium text-slate-400 hover:text-slate-200 transition"
+            >
+              Myth vs. Law
+            </button>
+            <button
+              id="rightTabBtnSupply"
+              onclick="switchRightTab('supply')"
+              class="py-1.5 px-2 rounded-lg font-mono text-[11px] font-medium text-slate-400 hover:text-slate-200 transition"
+            >
+              Value Chain
+            </button>
+          </div>
+        </div>
+
+        <!-- Scrollable Ledger Content -->
+        <div class="flex-1 overflow-y-auto glass-scroll p-4 space-y-3" id="rightPanelContent">
+          <div id="tabContentMilestones" class="space-y-3"></div>
+          <div id="tabContentMyths" class="hidden space-y-3"></div>
+          <div id="tabContentSupply" class="hidden space-y-3"></div>
+        </div>
+      </aside>
+
+      <!-- =================================================================
+           LAYER 5: BOTTOM CENTER FLOATING MAP HUD & NODE TELEMETRY DOCK
+           Rises smoothly from bottom as user scrolls into workspace
+           ================================================================= -->
+      <div
+        id="bottomCenterHud"
+        style="transform: translate3d(0, 130px, 0); opacity: 0; pointer-events: none;"
+        class="hidden lg:flex absolute bottom-4 left-[405px] xl:left-[425px] right-[420px] xl:right-[445px] z-20 flex-col gap-2 transition-none"
+      >
+        <!-- Active Node Telemetry Drawer (Collapsible) -->
+        <div
+          id="nodeInspectorDrawer"
+          class="arch-glass rounded-2xl p-3.5 transition-all duration-300"
+        >
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Vector Layer & Quick Node Pill Bar -->
+        <div class="arch-glass rounded-2xl px-3.5 py-2 flex items-center justify-between gap-2 flex-wrap">
+          <!-- Node Jump Pills -->
+          <div class="flex items-center gap-1 flex-wrap">
+            <span class="font-mono text-[10px] uppercase tracking-wider text-slate-400 mr-1">Nodes:</span>
+            <button onclick="selectNodeOnMap('subic', true)" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-amber-500/20 text-amber-300 border border-white/10 text-[10px] font-mono transition">
+              Subic Bay
+            </button>
+            <button onclick="selectNodeOnMap('ncc', true)" class="px-2 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-[10px] font-mono transition">
+              New Clark City
+            </button>
+            <button onclick="selectNodeOnMap('bulacan', true)" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-sky-500/20 text-sky-300 border border-white/10 text-[10px] font-mono transition">
+              Bulacan Wafer
+            </button>
+            <button onclick="selectNodeOnMap('manila', true)" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-emerald-500/20 text-emerald-300 border border-white/10 text-[10px] font-mono transition">
+              Manila
+            </button>
+            <button onclick="selectNodeOnMap('batangas', true)" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-purple-500/20 text-purple-300 border border-white/10 text-[10px] font-mono transition">
+              Batangas Compute
+            </button>
+            <button onclick="resetMapCamera()" class="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-white/10 text-[10px] font-mono transition">
+              Fit All
+            </button>
+          </div>
+
+          <!-- Vector Layer Toggles -->
+          <div class="flex items-center gap-2 text-[10px] font-mono">
+            <label class="inline-flex items-center gap-1.5 cursor-pointer text-cyan-300">
+              <input type="checkbox" checked onchange="toggleMapLayer('rail', this.checked)" class="rounded bg-slate-900 border-slate-700 text-corridorCyan focus:ring-0" />
+              <span>SCMB Rail</span>
+            </label>
+            <label class="inline-flex items-center gap-1.5 cursor-pointer text-emerald-300">
+              <input type="checkbox" checked onchange="toggleMapLayer('esz', this.checked)" class="rounded bg-slate-900 border-slate-700 text-verifiedEmerald focus:ring-0" />
+              <span>1,620-ha Zone</span>
+            </label>
+            <label class="inline-flex items-center gap-1.5 cursor-pointer text-amber-300">
+              <input type="checkbox" checked onchange="toggleMapLayer('minerals', this.checked)" class="rounded bg-slate-900 border-slate-700 text-siliconGold focus:ring-0" />
+              <span>Minerals/Grid</span>
+            </label>
+            <label class="inline-flex items-center gap-1.5 cursor-pointer text-rose-300">
+              <input type="checkbox" checked onchange="toggleMapLayer('scrutiny', this.checked)" class="rounded bg-slate-900 border-slate-700 text-scrutinyRose focus:ring-0" />
+              <span>Watershed</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       APPLICATION DATA, SCROLL CHOREOGRAPHY & GEOSPATIAL LOGIC
+       ===================================================================== -->
+  <script>
+    // ---------------------------------------------------------------------
+    // 1. CORRIDOR ANCHOR NODES DATASET (5 Primary Luzon Corridor Nodes)
+    // ---------------------------------------------------------------------
+    const CORRIDOR_NODES = {
+      ncc: {
+        id: 'ncc',
+        name: 'New Clark City',
+        fullTitle: 'New Clark City (Capas, Tarlac)',
+        role: 'FLAGSHIP 1,620-HA ECONOMIC SECURITY ZONE',
+        coords: [15.3410, 120.5360],
+        coordsText: '15.3410° N, 120.5360° E',
+        color: '#22D3EE',
+        badgeClass: 'bg-cyan-500/15 text-cyan-300 border-cyan-400/30',
+        allocation: '1,620 Hectares (4,000 Acres) inside 9,450-ha BCDA Estate',
+        suitors: '50+ Tech Suitors • South Korea (250 ha) • Singapore (300 ha) • US & TW Chipmakers',
+        dependencies: 'SCMB Freight Rail, Zambales Mineral Refining Feed, HVDC Grid, Capas Watershed',
+        summary: 'Mandated strictly for critical mineral refining and advanced AI/semiconductor component manufacturing. DTI confirmed in Nov 2026 that hyperscale data centers are excluded here and routed to Batangas.'
+      },
+      subic: {
+        id: 'subic',
+        name: 'Subic Bay',
+        fullTitle: 'Subic Bay Freeport (Zambales / Bataan)',
+        role: 'DEEPWATER PORT & MINERAL GATEWAY',
+        coords: [14.8200, 120.2820],
+        coordsText: '14.8200° N, 120.2820° E',
+        color: '#F59E0B',
+        badgeClass: 'bg-amber-500/15 text-amber-300 border-amber-400/30',
+        allocation: 'Western SCMB Rail Origin & Deepwater Logistics Terminal',
+        suitors: 'US/Japan Logistics Consortia • Zambales Nickel/Copper Processors',
+        dependencies: 'Subic-Clark Cargo Railway, Zambales Nickel/Copper/Chromite Feedstock Corridor',
+        summary: 'Western maritime anchor of the Luzon Economic Corridor, channeling Zambales critical minerals directly to New Clark City processing plants via the SCMB cargo rail spine.'
+      },
+      bulacan: {
+        id: 'bulacan',
+        name: 'Bulacan',
+        fullTitle: 'Bulacan Wafer Lab & Tech Node',
+        role: 'FIRST PHILIPPINE WAFER LABORATORY',
+        coords: [14.8500, 120.8800],
+        coordsText: '14.8500° N, 120.8800° E',
+        color: '#38BDF8',
+        badgeClass: 'bg-sky-500/15 text-sky-300 border-sky-400/30',
+        allocation: 'Upstream Semiconductor Wafer Lab & R&D Precinct',
+        suitors: 'DTI / DOST / UP Microelectronics Consortium • Silicon Foundry Partners',
+        dependencies: 'SCMB Rail Link, Bulacan Aerotropolis Proximity, Metro Manila STEM Pipeline',
+        summary: 'Designated by DTI in November 2026 to host the Philippines’ first Wafer Laboratory, moving the domestic industry upstream from back-end OSAT packaging to wafer fabrication and IC prototyping.'
+      },
+      manila: {
+        id: 'manila',
+        name: 'Metro Manila',
+        fullTitle: 'Metro Manila (Taguig / Malacañang)',
+        role: 'DIPLOMATIC, LEGAL & TALENT CORE',
+        coords: [14.5547, 121.0244],
+        coordsText: '14.5547° N, 121.0244° E',
+        color: '#10B981',
+        badgeClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
+        allocation: 'Office of the President, DTI/BOI Regulatory Hub & IC Design Pool',
+        suitors: 'PH-US-Japan Trilateral Steering Committee • University Microelectronics Labs',
+        dependencies: 'Vetted Bilateral Pax Silica Framework, RA 12252 Lease Enforcement',
+        summary: 'Host of the September 2026 LEC Investment Forum in Taguig and seat of the Office of the President reviewing the finalized Pax Silica bilateral framework ahead of its standalone Q4 2026 signing.'
+      },
+      batangas: {
+        id: 'batangas',
+        name: 'Batangas',
+        fullTitle: 'Batangas Port & AI Compute Hub',
+        role: 'HYPERSCALE AI DATA CENTERS & PORT TERMINUS',
+        coords: [13.7565, 121.0583],
+        coordsText: '13.7565° N, 121.0583° E',
+        color: '#A855F7',
+        badgeClass: 'bg-purple-500/15 text-purple-300 border-purple-400/30',
+        allocation: 'Hyperscale AI Compute Parks, LNG Power Hub & Southern Port',
+        suitors: 'Global Cloud & AI Compute Operators • LNG & Offshore Wind Generators',
+        dependencies: 'Batangas LNG Power Grid, Southern SCMB Rail Terminus, Subsea Cable Landings',
+        summary: 'Explicitly designated by DTI in November 2026 to absorb power-intensive AI data centers close to Batangas LNG power plants and international subsea cable landing stations.'
+      }
+    };
+
+    // ---------------------------------------------------------------------
+    // 2. CURATED NEWS & SOUNDBITE CARDS (7 Verified 2026 Dispatches)
+    // ---------------------------------------------------------------------
+    const NEWS_CARDS = [
+      {
+        id: 'news-1',
+        source: 'DTI / GMA News',
+        date: 'Nov 11, 2026',
+        stakeholder: 'State / Official',
+        topic: 'Semiconductors & AI',
+        nodeId: 'ncc',
+        nodeLabel: 'New Clark City',
+        secondaryNodes: ['batangas', 'bulacan'],
+        headline: 'DTI Clarifies Zero Data Centers Inside Capas Pax Silica Hub; Batangas & Bulacan Roles Defined',
+        summary: 'Trade Undersecretary Ceferino Rodolfo clarified that the 1,620-hectare New Clark City Pax Silica zone will strictly focus on mineral processing and advanced AI/semiconductor component manufacturing. High-load AI data centers will instead be directed to Batangas, while the country’s first Wafer Laboratory will rise in Bulacan.',
+        quote: '“There are no data centers included in the Pax Silica hub in New Clark City; the focus there is processing critical minerals and manufacturing components for AI, while data centers are slated for Batangas and our first wafer lab for Bulacan.”',
+        speaker: 'Usec. Ceferino Rodolfo, DTI'
+      },
+      {
+        id: 'news-2',
+        source: 'BCDA / Philstar',
+        date: 'Nov 10, 2026',
+        stakeholder: 'State / Official',
+        topic: 'Sovereignty & Legal',
+        nodeId: 'manila',
+        nodeLabel: 'Metro Manila',
+        secondaryNodes: ['ncc'],
+        headline: 'Pax Silica Framework Signing Decoupled from ASEAN Summit for Dedicated Q4 2026 Ceremony',
+        summary: 'Following the October 2026 submission of the vetted Pax Silica legal framework to President Marcos Jr., DTI confirmed the bilateral deal will not be signed on the sidelines of the November ASEAN Summit. Officials scheduled a standalone signing ceremony before the end of 2026.',
+        quote: '“The framework is already with the Office of the President and is robust enough to have its own life and its own signing ceremony before the end of the year rather than being tucked into the ASEAN Summit.”',
+        speaker: 'DTI & BCDA Executive Briefing'
+      },
+      {
+        id: 'news-3',
+        source: 'ISEAS Perspective',
+        date: 'Oct 8, 2026',
+        stakeholder: 'Think Tank / Academic',
+        topic: 'Minerals & Power',
+        nodeId: 'ncc',
+        nodeLabel: 'New Clark City',
+        secondaryNodes: ['subic'],
+        headline: 'ISEAS Analysis: How the Philippines Can Avoid Getting Burned in the US-Led Pax Silica',
+        summary: 'Researchers Lance Gamboa and Don McLain Gill warn that while the April 2026 Pax Silica declaration opens a $40B–$70B investment window, Manila must enforce strict technology transfer, domestic mineral value-addition, and industrial power/water safeguards.',
+        quote: '“To avoid getting burned, Philippine negotiators must translate the non-binding two-page Pax Silica declaration into enforceable domestic value-chain upgrades, grid resilience, and environmental safeguards.”',
+        speaker: 'ISEAS – Yusof Ishak Institute (#2026-78)'
+      },
+      {
+        id: 'news-4',
+        source: 'Inquirer Business',
+        date: 'Sep 21, 2026',
+        stakeholder: 'State / Official',
+        topic: 'Semiconductors & AI',
+        nodeId: 'ncc',
+        nodeLabel: 'New Clark City',
+        secondaryNodes: ['manila'],
+        headline: '50+ Global Tech Firms Eye Tarlac Security Zone; South Korea & Singapore Pitch Dedicated Enclaves',
+        summary: 'Following the September 10 Luzon Economic Corridor Investment Forum in Taguig, BCDA revealed that more than 50 international tech and semiconductor firms have expressed interest in New Clark City. South Korea is negotiating a 250-hectare allocation while Singapore is eyeing 300 hectares.',
+        quote: '“Pax Silica is not exclusive to US companies—we have over 50 prospective enterprises, with South Korea looking at 250 hectares and Singapore exploring 300 hectares inside New Clark City.”',
+        speaker: 'Engr. Joshua Bingcang, BCDA President & CEO'
+      },
+      {
+        id: 'news-5',
+        source: 'Semiconductor Watch PH',
+        date: 'Nov 9, 2026',
+        stakeholder: 'Think Tank / Academic',
+        topic: 'Semiconductors & AI',
+        nodeId: 'bulacan',
+        nodeLabel: 'Bulacan',
+        secondaryNodes: ['batangas'],
+        headline: 'Corridor Specialization: Bulacan Anchors First Wafer Lab as Batangas Absorbs AI Compute Load',
+        summary: 'Industrial planners welcomed the spatial division of labor across the Luzon Economic Corridor. Positioning the upstream Wafer Lab in Bulacan bridges Metro Manila’s university microelectronics talent with Tarlac’s fabs, while siting hyperscale compute in Batangas taps coastal LNG power.',
+        quote: '“Separating Bulacan’s wafer R&D and Tarlac’s component fabs from Batangas’s power-hungry AI data centers optimizes both the Luzon power grid and the SCMB cargo rail spine.”',
+        speaker: 'Philippine Semiconductor Supply Chain Review'
+      },
+      {
+        id: 'news-6',
+        source: 'Capas Stakeholder Watch',
+        date: 'Aug 14, 2026',
+        stakeholder: 'Civil Society / Local',
+        topic: 'Land & Community',
+        nodeId: 'ncc',
+        nodeLabel: 'New Clark City',
+        secondaryNodes: [],
+        headline: 'Tarlac Farmers & Indigenous Groups Demand Watershed Audits & Transparency in 2-Year Master Plan',
+        summary: 'Civil society coalitions and Aeta ancestral domain representatives in Capas and Bamban urged BCDA to publish hydrological impact studies for the 1,620-hectare zone. Advocates also raised scrutiny over Republic Act No. 12252, which allows foreign investors to lease industrial land for up to 99 years.',
+        quote: '“High-tech mineral refining and wafer fabrication require massive ultra-pure water supplies; Capas farming and indigenous communities must have a seat at the table during the two-year master planning phase.”',
+        speaker: 'Central Luzon Agrarian & Watershed Coalition'
+      },
+      {
+        id: 'news-7',
+        source: 'Subic-Zambales Monitor',
+        date: 'May 18, 2026',
+        stakeholder: 'State / Official',
+        topic: 'Minerals & Power',
+        nodeId: 'subic',
+        nodeLabel: 'Subic Bay',
+        secondaryNodes: ['ncc'],
+        headline: 'BCDA Rejects Diplomatic Immunity Proposals After US Tech Delegation Tours Corridor Gateway',
+        summary: 'During US Undersecretary Jacob Helberg’s May 2026 delegation visit with 12+ American tech executives, Philippine officials drew a firm red line against granting diplomatic immunity to foreign corporate personnel while advancing the Subic-Clark cargo rail link.',
+        quote: '“Every foreign locator and expatriate engineer inside the Economic Security Zone will be 100% subject to Philippine laws, courts, taxes, and regulatory oversight—no diplomatic immunity will be granted.”',
+        speaker: 'BCDA & Malacañang Joint Sovereignty Statement'
+      }
+    ];
+
+    // ---------------------------------------------------------------------
+    // 3. VERIFIED MILESTONE PIPELINE
+    // ---------------------------------------------------------------------
+    const MILESTONES = [
+      {
+        id: 'ms-1',
+        date: 'APR 16, 2026',
+        title: 'Pax Silica Declaration Signed (13th Signatory)',
+        status: 'COMPLETED',
+        statusColor: 'emerald',
+        nodeId: 'manila',
+        nodeName: 'Metro Manila',
+        details: 'The Philippines signs the two-page non-binding Pax Silica Declaration alongside the US, Japan, and allied economies to build resilient AI and semiconductor supply chains.'
+      },
+      {
+        id: 'ms-2',
+        date: 'MAY 2026',
+        title: 'US Tech Delegation & Sovereignty Red Line',
+        status: 'COMPLETED',
+        statusColor: 'emerald',
+        nodeId: 'ncc',
+        nodeName: 'New Clark City',
+        details: 'US Undersecretary Jacob Helberg leads 12+ US tech executives to inspect New Clark City and Subic. BCDA and Malacañang formally reject diplomatic immunity for foreign personnel.'
+      },
+      {
+        id: 'ms-3',
+        date: 'SEP 10, 2026',
+        title: 'LEC Trilateral Investment Forum (Taguig)',
+        status: 'COMPLETED',
+        statusColor: 'emerald',
+        nodeId: 'manila',
+        nodeName: 'Metro Manila',
+        details: 'PH, US, and Japan convene in Taguig. BCDA discloses 50+ prospective tech locators plus dedicated enclave negotiations with South Korea (250 ha) and Singapore (300 ha).'
+      },
+      {
+        id: 'ms-4',
+        date: 'OCT 2026',
+        title: 'Vetted Legal Framework Submitted to President',
+        status: 'COMPLETED',
+        statusColor: 'emerald',
+        nodeId: 'manila',
+        nodeName: 'Metro Manila',
+        details: 'BCDA and inter-agency legal teams submit the finalized bilateral Pax Silica framework to the Office of the President, enforcing RA 12252 lease rules and PH jurisdiction.'
+      },
+      {
+        id: 'ms-5',
+        date: 'NOV–DEC 2026',
+        title: 'Standalone Bilateral Framework Signing',
+        status: 'IMMINENT',
+        statusColor: 'amber',
+        nodeId: 'ncc',
+        nodeName: 'New Clark City',
+        details: 'DTI Usec. Ceferino Rodolfo confirms the Pax Silica signing is decoupled from the November ASEAN Summit for a dedicated standalone signing ceremony before end-2026.'
+      },
+      {
+        id: 'ms-6',
+        date: '2027 – 2028',
+        title: '2-Year Master Plan, Bulacan Wafer Lab & Civil Works',
+        status: 'SCHEDULED',
+        statusColor: 'cyan',
+        nodeId: 'bulacan',
+        nodeName: 'Bulacan',
+        details: '24-month detailed engineering & watershed master plan for the 1,620-ha Capas hub, parallel launch of the Bulacan Wafer Laboratory, and SCMB cargo rail construction.'
+      }
+    ];
+
+    // ---------------------------------------------------------------------
+    // 4. MYTH VS. PROVISION WATCH
+    // ---------------------------------------------------------------------
+    const MYTH_PROVISIONS = [
+      {
+        id: 'myth-1',
+        claim: 'Rumor: "US tech workers and executives will enjoy diplomatic immunity like military bases."',
+        verdict: 'REJECTED BY PH GOVT',
+        verdictType: 'rose',
+        nodeId: 'ncc',
+        authority: 'BCDA CEO Joshua Bingcang & Palace Press Officer Claire Castro',
+        legalRef: 'PH Constitutional Sovereignty & Oct 2026 OP Vetted Framework',
+        explanation: 'Both BCDA and Malacañang explicitly rejected early informal suggestions of diplomatic immunity. The finalized legal framework submitted to the President guarantees 100% Philippine judicial, labor, tax, and regulatory jurisdiction.'
+      },
+      {
+        id: 'myth-2',
+        claim: 'Rumor: "The New Clark City Pax Silica zone is just a water-guzzling AI data center park."',
+        verdict: 'NO DATA CENTERS IN NCC',
+        verdictType: 'cyan',
+        nodeId: 'batangas',
+        authority: 'DTI Undersecretary Ceferino Rodolfo (Nov 11, 2026)',
+        legalRef: 'LEC Spatial Zoning Directive (Capas vs. Batangas vs. Bulacan)',
+        explanation: 'DTI confirmed in November 2026 that ZERO data centers are included inside the Capas Pax Silica hub. New Clark City is strictly reserved for mineral processing and AI/semiconductor component manufacturing, while data centers are routed to Batangas.'
+      },
+      {
+        id: 'myth-3',
+        claim: 'Rumor: "The April 2026 Pax Silica declaration automatically locked in 99-year foreign land leases."',
+        verdict: 'NON-BINDING DECLARATION',
+        verdictType: 'amber',
+        nodeId: 'manila',
+        authority: 'ISEAS Legal Review & DTI Statutory Disclosure',
+        legalRef: 'Apr 16, 2026 Declaration (2-Page Intent) & Republic Act No. 12252',
+        explanation: 'The April 2026 document is a 2-page non-binding declaration of cooperation. Actual commercial land leases inside the 1,620-ha zone require the Q4 2026 bilateral framework and individual commercial contracts governed by RA 12252.'
+      },
+      {
+        id: 'myth-4',
+        claim: 'Rumor: "Only American corporations are permitted inside the New Clark City Economic Security Zone."',
+        verdict: 'OPEN MULTILATERAL HUB',
+        verdictType: 'emerald',
+        nodeId: 'ncc',
+        authority: 'BCDA Investment Ledger (Post-Sept 2026 LEC Forum)',
+        legalRef: 'Multilateral Economic Security Zone Charter',
+        explanation: 'The 1,620-ha zone is open to allied and domestic semiconductor firms. BCDA confirmed active negotiations with South Korea (250 hectares), Singapore (300 hectares), Japan, Taiwan, and Filipino electronics manufacturers.'
+      }
+    ];
+
+    // ---------------------------------------------------------------------
+    // 5. VALUE CHAIN & MULTILATERAL PARTNERS
+    // ---------------------------------------------------------------------
+    const SUPPLY_CHAIN_STAGES = [
+      {
+        stage: 'STAGE 01 // UPSTREAM FEEDSTOCK',
+        title: 'Critical Minerals Extraction & Domestic Refining',
+        nodeId: 'subic',
+        nodeTag: 'Subic Bay & Zambales Feed',
+        color: 'amber',
+        metrics: 'Nickel • Copper • Cobalt • Chromite',
+        description: 'Critical minerals from Zambales and Luzon mining belts are routed through Subic Bay along the SCMB cargo rail spine to Capas for domestic refining rather than raw ore export.'
+      },
+      {
+        stage: 'STAGE 02 // FRONT-END R&D & SILICON',
+        title: 'First Philippine Wafer Laboratory',
+        nodeId: 'bulacan',
+        nodeTag: 'Bulacan Tech Node',
+        color: 'cyan',
+        metrics: 'Wafer Prototyping • IC Design • STEM Talent Link',
+        description: 'Designated by DTI in November 2026, Bulacan hosts the country’s first Wafer Lab, connecting Metro Manila universities (UP, Mapúa, DLSU, Ateneo) with upstream silicon fabrication.'
+      },
+      {
+        stage: 'STAGE 03 // ADVANCED MANUFACTURING CORE',
+        title: 'AI Hardware & Semiconductor Component Fab',
+        nodeId: 'ncc',
+        nodeTag: 'New Clark City (1,620-ha ESZ)',
+        color: 'emerald',
+        metrics: '$40B–$70B CapEx • South Korea (250ha) • Singapore (300ha)',
+        description: 'The flagship 1,620-hectare Economic Security Zone in Capas, Tarlac manufactures high-precision AI server components, power electronics, and advanced wafer packaging.'
+      },
+      {
+        stage: 'STAGE 04 // HYPERSCALE COMPUTE & GLOBAL EXPORT',
+        title: 'AI Data Center Clusters & Deepwater Export',
+        nodeId: 'batangas',
+        nodeTag: 'Batangas Port & Compute Hub',
+        color: 'purple',
+        metrics: 'Hyperscale AI Clusters • LNG Grid • Subsea Cables',
+        description: 'High-density AI data centers deploy in Batangas near LNG power plants and subsea cable landings, while finished semiconductor exports ship globally via Batangas and Subic ports.'
+      }
+    ];
+
+    // ---------------------------------------------------------------------
+    // APPLICATION STATE
+    // ---------------------------------------------------------------------
+    let appState = {
+      scrollProgress: 0,
+      selectedNode: 'ALL',
+      inspectedNode: 'ncc',
+      stakeholderFilter: 'ALL',
+      topicFilter: 'ALL',
+      searchQuery: '',
+      rightTab: 'milestones',
+      mobilePanel: 'news',
+      drawerCollapsed: false
+    };
+
+    let mapInstance = null;
+    let nodeMarkers = {};
+    let vectorLayers = {
+      rail: null,
+      esz: null,
+      minerals: null,
+      scrutiny: null
+    };
+
+    // Cubic-bezier / smoothstep easing helpers
+    function clamp(val, min, max) {
+      return Math.min(Math.max(val, min), max);
+    }
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    // ---------------------------------------------------------------------
+    // INITIALIZE ON DOM READY
+    // ---------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      initLeafletMap();
+      renderNewsFeed();
+      renderNodeInspector(appState.inspectedNode);
+      renderRightPanel();
+
+      // Bind Scroll Choreography Listener
+      window.addEventListener('scroll', updateScrollChoreography, { passive: true });
+      window.addEventListener('resize', () => {
+        if (mapInstance) mapInstance.invalidateSize();
+        updateScrollChoreography();
+      });
+
+      // Initial call to set Landing State
+      updateScrollChoreography();
+
+      // Bind Global Search Input
+      const searchInput = document.getElementById('globalSearchInput');
+      searchInput.addEventListener('input', (e) => {
+        appState.searchQuery = e.target.value.trim();
+        const clearBtn = document.getElementById('clearSearchBtn');
+        if (appState.searchQuery.length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+        renderNewsFeed();
+        renderRightPanel();
+      });
+    });
+
+    // ---------------------------------------------------------------------
+    // SCROLL-DRIVEN EASING CHOREOGRAPHY (0% -> 100%)
+    // ---------------------------------------------------------------------
+    function updateScrollChoreography() {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const maxScroll = Math.max(window.innerHeight * 0.85, 520);
+      const rawP = clamp(scrollY / maxScroll, 0, 1);
+      const p = easeOutCubic(rawP);
+      appState.scrollProgress = rawP;
+
+      // 1. Landing Hero Overlay (Fades out over first 55% of scroll)
+      const heroEl = document.getElementById('landingHeroOverlay');
+      if (heroEl) {
+        const heroP = clamp(rawP / 0.55, 0, 1);
+        const heroOpacity = 1 - easeOutCubic(heroP);
+        const heroTranslateY = -32 * easeOutCubic(heroP);
+        heroEl.style.opacity = heroOpacity.toFixed(3);
+        heroEl.style.transform = `translate3d(0, ${heroTranslateY.toFixed(1)}px, 0)`;
+        heroEl.style.visibility = heroOpacity <= 0.02 ? 'hidden' : 'visible';
+      }
+
+      // 2. Top Telemetry Command Bar (Eases down from top between 15% and 80% scroll)
+      const headerEl = document.getElementById('topCommandHeader');
+      if (headerEl) {
+        const headerP = easeOutCubic(clamp((rawP - 0.12) / 0.68, 0, 1));
+        const headerY = (1 - headerP) * -120;
+        headerEl.style.transform = `translate3d(0, ${headerY.toFixed(2)}%, 0)`;
+        headerEl.style.opacity = headerP.toFixed(3);
+        headerEl.style.pointerEvents = headerP > 0.65 ? 'auto' : 'none';
+      }
+
+      // 3. Left Floating Glass Panel (Eases in from left between 18% and 92% scroll)
+      const leftEl = document.getElementById('leftGlassPanel');
+      if (leftEl) {
+        const leftP = easeOutCubic(clamp((rawP - 0.18) / 0.74, 0, 1));
+        const leftX = (1 - leftP) * -112;
+        const leftBlur = (1 - leftP) * 8;
+        leftEl.style.transform = `translate3d(${leftX.toFixed(2)}%, 0, 0)`;
+        leftEl.style.opacity = leftP.toFixed(3);
+        leftEl.style.filter = leftBlur > 0.2 ? `blur(${leftBlur.toFixed(1)}px)` : 'none';
+        leftEl.style.pointerEvents = leftP > 0.75 ? 'auto' : 'none';
+      }
+
+      // 4. Right Floating Glass Panel (Eases in from right between 24% and 98% scroll)
+      const rightEl = document.getElementById('rightGlassPanel');
+      if (rightEl) {
+        const rightP = easeOutCubic(clamp((rawP - 0.24) / 0.74, 0, 1));
+        const rightX = (1 - rightP) * 112;
+        const rightBlur = (1 - rightP) * 8;
+        rightEl.style.transform = `translate3d(${rightX.toFixed(2)}%, 0, 0)`;
+        rightEl.style.opacity = rightP.toFixed(3);
+        rightEl.style.filter = rightBlur > 0.2 ? `blur(${rightBlur.toFixed(1)}px)` : 'none';
+        rightEl.style.pointerEvents = rightP > 0.75 ? 'auto' : 'none';
+      }
+
+      // 5. Bottom Center Map HUD (Rises from bottom between 30% and 100% scroll)
+      const bottomEl = document.getElementById('bottomCenterHud');
+      if (bottomEl) {
+        const bottomP = easeOutCubic(clamp((rawP - 0.30) / 0.70, 0, 1));
+        const bottomY = (1 - bottomP) * 130;
+        bottomEl.style.transform = `translate3d(0, ${bottomY.toFixed(1)}px, 0)`;
+        bottomEl.style.opacity = bottomP.toFixed(3);
+        bottomEl.style.pointerEvents = bottomP > 0.75 ? 'auto' : 'none';
+      }
+    }
+
+    // Programmatic smooth scroll triggers
+    function scrollToWorkspace() {
+      const targetY = window.innerHeight * 0.95;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+    }
+
+    function scrollToPureMap() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function focusNodeFromLanding(nodeId) {
+      selectNodeOnMap(nodeId, true);
+      scrollToWorkspace();
+    }
+
+    // ---------------------------------------------------------------------
+    // INITIALIZE LEAFLET MAP OF LUZON
+    // ---------------------------------------------------------------------
+    function initLeafletMap() {
+      mapInstance = L.map('luzonMap', {
+        center: [14.68, 120.70],
+        zoom: 8,
+        minZoom: 6,
+        maxZoom: 13,
+        zoomControl: false,
+        scrollWheelZoom: false // Keep wheel scrolling dedicated to workspace reveal unless user uses zoom buttons or double-click
+      });
+
+      // Add Zoom Control to bottom-right
+      L.control.zoom({ position: 'bottomright' }).addTo(mapInstance);
+
+      // CartoDB DarkMatter Basemap Tiles
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO | PAX SILICA ATLAS',
+        subdomains: 'abcd',
+        maxZoom: 19
+      }).addTo(mapInstance);
+
+      // Live Cursor Coordinate Telemetry
+      mapInstance.on('mousemove', (e) => {
+        const formatted = `${e.latlng.lat.toFixed(4)}° N, ${e.latlng.lng.toFixed(4)}° E`;
+        const coordEl1 = document.getElementById('cursorCoordsDisplay');
+        const coordEl2 = document.getElementById('landingCursorCoords');
+        if (coordEl1) coordEl1.textContent = formatted;
+        if (coordEl2) coordEl2.textContent = formatted;
+      });
+
+      // Build Vector Overlays
+      buildVectorLayers();
+
+      // Build Custom Glowing Node Markers
+      Object.values(CORRIDOR_NODES).forEach((node) => {
+        const icon = L.divIcon({
+          className: 'custom-leaflet-node',
+          html: createNodeMarkerHtml(node, false),
+          iconSize: [48, 48],
+          iconAnchor: [24, 24]
+        });
+
+        const marker = L.marker(node.coords, { icon }).addTo(mapInstance);
+        marker.on('click', () => {
+          selectNodeOnMap(node.id, true);
+        });
+
+        nodeMarkers[node.id] = marker;
+      });
+    }
+
+    function createNodeMarkerHtml(node, isHighlighted = false) {
+      const isSelected = appState.selectedNode === node.id || appState.inspectedNode === node.id;
+      const haloClass = isHighlighted ? 'node-halo-fast' : 'node-halo';
+      const haloSize = isHighlighted ? 'w-12 h-12' : 'w-9 h-9';
+      const coreScale = isHighlighted ? 'scale-125' : isSelected ? 'scale-110' : 'scale-100';
+
+      return `
+        <div class="corridor-node-wrapper w-12 h-12 group cursor-pointer">
+          <span class="${haloClass} ${haloSize}" style="background-color: ${node.color}44; border: 1.5px solid ${node.color};"></span>
+          <div class="relative z-10 w-3.5 h-3.5 rounded-full border-2 border-white transition-transform duration-200 ${coreScale}" style="background-color: ${node.color}; box-shadow: 0 0 16px ${node.color};"></div>
+          <div class="absolute left-9 top-1/2 -translate-y-1/2 whitespace-nowrap px-2.5 py-0.5 rounded-md bg-obsidian/90 backdrop-blur-md border text-[10px] font-mono font-semibold tracking-tight shadow-lg pointer-events-none" style="border-color: ${node.color}66; color: #F8FAFC;">
+            ${node.name}
+          </div>
+        </div>
+      `;
+    }
+
+    function buildVectorLayers() {
+      // 1. SCMB Cargo Rail Spine
+      const railCoords = [
+        CORRIDOR_NODES.subic.coords,
+        CORRIDOR_NODES.ncc.coords,
+        CORRIDOR_NODES.bulacan.coords,
+        CORRIDOR_NODES.manila.coords,
+        CORRIDOR_NODES.batangas.coords
+      ];
+
+      const railGlow = L.polyline(railCoords, {
+        color: '#06B6D4',
+        weight: 7,
+        opacity: 0.2
+      });
+
+      const railCore = L.polyline(railCoords, {
+        color: '#22D3EE',
+        weight: 2.5,
+        opacity: 0.95,
+        className: 'rail-spine-flow'
+      }).bindTooltip('SCMB Cargo Rail Spine (Subic → Clark → Bulacan → Manila → Batangas)', {
+        sticky: true,
+        className: 'pax-tooltip'
+      });
+
+      vectorLayers.rail = L.layerGroup([railGlow, railCore]).addTo(mapInstance);
+
+      // 2. 1,620-ha Economic Security Zone Footprint inside 9,450-ha New Clark City
+      const nccEstateRing = L.circle(CORRIDOR_NODES.ncc.coords, {
+        radius: 11500,
+        color: '#10B981',
+        weight: 1.2,
+        dashArray: '4, 6',
+        fillColor: '#10B981',
+        fillOpacity: 0.06
+      });
+
+      const eszPolygon = L.polygon([
+        [15.385, 120.495],
+        [15.392, 120.568],
+        [15.310, 120.578],
+        [15.298, 120.502]
+      ], {
+        color: '#10B981',
+        weight: 2,
+        fillColor: '#10B981',
+        fillOpacity: 0.24
+      }).bindTooltip('1,620-ha (4,000-acre) Pax Silica Economic Security Zone (Capas, Tarlac)', {
+        sticky: true,
+        className: 'pax-tooltip'
+      });
+
+      vectorLayers.esz = L.layerGroup([nccEstateRing, eszPolygon]).addTo(mapInstance);
+
+      // 3. Zambales Critical Mineral & Power Grid Feed Lines
+      const mineralFeed = L.polyline([
+        [15.5200, 119.9800],
+        [15.1500, 120.1200],
+        CORRIDOR_NODES.subic.coords,
+        CORRIDOR_NODES.ncc.coords
+      ], {
+        color: '#F59E0B',
+        weight: 2.2,
+        opacity: 0.9,
+        className: 'mineral-feed-flow'
+      }).bindTooltip('Zambales Critical Mineral Feed (Nickel, Copper, Chromite → Tarlac Refining)', {
+        sticky: true,
+        className: 'pax-tooltip'
+      });
+
+      const powerSpine = L.polyline([
+        [14.4200, 120.4800],
+        CORRIDOR_NODES.subic.coords,
+        CORRIDOR_NODES.ncc.coords,
+        CORRIDOR_NODES.bulacan.coords
+      ], {
+        color: '#FBBF24',
+        weight: 1.5,
+        dashArray: '3, 6',
+        opacity: 0.75
+      }).bindTooltip('High-Voltage Industrial Power Grid Spine', {
+        sticky: true,
+        className: 'pax-tooltip'
+      });
+
+      vectorLayers.minerals = L.layerGroup([mineralFeed, powerSpine]).addTo(mapInstance);
+
+      // 4. Capas Watershed & Ancestral Land Scrutiny Zone
+      const watershedZone = L.circle([15.3150, 120.4650], {
+        radius: 8500,
+        color: '#F43F5E',
+        weight: 1.8,
+        dashArray: '5, 5',
+        fillColor: '#F43F5E',
+        fillOpacity: 0.16
+      }).bindTooltip('Capas / Bamban Ancestral Domain & Watershed Consultation Zone', {
+        sticky: true,
+        className: 'pax-tooltip'
+      });
+
+      vectorLayers.scrutiny = L.layerGroup([watershedZone]).addTo(mapInstance);
+    }
+
+    function toggleMapLayer(layerKey, isVisible) {
+      if (!mapInstance || !vectorLayers[layerKey]) return;
+      if (isVisible) {
+        vectorLayers[layerKey].addTo(mapInstance);
+      } else {
+        mapInstance.removeLayer(vectorLayers[layerKey]);
+      }
+    }
+
+    function pulseNodeMarker(nodeId, highlight) {
+      const node = CORRIDOR_NODES[nodeId];
+      const marker = nodeMarkers[nodeId];
+      if (!node || !marker) return;
+
+      const updatedIcon = L.divIcon({
+        className: 'custom-leaflet-node',
+        html: createNodeMarkerHtml(node, highlight),
+        iconSize: [48, 48],
+        iconAnchor: [24, 24]
+      });
+      marker.setIcon(updatedIcon);
+    }
+
+    function refreshAllNodeMarkers() {
+      Object.keys(CORRIDOR_NODES).forEach((key) => {
+        pulseNodeMarker(key, false);
+      });
+    }
+
+    function selectNodeOnMap(nodeId, panCamera = true) {
+      const node = CORRIDOR_NODES[nodeId];
+      if (!node) return;
+
+      appState.inspectedNode = nodeId;
+      renderNodeInspector(nodeId);
+      refreshAllNodeMarkers();
+
+      if (panCamera && mapInstance) {
+        mapInstance.flyTo(node.coords, 10, {
+          animate: true,
+          duration: 0.9
+        });
+      }
+    }
+
+    function resetMapCamera() {
+      if (!mapInstance) return;
+      mapInstance.flyTo([14.68, 120.70], 8, {
+        animate: true,
+        duration: 0.9
+      });
+    }
+
+    // ---------------------------------------------------------------------
+    // RENDER BOTTOM CENTER NODE TELEMETRY DRAWER
+    // ---------------------------------------------------------------------
+    function toggleDrawerCollapse() {
+      appState.drawerCollapsed = !appState.drawerCollapsed;
+      renderNodeInspector(appState.inspectedNode);
+    }
+
+    function renderNodeInspector(nodeId) {
+      const node = CORRIDOR_NODES[nodeId];
+      const container = document.getElementById('nodeInspectorDrawer');
+      if (!node || !container) return;
+
+      const isCurrentlyFiltered = appState.selectedNode === node.id;
+
+      if (appState.drawerCollapsed) {
+        container.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${node.color}; box-shadow: 0 0 8px ${node.color};"></span>
+              <span class="font-mono text-xs font-bold text-white">${node.fullTitle}</span>
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-mono border ${node.badgeClass}">${node.role}</span>
+            </div>
+            <button onclick="toggleDrawerCollapse()" class="px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-[10px] font-mono text-slate-300">
+              Expand Telemetry ↑
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-white/10 flex-wrap">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${node.color}; box-shadow: 0 0 10px ${node.color};"></span>
+            <h3 class="font-mono text-xs font-bold text-white tracking-wide">
+              ${node.fullTitle}
+            </h3>
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-mono border ${node.badgeClass}">
+              ${node.role}
+            </span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            ${
+              isCurrentlyFiltered
+                ? `<button onclick="setNodeFilter('ALL')" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-500/40 font-mono text-[10px] transition">
+                     ✕ Clear Filter (${node.name})
+                   </button>`
+                : `<button onclick="setNodeFilter('${node.id}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/40 font-mono text-[10px] font-medium transition">
+                     Filter Panels to ${node.name}
+                   </button>`
+            }
+            <button onclick="toggleDrawerCollapse()" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-[10px] font-mono text-slate-400 hover:text-white" title="Minimize drawer">
+              ↓
+            </button>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-slate-300 leading-relaxed mb-2">
+          ${node.summary}
+        </p>
+
+        <div class="grid grid-cols-2 gap-2 text-[10px]">
+          <div class="arch-glass-subtle rounded-lg p-2">
+            <span class="font-mono text-[9px] text-slate-400 block uppercase">Footprint &amp; Allocation</span>
+            <span class="text-slate-100 font-medium">${node.allocation}</span>
+          </div>
+          <div class="arch-glass-subtle rounded-lg p-2">
+            <span class="font-mono text-[9px] text-slate-400 block uppercase">Active Suitors &amp; Partners</span>
+            <span class="text-slate-100 font-medium">${node.suitors}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // ---------------------------------------------------------------------
+    // CROSS-PANEL FILTERING
+    // ---------------------------------------------------------------------
+    function setNodeFilter(nodeId) {
+      appState.selectedNode = nodeId;
+
+      const headerText = document.getElementById('activeNodeHeaderText');
+      const resetBtn = document.getElementById('resetNodeFilterBtn');
+
+      if (nodeId === 'ALL') {
+        headerText.textContent = 'ALL LUZON';
+        resetBtn.classList.add('hidden');
+        resetMapCamera();
+      } else {
+        const node = CORRIDOR_NODES[nodeId];
+        appState.inspectedNode = nodeId;
+        headerText.textContent = node.name.toUpperCase();
+        resetBtn.classList.remove('hidden');
+        selectNodeOnMap(nodeId, true);
+      }
+
+      renderNodeInspector(appState.inspectedNode);
+      renderNewsFeed();
+      renderRightPanel();
+      refreshAllNodeMarkers();
+    }
+
+    function setStakeholderFilter(stakeholder) {
+      appState.stakeholderFilter = stakeholder;
+      document.querySelectorAll('.stakeholder-pill').forEach((btn) => {
+        if (btn.getAttribute('data-stakeholder') === stakeholder) {
+          btn.className = 'stakeholder-pill px-2.5 py-1 rounded-lg text-[10px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40 transition';
+        } else {
+          btn.className = 'stakeholder-pill px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/5 text-slate-400 border border-white/10 hover:text-slate-200 transition';
+        }
+      });
+      renderNewsFeed();
+    }
+
+    function setTopicFilter(topic) {
+      appState.topicFilter = topic;
+      renderNewsFeed();
+    }
+
+    function clearGlobalSearch() {
+      appState.searchQuery = '';
+      const input = document.getElementById('globalSearchInput');
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (input) input.value = '';
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderNewsFeed();
+      renderRightPanel();
+    }
+
+    function resetAllFilters() {
+      appState.selectedNode = 'ALL';
+      appState.stakeholderFilter = 'ALL';
+      appState.topicFilter = 'ALL';
+      appState.searchQuery = '';
+
+      const searchInput = document.getElementById('globalSearchInput');
+      if (searchInput) searchInput.value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      document.getElementById('topicFilterSelect').value = 'ALL';
+
+      setStakeholderFilter('ALL');
+      setNodeFilter('ALL');
+    }
+
+    // ---------------------------------------------------------------------
+    // RENDER LEFT PANEL: NEWS & SOUNDBITE CARDS
+    // ---------------------------------------------------------------------
+    function renderNewsFeed() {
+      const container = document.getElementById('newsFeedContainer');
+      const countBadge = document.getElementById('newsCountIndicator');
+      const mobileBadge = document.getElementById('mobileNewsCountBadge');
+
+      const query = appState.searchQuery.toLowerCase();
+
+      const filteredCards = NEWS_CARDS.filter((card) => {
+        const matchesNode =
+          appState.selectedNode === 'ALL' ||
+          card.nodeId === appState.selectedNode ||
+          (card.secondaryNodes && card.secondaryNodes.includes(appState.selectedNode));
+
+        const matchesStakeholder =
+          appState.stakeholderFilter === 'ALL' || card.stakeholder === appState.stakeholderFilter;
+
+        const matchesTopic =
+          appState.topicFilter === 'ALL' || card.topic === appState.topicFilter;
+
+        const matchesSearch =
+          !query ||
+          card.headline.toLowerCase().includes(query) ||
+          card.summary.toLowerCase().includes(query) ||
+          card.quote.toLowerCase().includes(query) ||
+          card.source.toLowerCase().includes(query) ||
+          card.nodeLabel.toLowerCase().includes(query) ||
+          card.speaker.toLowerCase().includes(query);
+
+        return matchesNode && matchesStakeholder && matchesTopic && matchesSearch;
+      });
+
+      countBadge.textContent = `${filteredCards.length} DISPATCH${filteredCards.length === 1 ? '' : 'ES'}`;
+      if (mobileBadge) mobileBadge.textContent = filteredCards.length;
+
+      if (filteredCards.length === 0) {
+        container.innerHTML = `
+          <div class="intel-card rounded-2xl p-6 text-center space-y-2">
+            <div class="font-mono text-xs text-slate-400">NO DISPATCHES MATCH FILTER</div>
+            <p class="text-xs text-slate-500">Reset node scope or search parameters to view all corridor updates.</p>
+            <button onclick="resetAllFilters()" class="mt-2 px-3 py-1.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono text-xs hover:bg-amber-500/30 transition">
+              Reset Filters
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filteredCards.map((card) => {
+        let stakeholderStyle = 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30';
+        let quoteAccentBorder = 'border-siliconGold';
+        if (card.stakeholder === 'Think Tank / Academic') {
+          stakeholderStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/30';
+          quoteAccentBorder = 'border-corridorCyanLight';
+        } else if (card.stakeholder === 'Civil Society / Local') {
+          stakeholderStyle = 'bg-rose-500/15 text-rose-300 border-rose-500/30';
+          quoteAccentBorder = 'border-scrutinyRose';
+        }
+
+        const isNodeActive = appState.selectedNode === card.nodeId;
+
+        return `
+          <article
+            onmouseenter="pulseNodeMarker('${card.nodeId}', true)"
+            onmouseleave="pulseNodeMarker('${card.nodeId}', false)"
+            onclick="handleNewsCardClick('${card.nodeId}')"
+            class="intel-card cursor-pointer rounded-2xl p-4 space-y-2.5 ${
+              isNodeActive ? 'ring-1 ring-amber-400/50 border-amber-400/40' : ''
+            }"
+          >
+            <!-- Top Metadata Row -->
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-semibold px-2 py-0.5 rounded-md bg-white/10 text-white">
+                  ${card.source}
+                </span>
+                <span class="font-mono text-[10px] text-slate-400">
+                  ${card.date}
+                </span>
+              </div>
+
+              <span class="font-mono text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-corridorCyanLight"></span>
+                ${card.nodeLabel}
+              </span>
+            </div>
+
+            <!-- Stakeholder & Vector Badges -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="font-mono text-[10px] px-2 py-0.5 rounded-md border ${stakeholderStyle}">
+                ${card.stakeholder}
+              </span>
+              <span class="font-mono text-[10px] px-2 py-0.5 rounded-md bg-white/5 text-slate-300 border border-white/10">
+                ${card.topic}
+              </span>
+            </div>
+
+            <!-- Editorial Headline -->
+            <h3 class="text-[13px] sm:text-sm font-semibold text-white leading-snug">
+              ${card.headline}
+            </h3>
+
+            <!-- Factual Summary -->
+            <p class="text-xs text-slate-300/90 leading-relaxed">
+              ${card.summary}
+            </p>
+
+            <!-- Verbatim Soundbite Pull-Quote in Instrument Serif -->
+            <blockquote class="bg-slate-950/75 border-l-2 ${quoteAccentBorder} rounded-r-xl p-3 space-y-1.5">
+              <p class="font-serif italic text-base sm:text-[17px] text-amber-100/95 leading-snug">
+                ${card.quote}
+              </p>
+              <footer class="font-mono text-[10px] text-slate-400">
+                — ${card.speaker}
+              </footer>
+            </blockquote>
+
+            <!-- Card Footer Actions -->
+            <div class="pt-1 flex items-center justify-between text-[10px] font-mono text-slate-400">
+              <span class="text-amber-300/90">Fly to ${card.nodeLabel} →</span>
+              <button
+                onclick="event.stopPropagation(); setNodeFilter('${card.nodeId}')"
+                class="px-2 py-0.5 rounded-md bg-white/5 hover:bg-white/15 text-slate-200 border border-white/10 transition"
+              >
+                Isolate Node
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function handleNewsCardClick(nodeId) {
+      selectNodeOnMap(nodeId, true);
+      if (window.innerWidth < 1024) {
+        switchMobilePanel('map');
+      }
+    }
+
+    // ---------------------------------------------------------------------
+    // RENDER RIGHT PANEL: MILESTONES, MYTH VS. LAW & VALUE CHAIN
+    // ---------------------------------------------------------------------
+    function switchRightTab(tabName) {
+      appState.rightTab = tabName;
+
+      const tabs = ['milestones', 'myths', 'supply'];
+      tabs.forEach((t) => {
+        const btn = document.getElementById(
+          t === 'milestones'
+            ? 'rightTabBtnMilestones'
+            : t === 'myths'
+            ? 'rightTabBtnMyths'
+            : 'rightTabBtnSupply'
+        );
+        const content = document.getElementById(
+          t === 'milestones'
+            ? 'tabContentMilestones'
+            : t === 'myths'
+            ? 'tabContentMyths'
+            : 'tabContentSupply'
+        );
+
+        if (t === tabName) {
+          btn.className =
+            'py-1.5 px-2 rounded-lg font-mono text-[11px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition';
+          content.classList.remove('hidden');
+        } else {
+          btn.className =
+            'py-1.5 px-2 rounded-lg font-mono text-[11px] font-medium text-slate-400 hover:text-slate-200 transition';
+          content.classList.add('hidden');
+        }
+      });
+    }
+
+    function renderRightPanel() {
+      renderMilestonesTab();
+      renderMythsTab();
+      renderSupplyChainTab();
+    }
+
+    function renderMilestonesTab() {
+      const container = document.getElementById('tabContentMilestones');
+      const query = appState.searchQuery.toLowerCase();
+
+      const filteredMilestones = MILESTONES.filter((ms) => {
+        const matchesNode =
+          appState.selectedNode === 'ALL' || ms.nodeId === appState.selectedNode;
+        const matchesSearch =
+          !query ||
+          ms.title.toLowerCase().includes(query) ||
+          ms.details.toLowerCase().includes(query) ||
+          ms.date.toLowerCase().includes(query) ||
+          ms.nodeName.toLowerCase().includes(query);
+        return matchesNode && matchesSearch;
+      });
+
+      if (filteredMilestones.length === 0) {
+        container.innerHTML = `
+          <div class="intel-card rounded-2xl p-4 text-center text-xs font-mono text-slate-400">
+            No milestones match current node filter.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 pb-1">
+          <span>CHRONOLOGICAL LEDGER (2026–2028)</span>
+          <span>${filteredMilestones.length} OF 6 PHASES</span>
+        </div>
+        <div class="relative pl-4 border-l border-white/15 space-y-3">
+          ${filteredMilestones
+            .map((ms) => {
+              let badgeClasses = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+              let dotClasses = 'bg-verifiedEmerald ring-emerald-500/30';
+              if (ms.statusColor === 'amber') {
+                badgeClasses = 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+                dotClasses = 'bg-siliconGold ring-amber-500/30 animate-pulse';
+              } else if (ms.statusColor === 'cyan') {
+                badgeClasses = 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30';
+                dotClasses = 'bg-corridorCyanLight ring-cyan-500/30';
+              }
+
+              return `
+                <div
+                  onmouseenter="pulseNodeMarker('${ms.nodeId}', true)"
+                  onmouseleave="pulseNodeMarker('${ms.nodeId}', false)"
+                  onclick="selectNodeOnMap('${ms.nodeId}', true)"
+                  class="relative intel-card rounded-2xl p-3.5 cursor-pointer"
+                >
+                  <span class="absolute -left-[21px] top-4 w-2.5 h-2.5 rounded-full ${dotClasses} ring-4"></span>
+
+                  <div class="flex items-center justify-between gap-2 flex-wrap mb-1">
+                    <span class="font-mono text-[10px] font-bold text-amber-300">${ms.date}</span>
+                    <div class="flex items-center gap-1.5">
+                      <span class="font-mono text-[10px] px-2 py-0.5 rounded-md bg-white/5 text-slate-300 border border-white/10">
+                        ${ms.nodeName}
+                      </span>
+                      <span class="font-mono text-[10px] font-bold px-2 py-0.5 rounded-md border ${badgeClasses}">
+                        ${ms.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  <h4 class="text-xs font-semibold text-white mb-1">${ms.title}</h4>
+                  <p class="text-[11px] text-slate-300/90 leading-relaxed">${ms.details}</p>
+                </div>
+              `;
+            })
+            .join('')}
+        </div>
+      `;
+    }
+
+    function renderMythsTab() {
+      const container = document.getElementById('tabContentMyths');
+      const query = appState.searchQuery.toLowerCase();
+
+      const filteredMyths = MYTH_PROVISIONS.filter((m) => {
+        const matchesSearch =
+          !query ||
+          m.claim.toLowerCase().includes(query) ||
+          m.verdict.toLowerCase().includes(query) ||
+          m.explanation.toLowerCase().includes(query) ||
+          m.legalRef.toLowerCase().includes(query);
+        return matchesSearch;
+      });
+
+      container.innerHTML = `
+        <div class="arch-glass-subtle rounded-xl p-3 text-[11px] text-slate-300">
+          <span class="font-mono font-bold text-amber-300">STATUTORY FACT-CHECK:</span> Verified DTI, BCDA &amp; Malacañang provisions contrasting public rumors with binding legal clauses.
+        </div>
+        ${filteredMyths
+          .map((m) => {
+            let badgeStyle = 'bg-rose-500/15 text-rose-300 border-rose-500/30';
+            if (m.verdictType === 'cyan') badgeStyle = 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30';
+            if (m.verdictType === 'amber') badgeStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/30';
+            if (m.verdictType === 'emerald') badgeStyle = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+
+            return `
+              <div
+                onmouseenter="pulseNodeMarker('${m.nodeId}', true)"
+                onmouseleave="pulseNodeMarker('${m.nodeId}', false)"
+                onclick="selectNodeOnMap('${m.nodeId}', true)"
+                class="intel-card rounded-2xl p-3.5 space-y-2 cursor-pointer"
+              >
+                <div class="font-serif italic text-base text-white leading-snug">
+                  ${m.claim}
+                </div>
+
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                  <span class="font-mono text-[10px] font-bold px-2 py-0.5 rounded-md border ${badgeStyle}">
+                    ${m.verdict}
+                  </span>
+                  <span class="font-mono text-[10px] text-slate-400">
+                    ${m.legalRef}
+                  </span>
+                </div>
+
+                <p class="text-[11px] text-slate-300 leading-relaxed pt-1.5 border-t border-white/10">
+                  ${m.explanation}
+                </p>
+
+                <div class="text-[10px] font-mono text-slate-400 flex items-center justify-between pt-0.5">
+                  <span>Authority: ${m.authority}</span>
+                  <span class="text-amber-300">Locate →</span>
+                </div>
+              </div>
+            `;
+          })
+          .join('')}
+      `;
+    }
+
+    function renderSupplyChainTab() {
+      const container = document.getElementById('tabContentSupply');
+
+      container.innerHTML = `
+        <div class="arch-glass-subtle rounded-xl p-3 text-[11px] text-slate-300">
+          <span class="font-mono font-bold text-emerald-300">MINERAL-TO-WAFER ARCHITECTURE:</span> Click any stage to inspect its anchor node on the Luzon map.
+        </div>
+
+        <div class="space-y-2.5">
+          ${SUPPLY_CHAIN_STAGES.map((st, idx) => {
+            let borderAccent = 'border-l-amber-400';
+            let pillStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/30';
+            if (st.color === 'cyan') {
+              borderAccent = 'border-l-cyan-400';
+              pillStyle = 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30';
+            } else if (st.color === 'emerald') {
+              borderAccent = 'border-l-emerald-400';
+              pillStyle = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+            } else if (st.color === 'purple') {
+              borderAccent = 'border-l-purple-400';
+              pillStyle = 'bg-purple-500/15 text-purple-300 border-purple-500/30';
+            }
+
+            return `
+              <div
+                onmouseenter="pulseNodeMarker('${st.nodeId}', true)"
+                onmouseleave="pulseNodeMarker('${st.nodeId}', false)"
+                onclick="selectNodeOnMap('${st.nodeId}', true)"
+                class="intel-card border-l-4 ${borderAccent} rounded-r-2xl p-3.5 space-y-1.5 cursor-pointer"
+              >
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                  <span class="font-mono text-[10px] font-bold text-slate-400">${st.stage}</span>
+                  <span class="font-mono text-[10px] px-2 py-0.5 rounded-md border ${pillStyle}">
+                    ${st.nodeTag}
+                  </span>
+                </div>
+
+                <h4 class="text-xs font-bold text-white">${st.title}</h4>
+                <div class="font-mono text-[10px] text-amber-300">${st.metrics}</div>
+                <p class="text-[11px] text-slate-300 leading-relaxed">${st.description}</p>
+              </div>
+              ${
+                idx < SUPPLY_CHAIN_STAGES.length - 1
+                  ? `<div class="flex justify-center text-slate-500 font-mono text-[10px]">↓ SCMB RAIL &amp; HVDC INTERCONNECT ↓</div>`
+                  : ''
+              }
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    // ---------------------------------------------------------------------
+    // MOBILE PANEL SWITCHER (Responsive Support)
+    // ---------------------------------------------------------------------
+    function switchMobilePanel(panelName) {
+      appState.mobilePanel = panelName;
+
+      const leftEl = document.getElementById('leftGlassPanel');
+      const rightEl = document.getElementById('rightGlassPanel');
+
+      const btnNews = document.getElementById('mobileTabNews');
+      const btnMap = document.getElementById('mobileTabMap');
+      const btnLedger = document.getElementById('mobileTabLedger');
+
+      const activeBtnClass =
+        'py-1.5 px-2 rounded-lg text-[11px] font-mono font-medium bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center justify-center gap-1.5';
+      const inactiveBtnClass =
+        'py-1.5 px-2 rounded-lg text-[11px] font-mono font-medium bg-white/5 text-slate-400 border border-white/5 flex items-center justify-center gap-1.5';
+
+      btnNews.className = inactiveBtnClass;
+      btnMap.className = inactiveBtnClass;
+      btnLedger.className = inactiveBtnClass;
+
+      if (panelName === 'news') {
+        leftEl.classList.remove('hidden');
+        leftEl.classList.add('flex');
+        rightEl.classList.add('hidden');
+        rightEl.classList.remove('flex');
+        btnNews.className = activeBtnClass;
+      } else if (panelName === 'map') {
+        leftEl.classList.add('hidden');
+        rightEl.classList.add('hidden');
+        btnMap.className = activeBtnClass;
+        setTimeout(() => {
+          if (mapInstance) mapInstance.invalidateSize();
+        }, 100);
+      } else if (panelName === 'ledger') {
+        leftEl.classList.add('hidden');
+        rightEl.classList.remove('hidden');
+        rightEl.classList.add('flex');
+        btnLedger.className = activeBtnClass;
+      }
+    }
+  </script>
+</body>
+</html>
