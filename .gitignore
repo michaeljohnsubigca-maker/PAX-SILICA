@@ -3,5 +3,8 @@ dist
 .superpowers
 .DS_Store
 *.local
+.env
+.env.*
+!.env.example
 stitch_redesign/
 stitch_ui_theme_redesign.zip

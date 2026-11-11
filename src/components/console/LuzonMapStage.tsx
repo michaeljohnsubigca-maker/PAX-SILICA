@@ -55,12 +55,31 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a> | PAX SILICA SAHARA ATLAS',
-        subdomains: 'abcd',
-        maxZoom: 20,
-        detectRetina: true,
+      const cartoKey = import.meta.env.VITE_CARTO_API_KEY?.trim();
+
+      const tileConfig = cartoKey
+        ? {
+            url: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${cartoKey}`,
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a> | PAX SILICA SAHARA ATLAS',
+            subdomains: 'abcd',
+            maxZoom: 20,
+            detectRetina: true,
+          }
+        : {
+            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+            attribution:
+              'Tiles &copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer">Esri</a> &mdash; Esri, DeLorme, NAVTEQ | PAX SILICA SAHARA ATLAS',
+            subdomains: 'abcd',
+            maxZoom: 16,
+            detectRetina: false,
+          };
+
+      L.tileLayer(tileConfig.url, {
+        attribution: tileConfig.attribution,
+        subdomains: tileConfig.subdomains,
+        maxZoom: tileConfig.maxZoom,
+        detectRetina: tileConfig.detectRetina,
       }).addTo(map);
 
       map.on('mousemove', (e) => {
