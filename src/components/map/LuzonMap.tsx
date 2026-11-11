@@ -1,0 +1,119 @@
+import React, { useEffect, useRef } from 'react';
+import L from 'leaflet';
+import { CORRIDOR_NODES } from '../../data/nodes';
+import { CorridorNode } from '../../types/domain';
+import { useTheme } from '../../context/ThemeContext';
+
+interface LuzonMapProps {
+  activeNode: CorridorNode | null;
+  onSelectNode: (node: CorridorNode) => void;
+}
+
+export const LuzonMap: React.FC<LuzonMapProps> = ({ activeNode, onSelectNode }) => {
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+  const markersRef = useRef<Record<string, L.Marker>>({});
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    if (mapInstanceRef.current) return;
+
+    try {
+      // Initialize Leaflet map
+      const map = L.map(mapContainerRef.current, {
+        center: [14.9, 120.8],
+        zoom: 8,
+        minZoom: 7,
+        maxZoom: 12,
+        zoomControl: true,
+        attributionControl: true,
+      });
+
+      // CartoDB / OSM warm and dark tiles
+      const tileUrl =
+        theme === 'dark'
+          ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+          : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+      L.tileLayer(tileUrl, {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        maxZoom: 19,
+      }).addTo(map);
+
+      // Connect Corridor Polyline
+      const corridorCoords: [number, number][] = [
+        CORRIDOR_NODES.subic.coords,
+        CORRIDOR_NODES.ncc.coords,
+        CORRIDOR_NODES.bulacan.coords,
+        CORRIDOR_NODES.manila.coords,
+        CORRIDOR_NODES.batangas.coords,
+      ];
+
+      L.polyline(corridorCoords, {
+        color: '#c2652a',
+        weight: 3.5,
+        opacity: 0.8,
+        dashArray: '6, 8',
+      }).addTo(map);
+
+      // Add Custom Markers
+      Object.values(CORRIDOR_NODES).forEach((node) => {
+        const customIcon = L.divIcon({
+          className: 'custom-corridor-marker',
+          html: `
+            <div style="
+              width: 18px;
+              height: 18px;
+              background-color: ${node.color};
+              border: 3px solid #faf5ee;
+              border-radius: 50%;
+              box-shadow: 0 0 12px ${node.color}88;
+              cursor: pointer;
+            "></div>
+          `,
+          iconSize: [18, 18],
+          iconAnchor: [9, 9],
+        });
+
+        const marker = L.marker(node.coords, { icon: customIcon }).addTo(map);
+
+        marker.on('click', () => {
+          onSelectNode(node);
+        });
+
+        markersRef.current[node.id] = marker;
+      });
+
+      mapInstanceRef.current = map;
+    } catch {
+      // In non-browser/test environments, ignore map initialization errors
+    }
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [theme]);
+
+  // Pan to active node if selected
+  useEffect(() => {
+    if (activeNode && mapInstanceRef.current) {
+      try {
+        mapInstanceRef.current.setView(activeNode.coords, 9, { animate: true });
+      } catch {
+        // Safe fallback
+      }
+    }
+  }, [activeNode]);
+
+  return (
+    <div className="relative w-full h-[520px] rounded-2xl overflow-hidden border border-sandMuted/60 dark:border-stone-800 shadow-sahara-card bg-sandSurface dark:bg-deepNavy">
+      <div ref={mapContainerRef} className="w-full h-full z-10" />
+    </div>
+  );
+};
+
+export default LuzonMap;
