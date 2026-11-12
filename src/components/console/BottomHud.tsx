@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronUp, ChevronDown, MapPin, ExternalLink, Cpu } from 'lucide-react';
 import { CORRIDOR_NODES } from '../../data/nodes';
 
-interface BottomHudProps {
+export interface BottomHudProps {
   selectedNodeId: string;
   inspectedNodeId: string;
   onSelectNode: (nodeId: string) => void;
@@ -31,13 +31,14 @@ export const BottomHud: React.FC<BottomHudProps> = ({
 }) => {
   const inspectedNode = CORRIDOR_NODES[inspectedNodeId] || CORRIDOR_NODES.ncc;
 
-  const leftOffset = leftPanelCollapsed ? 'left-6' : 'left-[325px] xl:left-[340px]';
-  const rightOffset = rightPanelCollapsed ? 'right-6' : 'right-[325px] xl:right-[340px]';
+  // 8px viewport margin + 320px panel + 8px gap = 336px
+  const leftOffset = leftPanelCollapsed ? 'left-2' : 'left-[336px]';
+  const rightOffset = rightPanelCollapsed ? 'right-2' : 'right-[336px]';
 
   return (
     <div
       id="bottomCenterHud"
-      className={`hidden lg:flex absolute bottom-3 ${leftOffset} ${rightOffset} z-20 flex-col gap-2 transition-all duration-300`}
+      className={`hidden lg:flex absolute bottom-2 ${leftOffset} ${rightOffset} z-20 flex-col gap-2 transition-all duration-300`}
       style={{
         transform: `translate3d(0, ${translateY}px, 0)`,
         opacity,
@@ -48,7 +49,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
       {isDrawerOpen && (
         <div
           id="nodeInspectorDrawer"
-          className="glass-panel rounded-2xl p-3 border border-white/18 shadow-glass-elevated space-y-2.5 transition-all duration-300 animate-in fade-in"
+          className="glass-panel rounded-2xl p-3 border border-white/18 shadow-glass-elevated space-y-2 transition-all duration-300 animate-in fade-in"
         >
           <div className="flex items-center justify-between border-b border-white/12 pb-2">
             <div className="flex items-center gap-2">
@@ -70,7 +71,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
               </span>
               <button
                 onClick={() => onSelectNode(inspectedNode.id)}
-                className="px-2 py-0.5 rounded-lg bg-blue-600/25 hover:bg-blue-600/40 text-white border border-blue-400/40 font-mono text-[10px] flex items-center gap-1 transition cursor-pointer"
+                className="h-7 px-2 rounded-lg bg-blue-600/25 hover:bg-blue-600/40 text-white border border-blue-400/40 font-mono text-[10px] flex items-center gap-1 transition cursor-pointer"
               >
                 <span>Focus Camera</span>
                 <ExternalLink className="w-2.5 h-2.5 text-blue-400" />
@@ -115,7 +116,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
       {/* Floating Control Bar */}
       <div className="glass-panel rounded-2xl px-3 py-1.5 flex items-center justify-between gap-2 border border-white/18 shadow-glass-elevated">
         {/* Node Buttons */}
-        <div className="flex items-center gap-1 overflow-x-auto py-0.5">
+        <div className="flex items-center gap-2 overflow-x-auto py-0.5">
           {[
             { id: 'ncc', label: 'Capas Hub', dotColor: '#3b82f6' },
             { id: 'bulacan', label: 'Wafer Lab', dotColor: '#38bdf8' },
@@ -130,7 +131,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
                 onMouseEnter={() => onHoverNode(item.id)}
                 onMouseLeave={() => onHoverNode(null)}
                 onClick={() => onSelectNode(item.id)}
-                className={`px-2.5 py-1 rounded-xl font-mono text-[11px] transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                className={`h-8 px-2.5 rounded-xl font-mono text-[11px] transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
                   isSelected
                     ? 'bg-blue-600/35 text-white border border-blue-400/70 shadow-sm'
                     : 'bg-white/[0.06] hover:bg-slate-800/80 text-slate-300 border border-white/12'
@@ -147,7 +148,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
 
           <button
             onClick={() => onSelectNode('ALL')}
-            className={`px-2.5 py-1 rounded-xl font-mono text-[11px] transition cursor-pointer whitespace-nowrap ${
+            className={`h-8 px-2.5 rounded-xl font-mono text-[11px] transition cursor-pointer whitespace-nowrap ${
               selectedNodeId === 'ALL'
                 ? 'bg-blue-600/35 text-white border border-blue-400/70'
                 : 'bg-white/[0.06] hover:bg-slate-800/80 text-slate-300 border border-white/12'
@@ -160,7 +161,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
         {/* Toggle Drawer Button */}
         <button
           onClick={onToggleDrawer}
-          className="px-3 py-1 rounded-xl bg-blue-600/20 hover:bg-blue-600/35 border border-blue-400/40 font-mono text-[11px] text-white flex items-center gap-1.5 shrink-0 transition cursor-pointer"
+          className="h-8 px-3 rounded-xl bg-blue-600/20 hover:bg-blue-600/35 border border-blue-400/40 font-mono text-[11px] text-white flex items-center gap-2 shrink-0 transition cursor-pointer"
         >
           <span>{inspectedNode.name} Specs</span>
           {isDrawerOpen ? (

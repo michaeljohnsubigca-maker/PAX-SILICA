@@ -98,4 +98,32 @@ describe('Pax Silica Geospatial Command Center', () => {
     expect(screen.getByText(/Suitors & Consortia/i)).toBeDefined();
     expect(screen.getByText(/Critical Dependencies/i)).toBeDefined();
   });
+
+  it('enforces non-overlapping bounds and uniform 8px spacing across all console panels', () => {
+    const { container } = render(<App />);
+
+    const header = container.querySelector('#topCommandHeader');
+    expect(header).toBeDefined();
+    expect(header?.className).toContain('top-2');
+    expect(header?.className).toContain('left-2');
+    expect(header?.className).toContain('right-2');
+
+    const leftPanel = container.querySelector('#leftGlassPanel');
+    expect(leftPanel).toBeDefined();
+    expect(leftPanel?.className).toContain('left-2');
+    expect(leftPanel?.className).toContain('lg:w-[320px]');
+    expect(leftPanel?.className).toContain('lg:bottom-2');
+
+    const rightPanel = container.querySelector('#rightGlassPanel');
+    expect(rightPanel).toBeDefined();
+    expect(rightPanel?.className).toContain('sm:right-2');
+    expect(rightPanel?.className).toContain('lg:w-[320px]');
+    expect(rightPanel?.className).toContain('lg:bottom-2');
+
+    const bottomHud = container.querySelector('#bottomCenterHud');
+    expect(bottomHud).toBeDefined();
+    expect(bottomHud?.className).toContain('bottom-2');
+    expect(bottomHud?.className).toContain('left-[336px]');
+    expect(bottomHud?.className).toContain('right-[336px]');
+  });
 });

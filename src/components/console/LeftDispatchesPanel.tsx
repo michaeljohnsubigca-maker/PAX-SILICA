@@ -19,6 +19,7 @@ export interface LeftDispatchesPanelProps {
   opacity: number;
   translateXPercent: number;
   pointerEvents: boolean;
+  topOffset?: number;
 }
 
 export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
@@ -36,6 +37,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
   opacity,
   translateXPercent,
   pointerEvents,
+  topOffset,
 }) => {
   const query = searchQuery.trim().toLowerCase();
 
@@ -84,15 +86,16 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
   return (
     <aside
       id="leftGlassPanel"
-      className="hidden lg:flex absolute top-[112px] lg:top-[70px] bottom-3 left-3 right-3 sm:left-4 lg:right-auto lg:w-[310px] xl:w-[325px] z-20 glass-panel rounded-2xl flex-col overflow-hidden transition-none"
+      className="hidden lg:flex absolute top-[106px] lg:top-[72px] bottom-[60px] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 glass-panel rounded-2xl flex-col overflow-hidden transition-none"
       style={{
+        top: topOffset !== undefined ? `${topOffset}px` : undefined,
         transform: `translate3d(${isCollapsed ? -115 : translateXPercent}%, 0, 0)`,
         opacity: isCollapsed ? 0 : opacity,
         pointerEvents: !isCollapsed && pointerEvents ? 'auto' : 'none',
       }}
     >
       {/* Panel Header */}
-      <div className="p-3 border-b border-white/12 bg-white/[0.06] space-y-2.5 shrink-0">
+      <div className="p-2.5 border-b border-white/12 bg-white/[0.06] space-y-2 shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-blue-400"></span>

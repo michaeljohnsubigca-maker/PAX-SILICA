@@ -13,12 +13,12 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
   dispatchesCount,
 }) => {
   const activeClass =
-    'py-1 px-2 rounded-lg text-[10px] font-mono font-medium bg-blue-600/35 text-white border border-blue-400/60 shadow-sm flex items-center justify-center gap-1.5 cursor-pointer';
+    'h-8 px-2 rounded-lg text-[10px] font-mono font-medium bg-blue-600/35 text-white border border-blue-400/60 shadow-sm flex items-center justify-center gap-2 cursor-pointer';
   const inactiveClass =
-    'py-1 px-2 rounded-lg text-[10px] font-mono font-medium bg-white/5 text-slate-300 border border-white/5 hover:text-white flex items-center justify-center gap-1.5 cursor-pointer';
+    'h-8 px-2 rounded-lg text-[10px] font-mono font-medium bg-white/5 text-slate-300 border border-white/5 hover:text-white flex items-center justify-center gap-2 cursor-pointer';
 
   return (
-    <div className="lg:hidden absolute bottom-3 left-3 right-3 z-30 glass-panel rounded-2xl p-1.5 flex items-center justify-between gap-1 shadow-glass-elevated">
+    <div className="lg:hidden absolute bottom-2 left-2 right-2 z-30 glass-panel rounded-2xl p-2 flex items-center justify-between gap-2 shadow-glass-elevated">
       <button
         id="mobileTabNews"
         onClick={() => onSelectMobilePanel('news')}
@@ -48,8 +48,8 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
         onClick={() => onSelectMobilePanel('ledger')}
         className={`flex-1 ${activeMobilePanel === 'ledger' ? activeClass : inactiveClass}`}
       >
-        <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-        <span>Audit Ledger</span>
+        <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+        <span>Ledger</span>
       </button>
     </div>
   );

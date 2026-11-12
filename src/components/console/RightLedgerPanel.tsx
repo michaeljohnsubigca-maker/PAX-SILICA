@@ -6,15 +6,15 @@ import {
   Scale,
   Network,
   Clock,
-  ExternalLink,
   Layers,
   ArrowDown,
+  ExternalLink,
 } from 'lucide-react';
 import { MILESTONES } from '../../data/milestones';
 import { MYTHS_DATA } from '../../data/myths';
 import { SUPPLY_CHAIN_STAGES } from '../../data/supplyChain';
 
-interface RightLedgerPanelProps {
+export interface RightLedgerPanelProps {
   activeTab: 'milestones' | 'myths' | 'supply';
   onTabChange: (tab: 'milestones' | 'myths' | 'supply') => void;
   onSelectNode: (nodeId: string) => void;
@@ -24,6 +24,7 @@ interface RightLedgerPanelProps {
   opacity: number;
   translateXPercent: number;
   pointerEvents: boolean;
+  topOffset?: number;
 }
 
 export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
@@ -36,19 +37,21 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
   opacity,
   translateXPercent,
   pointerEvents,
+  topOffset,
 }) => {
   return (
     <aside
       id="rightGlassPanel"
-      className="hidden lg:flex absolute top-[112px] lg:top-[70px] bottom-3 left-3 right-3 lg:left-auto sm:right-4 lg:w-[310px] xl:w-[325px] z-20 glass-panel rounded-2xl flex-col overflow-hidden transition-none"
+      className="hidden lg:flex absolute top-[106px] lg:top-[72px] bottom-[60px] lg:bottom-2 left-2 right-2 lg:left-auto sm:right-2 lg:w-[320px] z-20 glass-panel rounded-2xl flex-col overflow-hidden transition-none"
       style={{
+        top: topOffset !== undefined ? `${topOffset}px` : undefined,
         transform: `translate3d(${isCollapsed ? 118 : translateXPercent}%, 0, 0)`,
         opacity: isCollapsed ? 0 : opacity,
         pointerEvents: !isCollapsed && pointerEvents ? 'auto' : 'none',
       }}
     >
       {/* KPI Bento Grid (2x2) */}
-      <div className="p-3 border-b border-white/12 bg-white/[0.06] shrink-0">
+      <div className="p-2.5 border-b border-white/12 bg-white/[0.06] shrink-0">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
@@ -71,7 +74,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="grid grid-cols-2 gap-2">
           {/* KPI 1 */}
           <div className="glass-subtle rounded-lg p-2 border border-white/12">
             <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
@@ -143,8 +146,8 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
       </div>
 
       {/* Ledger Tab Switcher */}
-      <div className="px-3 pt-2 pb-1.5 border-b border-white/12 shrink-0">
-        <div className="grid grid-cols-3 gap-1 bg-white/[0.06] p-1 rounded-xl border border-white/15">
+      <div className="px-2.5 pt-2 pb-2 border-b border-white/12 shrink-0">
+        <div className="grid grid-cols-3 gap-2 bg-white/[0.06] p-1.5 rounded-xl border border-white/15">
           <button
             onClick={() => onTabChange('milestones')}
             className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
@@ -184,10 +187,10 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
       </div>
 
       {/* Scrollable Ledger Content */}
-      <div className="flex-1 overflow-y-auto glass-scroll p-3 space-y-2.5" id="rightPanelContent">
+      <div className="flex-1 overflow-y-auto glass-scroll p-2 space-y-2" id="rightPanelContent">
         {/* TAB 1: MILESTONES */}
         {activeTab === 'milestones' && (
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
               <Clock className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
               <div>
@@ -256,7 +259,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
         {/* TAB 2: LAW AUDIT / MYTHS */}
         {activeTab === 'myths' && (
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
               <Scale className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
               <div>
@@ -334,7 +337,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
         {/* TAB 3: VALUE CHAIN */}
         {activeTab === 'supply' && (
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
               <Layers className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
               <div>

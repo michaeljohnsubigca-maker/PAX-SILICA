@@ -25,6 +25,7 @@ export const App: React.FC = () => {
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
   const [cursorCoords, setCursorCoords] = useState('15.3410° N, 120.5360° E');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(56);
 
   // Filters & Tabs State
   const [searchQuery, setSearchQuery] = useState('');
@@ -158,6 +159,7 @@ export const App: React.FC = () => {
           opacity={headerOpacity}
           translateYPercent={headerYPercent}
           pointerEvents={headerPointerEvents}
+          onHeightChange={setHeaderHeight}
         />
 
         {/* LAYER 3: LEFT PANEL — INTELLIGENCE DISPATCHES */}
@@ -178,6 +180,7 @@ export const App: React.FC = () => {
             opacity={mobilePanel === 'news' ? 1 : leftOpacity}
             translateXPercent={mobilePanel === 'news' ? 0 : leftXPercent}
             pointerEvents={mobilePanel === 'news' ? true : leftPointerEvents}
+            topOffset={headerHeight + 16}
           />
         </div>
 
@@ -186,7 +189,7 @@ export const App: React.FC = () => {
           <button
             id="floatingLeftOpenBtn"
             onClick={() => setLeftPanelCollapsed(false)}
-            className="hidden lg:flex absolute left-3 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-blue-400 hover:text-white transition cursor-pointer border border-white/20"
+            className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-blue-400 hover:text-white transition cursor-pointer border border-white/20"
             title="Expand Dispatches Panel"
           >
             <ChevronRight className="w-4 h-4" />
@@ -205,6 +208,7 @@ export const App: React.FC = () => {
             opacity={mobilePanel === 'ledger' ? 1 : rightOpacity}
             translateXPercent={mobilePanel === 'ledger' ? 0 : rightXPercent}
             pointerEvents={mobilePanel === 'ledger' ? true : rightPointerEvents}
+            topOffset={headerHeight + 16}
           />
         </div>
 
@@ -213,7 +217,7 @@ export const App: React.FC = () => {
           <button
             id="floatingRightOpenBtn"
             onClick={() => setRightPanelCollapsed(false)}
-            className="hidden lg:flex absolute right-3 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-blue-400 hover:text-white transition cursor-pointer border border-white/20"
+            className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-blue-400 hover:text-white transition cursor-pointer border border-white/20"
             title="Expand Ledger Panel"
           >
             <ChevronLeft className="w-4 h-4" />
