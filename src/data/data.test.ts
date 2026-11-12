@@ -35,18 +35,22 @@ describe('Domain Data Integrity', () => {
     expect(SUPPLY_CHAIN_STAGES).toHaveLength(4);
   });
 
-  it('contains news dispatches with headlines and sources', () => {
+  it('contains news dispatches with headlines, sources, and citation URLs', () => {
     expect(NEWS_CARDS.length).toBeGreaterThanOrEqual(3);
     NEWS_CARDS.forEach((card) => {
       expect(card.headline.length).toBeGreaterThan(0);
       expect(card.source.length).toBeGreaterThan(0);
+      expect(card.citationUrl).toBeDefined();
+      expect(card.citationUrl?.startsWith('https://')).toBe(true);
     });
   });
 
-  it('contains milestones with valid statuses', () => {
+  it('contains milestones with valid statuses and citation URLs', () => {
     expect(MILESTONES.length).toBeGreaterThanOrEqual(3);
     MILESTONES.forEach((ms) => {
       expect(['COMPLETED', 'IMMINENT', 'IN PROGRESS', 'SCHEDULED']).toContain(ms.status);
+      expect(ms.citationUrl).toBeDefined();
+      expect(ms.citationUrl?.startsWith('https://')).toBe(true);
     });
   });
 });

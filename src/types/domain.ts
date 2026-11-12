@@ -69,6 +69,7 @@ export interface ProjectMilestone {
   nodeId: string;
   nodeName: string;
   details: string;
+  citationUrl?: string;
 }
 
 export interface ExplainerPillar {

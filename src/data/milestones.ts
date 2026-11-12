@@ -10,6 +10,7 @@ export const MILESTONES: ProjectMilestone[] = [
     nodeId: 'manila',
     nodeName: 'Metro Manila',
     details: 'The Philippines signs the non-binding Pax Silica Declaration alongside the US, Japan, and allied partners to secure resilient AI and semiconductor supply chains.',
+    citationUrl: 'https://www.dti.gov.ph',
   },
   {
     id: 'ms-2',
@@ -20,6 +21,7 @@ export const MILESTONES: ProjectMilestone[] = [
     nodeId: 'ncc',
     nodeName: 'New Clark City',
     details: 'US Undersecretary Jacob Helberg leads 12+ tech executives to Clark and Subic. Malacañang firmly rules out diplomatic immunity for foreign commercial locators.',
+    citationUrl: 'https://bcda.gov.ph',
   },
   {
     id: 'ms-3',
@@ -30,6 +32,7 @@ export const MILESTONES: ProjectMilestone[] = [
     nodeId: 'manila',
     nodeName: 'Metro Manila',
     details: 'BCDA presents the 1,620-ha Capas zone, revealing active negotiations with South Korea (250ha), Singapore (300ha), Japan, and Taiwan.',
+    citationUrl: 'https://bcda.gov.ph/news',
   },
   {
     id: 'ms-4',
@@ -40,6 +43,7 @@ export const MILESTONES: ProjectMilestone[] = [
     nodeId: 'manila',
     nodeName: 'Metro Manila',
     details: 'Inter-agency teams submit the finalized bilateral framework to the Office of the President, strictly confirming Philippine jurisdiction and RA 12252 lease terms.',
+    citationUrl: 'https://www.officialgazette.gov.ph',
   },
   {
     id: 'ms-5',
@@ -50,6 +54,7 @@ export const MILESTONES: ProjectMilestone[] = [
     nodeId: 'ncc',
     nodeName: 'New Clark City',
     details: 'DTI decouples the signing from the ASEAN Summit to hold a dedicated signing event in late 2026.',
+    citationUrl: 'https://www.philstar.com/business/',
   },
   {
     id: 'ms-6',
@@ -60,6 +65,7 @@ export const MILESTONES: ProjectMilestone[] = [
     nodeId: 'bulacan',
     nodeName: 'Bulacan',
     details: 'Completion of environmental impact assessments, water table protection plans, and groundbreaking for the Bulacan Wafer R&D Laboratory.',
+    citationUrl: 'https://boi.gov.ph',
   },
   {
     id: 'ms-7',
@@ -70,5 +76,6 @@ export const MILESTONES: ProjectMilestone[] = [
     nodeId: 'batangas',
     nodeName: 'Batangas Port',
     details: 'Target launch of pilot wafer processing facilities in Capas, synchronized with Batangas clean energy grids and full freight rail operations.',
+    citationUrl: 'https://bcda.gov.ph',
   },
 ];

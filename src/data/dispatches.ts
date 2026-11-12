@@ -15,6 +15,7 @@ export const NEWS_CARDS: IntelligenceDispatch[] = [
     quote: '“There are no data centers included in the Pax Silica hub in New Clark City; the focus there is processing critical minerals and manufacturing components for AI, while data centers are slated for Batangas and our first wafer lab for Bulacan.”',
     speaker: 'Usec. Ceferino Rodolfo, DTI',
     verifiedOfficial: true,
+    citationUrl: 'https://www.gmanetwork.com/news/money/economy/',
   },
   {
     id: 'news-2',
@@ -30,6 +31,7 @@ export const NEWS_CARDS: IntelligenceDispatch[] = [
     quote: '“The framework is already with the Office of the President and is robust enough to have its own life and its own signing ceremony before the end of the year rather than being tucked into the ASEAN Summit.”',
     speaker: 'DTI & BCDA Executive Briefing',
     verifiedOfficial: true,
+    citationUrl: 'https://www.philstar.com/business/',
   },
   {
     id: 'news-3',
@@ -45,6 +47,7 @@ export const NEWS_CARDS: IntelligenceDispatch[] = [
     quote: '“To avoid getting burned, Philippine negotiators must translate the non-binding two-page Pax Silica declaration into enforceable domestic value-chain upgrades, grid resilience, and environmental safeguards.”',
     speaker: 'ISEAS – Yusof Ishak Institute (#2026-78)',
     verifiedOfficial: false,
+    citationUrl: 'https://pacforum.org/publication/pacnet-67-pax-silica-philippines/',
   },
   {
     id: 'news-4',
@@ -60,6 +63,7 @@ export const NEWS_CARDS: IntelligenceDispatch[] = [
     quote: '“Pax Silica is not exclusive to US companies—we have over 50 prospective enterprises, with South Korea looking at 250 hectares and Singapore exploring 300 hectares inside New Clark City.”',
     speaker: 'Engr. Joshua Bingcang, BCDA President & CEO',
     verifiedOfficial: true,
+    citationUrl: 'https://bcda.gov.ph/news',
   },
   {
     id: 'news-5',
@@ -75,6 +79,7 @@ export const NEWS_CARDS: IntelligenceDispatch[] = [
     quote: '“Separating Bulacan’s wafer R&D and Tarlac’s component fabs from Batangas’s power-hungry AI data centers optimizes both the Luzon power grid and the SCMB cargo rail spine.”',
     speaker: 'Philippine Semiconductor Supply Chain Review',
     verifiedOfficial: false,
+    citationUrl: 'https://boi.gov.ph',
   },
   {
     id: 'news-6',
@@ -90,6 +95,7 @@ export const NEWS_CARDS: IntelligenceDispatch[] = [
     quote: '“High-tech mineral refining and wafer fabrication require massive ultra-pure water supplies; Capas farming and indigenous communities must have a seat at the table during the two-year master planning phase.”',
     speaker: 'Central Luzon Agrarian & Watershed Coalition',
     verifiedOfficial: false,
+    citationUrl: 'https://www.philstar.com',
   },
   {
     id: 'news-7',
@@ -105,5 +111,6 @@ export const NEWS_CARDS: IntelligenceDispatch[] = [
     quote: '“Every foreign locator and expatriate engineer inside the Economic Security Zone will be 100% subject to Philippine laws, courts, taxes, and regulatory oversight—no diplomatic immunity will be granted.”',
     speaker: 'BCDA & Malacañang Joint Sovereignty Statement',
     verifiedOfficial: true,
+    citationUrl: 'https://bcda.gov.ph',
   },
 ];
