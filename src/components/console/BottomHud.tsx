@@ -65,7 +65,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="font-mono text-[10px] text-slate-400">
+              <span className="font-mono text-[10px] text-slate-300">
                 {inspectedNode.coordsText}
               </span>
               <button
@@ -80,7 +80,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
             {/* Allocation */}
-            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-white/12 space-y-1">
+            <div className="bg-white/[0.06] rounded-xl p-2.5 border border-white/12 space-y-1">
               <div className="font-mono text-[9px] uppercase tracking-wider text-blue-400 font-bold flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-blue-400" />
                 <span>Zone Allocation</span>
@@ -89,7 +89,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
             </div>
 
             {/* Suitors */}
-            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-white/12 space-y-1">
+            <div className="bg-white/[0.06] rounded-xl p-2.5 border border-white/12 space-y-1">
               <div className="font-mono text-[9px] uppercase tracking-wider text-sky-300 font-bold flex items-center gap-1">
                 <Cpu className="w-3 h-3 text-sky-300" />
                 <span>Suitors &amp; Consortia</span>
@@ -98,7 +98,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
             </div>
 
             {/* Dependencies */}
-            <div className="bg-surfaceObsidian/90 rounded-xl p-2.5 border border-white/12 space-y-1">
+            <div className="bg-white/[0.06] rounded-xl p-2.5 border border-white/12 space-y-1">
               <div className="font-mono text-[9px] uppercase tracking-wider text-cyan-300 font-bold">
                 Critical Dependencies
               </div>
@@ -106,7 +106,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
             </div>
           </div>
 
-          <p className="text-[11px] text-slate-300 leading-relaxed font-normal bg-black/40 p-2 rounded-lg border border-white/10">
+          <p className="text-[11px] text-slate-300 leading-relaxed font-normal bg-white/[0.05] p-2 rounded-lg border border-white/10">
             {inspectedNode.summary}
           </p>
         </div>
@@ -133,7 +133,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
                 className={`px-2.5 py-1 rounded-xl font-mono text-[11px] transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
                   isSelected
                     ? 'bg-blue-600/35 text-white border border-blue-400/70 shadow-sm'
-                    : 'bg-surfaceObsidian/85 hover:bg-slate-800/80 text-slate-300 border border-white/12'
+                    : 'bg-white/[0.06] hover:bg-slate-800/80 text-slate-300 border border-white/12'
                 }`}
               >
                 <span
@@ -150,7 +150,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
             className={`px-2.5 py-1 rounded-xl font-mono text-[11px] transition cursor-pointer whitespace-nowrap ${
               selectedNodeId === 'ALL'
                 ? 'bg-blue-600/35 text-white border border-blue-400/70'
-                : 'bg-surfaceObsidian/85 hover:bg-slate-800/80 text-slate-400 border border-white/12'
+                : 'bg-white/[0.06] hover:bg-slate-800/80 text-slate-300 border border-white/12'
             }`}
           >
             Reset

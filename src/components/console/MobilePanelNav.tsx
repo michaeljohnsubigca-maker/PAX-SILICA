@@ -15,7 +15,7 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
   const activeClass =
     'py-1 px-2 rounded-lg text-[10px] font-mono font-medium bg-blue-600/35 text-white border border-blue-400/60 shadow-sm flex items-center justify-center gap-1.5 cursor-pointer';
   const inactiveClass =
-    'py-1 px-2 rounded-lg text-[10px] font-mono font-medium bg-white/5 text-slate-400 border border-white/5 hover:text-white flex items-center justify-center gap-1.5 cursor-pointer';
+    'py-1 px-2 rounded-lg text-[10px] font-mono font-medium bg-white/5 text-slate-300 border border-white/5 hover:text-white flex items-center justify-center gap-1.5 cursor-pointer';
 
   return (
     <div className="lg:hidden absolute bottom-3 left-3 right-3 z-30 glass-panel rounded-2xl p-1.5 flex items-center justify-between gap-1 shadow-glass-elevated">

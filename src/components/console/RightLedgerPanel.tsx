@@ -48,7 +48,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
       }}
     >
       {/* KPI Bento Grid (2x2) */}
-      <div className="p-3 border-b border-white/12 bg-surfaceObsidian/90 shrink-0">
+      <div className="p-3 border-b border-white/12 bg-white/[0.06] shrink-0">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
@@ -62,7 +62,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
               DTI / BCDA
             </span>
             <button
-              className="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center border border-white/10 transition cursor-pointer"
+              className="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white flex items-center justify-center border border-white/10 transition cursor-pointer"
               onClick={onToggleCollapse}
               title="Minimize Ledger Panel"
             >
@@ -74,7 +74,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         <div className="grid grid-cols-2 gap-1.5">
           {/* KPI 1 */}
           <div className="glass-subtle rounded-lg p-2 border border-white/12">
-            <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
+            <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
               <span>CAPAS ZONE</span>
               <span className="text-sky-300 font-semibold">17.1% NCC</span>
             </div>
@@ -84,14 +84,14 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
               <div className="h-full bg-blue-500 rounded-full" style={{ width: '68%' }}></div>
             </div>
-            <div className="text-[9px] text-slate-400 mt-1 truncate">
+            <div className="text-[10px] text-slate-200 mt-1 truncate">
               4,000 acres in 9,450ha
             </div>
           </div>
 
           {/* KPI 2 */}
           <div className="glass-subtle rounded-lg p-2 border border-white/12">
-            <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
+            <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
               <span>CAPEX TARGET</span>
               <span className="text-sky-300 font-semibold">50+ SUITORS</span>
             </div>
@@ -101,14 +101,14 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
               <div className="h-full bg-sky-400 rounded-full" style={{ width: '82%' }}></div>
             </div>
-            <div className="text-[9px] text-slate-400 mt-1 truncate">
+            <div className="text-[10px] text-slate-200 mt-1 truncate">
               KR, SG, US, JP, TW
             </div>
           </div>
 
           {/* KPI 3 */}
           <div className="glass-subtle rounded-lg p-2 border border-white/12">
-            <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
+            <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
               <span>GROSS YIELD</span>
               <span className="text-emerald-400 font-semibold">MATURITY</span>
             </div>
@@ -118,14 +118,14 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
               <div className="h-full bg-emerald-400 rounded-full" style={{ width: '55%' }}></div>
             </div>
-            <div className="text-[9px] text-slate-400 mt-1 truncate">
+            <div className="text-[10px] text-slate-200 mt-1 truncate">
               Recurring industrial
             </div>
           </div>
 
           {/* KPI 4 */}
           <div className="glass-subtle rounded-lg p-2 border border-white/12">
-            <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
+            <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
               <span>WORKFORCE</span>
               <span className="text-blue-200 font-semibold">STEM / FAB</span>
             </div>
@@ -135,7 +135,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
               <div className="h-full bg-blue-400 rounded-full" style={{ width: '75%' }}></div>
             </div>
-            <div className="text-[9px] text-slate-400 mt-1 truncate">
+            <div className="text-[10px] text-slate-200 mt-1 truncate">
               Wafer R&amp;D &amp; mineral fab
             </div>
           </div>
@@ -144,13 +144,13 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
       {/* Ledger Tab Switcher */}
       <div className="px-3 pt-2 pb-1.5 border-b border-white/12 shrink-0">
-        <div className="grid grid-cols-3 gap-1 bg-surfaceObsidian p-1 rounded-xl border border-white/15">
+        <div className="grid grid-cols-3 gap-1 bg-white/[0.06] p-1 rounded-xl border border-white/15">
           <button
             onClick={() => onTabChange('milestones')}
             className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
               activeTab === 'milestones'
                 ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-300 hover:text-white'
             }`}
           >
             <Milestone className="w-3 h-3 text-blue-400" />
@@ -162,7 +162,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
               activeTab === 'myths'
                 ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-300 hover:text-white'
             }`}
           >
             <Scale className="w-3 h-3 text-blue-400" />
@@ -174,7 +174,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
               activeTab === 'supply'
                 ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-300 hover:text-white'
             }`}
           >
             <Network className="w-3 h-3 text-blue-400" />
@@ -204,7 +204,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                 if (ms.statusColor === 'amber') {
                   badgeClass = 'text-sky-300 bg-sky-500/15 border-sky-400/30';
                 } else if (ms.statusColor === 'stone' || ms.statusColor === 'slate') {
-                  badgeClass = 'text-slate-400 bg-slate-800 border-slate-700';
+                  badgeClass = 'text-slate-300 bg-slate-800 border-slate-700';
                 }
 
                 return (
@@ -219,13 +219,13 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                       <span className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded border ${badgeClass}`}>
                         {ms.status}
                       </span>
-                      <span className="font-mono text-[9px] text-slate-400">{ms.date}</span>
+                      <span className="font-mono text-[9px] text-slate-300">{ms.date}</span>
                     </div>
 
                     <h4 className="text-xs font-semibold text-white leading-snug">{ms.title}</h4>
                     <p className="text-[10px] text-slate-300 leading-relaxed">{ms.details}</p>
 
-                    <div className="pt-1 flex items-center justify-between text-[9px] font-mono text-slate-400 border-t border-slate-800/80">
+                    <div className="pt-1 flex items-center justify-between text-[9px] font-mono text-slate-300 border-t border-slate-800/80">
                       <span className="flex items-center gap-1 text-sky-200">
                         <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
                         {ms.nodeName}
@@ -270,7 +270,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     className="intel-card rounded-xl p-2.5 space-y-1.5 cursor-pointer"
                   >
                     <div className="flex items-center justify-between gap-1">
-                      <span className="font-mono text-[9px] font-bold text-slate-400">CLAIM CHECK</span>
+                      <span className="font-mono text-[9px] font-bold text-slate-300">CLAIM CHECK</span>
                       <span className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded border ${verdictPill}`}>
                         {myth.verdict}
                       </span>
@@ -280,7 +280,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                       “{myth.claim}”
                     </p>
 
-                    <div className="bg-surfaceObsidian/95 rounded-lg p-2 border border-white/10 space-y-1">
+                    <div className="bg-white/[0.06] rounded-lg p-2 border border-white/10 space-y-1">
                       <div className="font-mono text-[9px] text-blue-400 flex items-center justify-between">
                         <span>LEGAL REF:</span>
                         <span className="text-white font-semibold truncate max-w-[170px]">
@@ -292,8 +292,8 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                       </p>
                     </div>
 
-                    <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-400">
-                      <span className="text-slate-400 truncate max-w-[180px]">
+                    <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-300">
+                      <span className="text-slate-300 truncate max-w-[180px]">
                         Authority: {myth.authority}
                       </span>
                       {myth.citationUrl && (
@@ -356,7 +356,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                       className={`intel-card border-l-4 ${borderAccent} rounded-r-xl p-2.5 space-y-1 cursor-pointer`}
                     >
                       <div className="flex items-center justify-between gap-1 flex-wrap">
-                        <span className="font-mono text-[9px] font-bold text-slate-400">
+                        <span className="font-mono text-[9px] font-bold text-slate-300">
                           {st.stage}
                         </span>
                         <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded border ${pillStyle} font-semibold`}>
@@ -372,7 +372,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     </div>
 
                     {idx < SUPPLY_CHAIN_STAGES.length - 1 && (
-                      <div className="flex items-center justify-center gap-1 text-slate-500 font-mono text-[9px] py-0.5">
+                      <div className="flex items-center justify-center gap-1 text-slate-400 font-mono text-[9px] py-0.5">
                         <ArrowDown className="w-2.5 h-2.5 text-blue-400/80" />
                         <span>SCMB RAIL FEED</span>
                       </div>

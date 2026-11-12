@@ -50,7 +50,7 @@ export const LandingHeroOverlay: React.FC<LandingHeroOverlayProps> = ({
 
         {/* Top-Right Coordinates & Workspace Action */}
         <div className="glass-panel rounded-2xl px-4 py-2 pointer-events-auto flex items-center gap-3">
-          <div className="font-mono text-[11px] text-slate-400 flex items-center gap-2">
+          <div className="font-mono text-[11px] text-slate-300 flex items-center gap-2">
             <span className="text-blue-400 font-semibold">WGS84</span>
             <span className="text-white" id="landingCursorCoords">
               {cursorCoords || '15.3410° N, 120.5360° E'}
@@ -69,19 +69,19 @@ export const LandingHeroOverlay: React.FC<LandingHeroOverlayProps> = ({
       {/* Center Editorial Card */}
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-2 sm:mb-4">
         <div className="glass-panel rounded-3xl px-6 sm:px-10 py-7 sm:py-9 pointer-events-auto border border-white/20 shadow-glass-elevated">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-surfaceObsidian/90 border border-white/15 font-mono text-[10px] uppercase tracking-[0.22em] text-sky-200 mb-3.5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.06] border border-white/15 font-mono text-[10px] uppercase tracking-[0.22em] text-sky-200 mb-3.5">
             <span>Subic</span>
-            <span className="text-slate-500">•</span>
+            <span className="text-slate-400">•</span>
             <span>New Clark City</span>
-            <span className="text-slate-500">•</span>
+            <span className="text-slate-400">•</span>
             <span>Bulacan</span>
-            <span className="text-slate-500">•</span>
+            <span className="text-slate-400">•</span>
             <span>Manila</span>
-            <span className="text-slate-500">•</span>
+            <span className="text-slate-400">•</span>
             <span>Batangas</span>
           </div>
 
-          <h1 className="font-sans font-bold text-4xl sm:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-sky-200 tracking-tight leading-[1.08] [text-wrap:balance]">
+          <h1 className="font-sans font-bold text-4xl sm:text-6xl text-white tracking-tight leading-[1.08] [text-wrap:balance]">
             Pax Silica &amp; the Luzon Corridor
           </h1>
 
@@ -104,7 +104,7 @@ export const LandingHeroOverlay: React.FC<LandingHeroOverlayProps> = ({
             </button>
 
             {/* Fast Node Focus Chips */}
-            <div className="flex items-center gap-1.5 bg-surfaceObsidian/95 border border-white/15 rounded-full p-1">
+            <div className="flex items-center gap-1.5 bg-white/[0.06] border border-white/15 rounded-full p-1">
               <button
                 className="px-3 py-1 rounded-full text-[11px] font-mono text-slate-200 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5"
                 onClick={() => onFocusNode('ncc')}
@@ -130,7 +130,7 @@ export const LandingHeroOverlay: React.FC<LandingHeroOverlayProps> = ({
           </div>
 
           {/* Scroll Wheel Telemetry */}
-          <div className="mt-6 flex items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">
+          <div className="mt-6 flex items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-300">
             <div className="w-4 h-6 rounded-full border border-slate-500/70 flex justify-center pt-1">
               <span className="w-1 h-1.5 rounded-full bg-blue-400 animate-scroll-wheel"></span>
             </div>

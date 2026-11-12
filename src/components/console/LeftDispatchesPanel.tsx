@@ -92,7 +92,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
       }}
     >
       {/* Panel Header */}
-      <div className="p-3 border-b border-white/12 bg-surfaceObsidian/90 space-y-2.5 shrink-0">
+      <div className="p-3 border-b border-white/12 bg-white/[0.06] space-y-2.5 shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-blue-400"></span>
@@ -109,7 +109,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
               {filteredCards.length}
             </span>
             <button
-              className="hidden lg:flex w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white items-center justify-center border border-white/10 transition cursor-pointer"
+              className="hidden lg:flex w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white items-center justify-center border border-white/10 transition cursor-pointer"
               onClick={onToggleCollapse}
               title="Minimize Dispatches Panel"
             >
@@ -134,7 +134,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 className={`stakeholder-pill px-2 py-0.5 rounded-md text-[9px] font-mono transition font-semibold cursor-pointer ${
                   isActive
                     ? 'bg-blue-600/35 text-white border border-blue-400/70 shadow-sm'
-                    : 'bg-slate-900/60 text-slate-400 border border-white/10 hover:text-white hover:bg-slate-800/60'
+                    : 'bg-white/[0.05] text-slate-300 border border-white/10 hover:text-white hover:bg-slate-800/60'
                 }`}
               >
                 {item.label}
@@ -145,14 +145,14 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
         {/* Vector Select */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[9px] font-mono uppercase tracking-wider text-slate-400 shrink-0">
+          <span className="text-[9px] font-mono uppercase tracking-wider text-slate-300 shrink-0">
             Vector:
           </span>
           <select
             id="topicFilterSelect"
             value={topicFilter}
             onChange={(e) => onTopicFilterChange(e.target.value)}
-            className="flex-1 bg-surfaceObsidian border border-white/15 rounded-lg px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-blue-400/80 truncate cursor-pointer"
+            className="flex-1 bg-white/[0.06] border border-white/15 rounded-lg px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-blue-400/80 truncate cursor-pointer"
           >
             <option value="ALL">All Vectors</option>
             <option value="Semiconductors & AI">Semiconductors, Wafer Lab & AI</option>
@@ -167,8 +167,8 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
       <div className="flex-1 overflow-y-auto glass-scroll p-2.5 space-y-2.5" id="newsFeedContainer">
         {filteredCards.length === 0 ? (
           <div className="intel-card rounded-xl p-4 text-center space-y-2">
-            <div className="font-mono text-[10px] text-slate-400">NO DISPATCHES MATCH FILTER</div>
-            <p className="text-[11px] text-slate-400">Reset scope or search parameters.</p>
+            <div className="font-mono text-[10px] text-slate-300">NO DISPATCHES MATCH FILTER</div>
+            <p className="text-[11px] text-slate-300">Reset scope or search parameters.</p>
             <button
               onClick={onResetFilters}
               className="mt-1 px-3 py-1 rounded-lg bg-blue-600/20 text-white border border-blue-400/40 font-mono text-[10px] hover:bg-blue-600/30 transition cursor-pointer"
@@ -199,7 +199,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                     <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-900 text-white border border-white/12">
                       {card.source}
                     </span>
-                    <span className="font-mono text-[9px] text-slate-400">{card.date}</span>
+                    <span className="font-mono text-[9px] text-slate-300">{card.date}</span>
                   </div>
 
                   <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-sky-200 border border-blue-400/30 flex items-center gap-1 font-medium">
@@ -213,7 +213,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                   <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded border ${pill} font-semibold`}>
                     {card.stakeholder}
                   </span>
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-surfaceObsidian text-slate-300 border border-white/10 truncate max-w-[170px]">
+                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-white/[0.06] text-slate-300 border border-white/10 truncate max-w-[170px]">
                     {card.topic}
                   </span>
                 </div>
@@ -228,18 +228,18 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
                 {/* Verbatim Soundbite with High-Contrast Polish */}
                 <blockquote
-                  className={`bg-surfaceObsidian/95 border-l-2 ${quoteBorder} rounded-r-lg p-2.5 space-y-1 shadow-sm`}
+                  className={`bg-white/[0.06] border-l-2 ${quoteBorder} rounded-r-lg p-2.5 space-y-1 shadow-sm`}
                 >
                   <p className="font-sans text-[12px] text-slate-100 leading-snug font-medium">
                     “{card.quote}”
                   </p>
-                  <footer className="font-mono text-[9px] text-slate-400 font-medium">
+                  <footer className="font-mono text-[9px] text-slate-300 font-medium">
                     — {card.speaker}
                   </footer>
                 </blockquote>
 
                 {/* Footer Action */}
-                <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-400">
+                <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-300">
                   <span className="text-blue-400 flex items-center gap-1">
                     <span>Focus Map</span>
                     <ArrowRight className="w-2.5 h-2.5 text-blue-400" />
