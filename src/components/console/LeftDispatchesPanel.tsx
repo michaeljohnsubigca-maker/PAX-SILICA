@@ -1,9 +1,9 @@
 import React from 'react';
-import { Radio, ChevronLeft, ArrowRight } from 'lucide-react';
+import { Radio, ChevronLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { NEWS_CARDS } from '../../data/dispatches';
 import { IntelligenceDispatch } from '../../types/domain';
 
-interface LeftDispatchesPanelProps {
+export interface LeftDispatchesPanelProps {
   selectedNodeId: string;
   onSelectNode: (nodeId: string) => void;
   hoveredNodeId: string | null;
@@ -96,12 +96,12 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white flex items-center gap-1">
+            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white flex items-center gap-1.5">
               <Radio className="w-3 h-3 text-blue-400" />
               Intelligence Dispatches
             </h2>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <span
               id="newsCountIndicator"
               className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full bg-blue-600/25 text-white border border-blue-400/40"
@@ -119,7 +119,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
         </div>
 
         {/* Stakeholder Filter Pills */}
-        <div className="flex flex-wrap gap-1" id="stakeholderPillsContainer">
+        <div className="flex flex-wrap gap-2" id="stakeholderPillsContainer">
           {[
             { id: 'ALL', label: 'All' },
             { id: 'State / Official', label: 'State' },
@@ -144,7 +144,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
         </div>
 
         {/* Vector Select */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <span className="text-[9px] font-mono uppercase tracking-wider text-slate-300 shrink-0">
             Vector:
           </span>
@@ -164,7 +164,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
       </div>
 
       {/* Scrollable Feed */}
-      <div className="flex-1 overflow-y-auto glass-scroll p-2.5 space-y-2.5" id="newsFeedContainer">
+      <div className="flex-1 overflow-y-auto glass-scroll p-2 space-y-2" id="newsFeedContainer">
         {filteredCards.length === 0 ? (
           <div className="intel-card rounded-xl p-4 text-center space-y-2">
             <div className="font-mono text-[10px] text-slate-300">NO DISPATCHES MATCH FILTER</div>
@@ -187,14 +187,14 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 onMouseEnter={() => onHoverNode(card.nodeId)}
                 onMouseLeave={() => onHoverNode(null)}
                 onClick={() => onSelectNode(card.nodeId)}
-                className={`intel-card cursor-pointer rounded-xl p-3 space-y-2 ${
+                className={`intel-card cursor-pointer rounded-xl p-2.5 space-y-2 ${
                   isNodeActive
                     ? 'ring-1 ring-blue-400/80 border-blue-400/70 shadow-glow-blue'
                     : ''
                 }`}
               >
                 {/* Top Row */}
-                <div className="flex items-center justify-between gap-1 flex-wrap">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
                   <div className="flex items-center gap-1.5">
                     <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-900 text-white border border-white/12">
                       {card.source}
@@ -209,7 +209,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 </div>
 
                 {/* Tags */}
-                <div className="flex items-center gap-1 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded border ${pill} font-semibold`}>
                     {card.stakeholder}
                   </span>
@@ -228,7 +228,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
                 {/* Verbatim Soundbite with High-Contrast Polish */}
                 <blockquote
-                  className={`bg-white/[0.06] border-l-2 ${quoteBorder} rounded-r-lg p-2.5 space-y-1 shadow-sm`}
+                  className={`bg-white/[0.06] border-l-2 ${quoteBorder} rounded-r-lg p-2 space-y-1 shadow-sm`}
                 >
                   <p className="font-sans text-[12px] text-slate-100 leading-snug font-medium">
                     “{card.quote}”
@@ -244,15 +244,30 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                     <span>Focus Map</span>
                     <ArrowRight className="w-2.5 h-2.5 text-blue-400" />
                   </span>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelectNode(card.nodeId);
-                    }}
-                    className="px-1.5 py-0.5 rounded bg-slate-800/60 hover:bg-slate-700/80 text-white border border-white/15 transition cursor-pointer"
-                  >
-                    Isolate
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {card.citationUrl && (
+                      <a
+                        href={card.citationUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-1.5 py-0.5 rounded bg-blue-500/15 hover:bg-blue-500/25 text-sky-200 border border-blue-400/30 transition flex items-center gap-1 cursor-pointer"
+                        title="Go to primary source document"
+                      >
+                        <span>Go to Source</span>
+                        <ExternalLink className="w-2.5 h-2.5 text-sky-300" />
+                      </a>
+                    )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectNode(card.nodeId);
+                      }}
+                      className="px-1.5 py-0.5 rounded bg-slate-800/60 hover:bg-slate-700/80 text-white border border-white/15 transition cursor-pointer"
+                    >
+                      Isolate
+                    </button>
+                  </div>
                 </div>
               </article>
             );

@@ -91,4 +91,37 @@ describe('LeftDispatchesPanel', () => {
     fireEvent.click(isolateBtns[0]);
     expect(handleSelectNode).toHaveBeenCalled();
   });
+
+  it('renders "Go to Source" buttons with target="_blank" and prevents node selection', () => {
+    const handleSelectNode = vi.fn();
+
+    render(
+      <LeftDispatchesPanel
+        selectedNodeId="ALL"
+        onSelectNode={handleSelectNode}
+        hoveredNodeId={null}
+        onHoverNode={vi.fn()}
+        searchQuery=""
+        stakeholderFilter="ALL"
+        onStakeholderFilterChange={vi.fn()}
+        topicFilter="ALL"
+        onTopicFilterChange={vi.fn()}
+        isCollapsed={false}
+        onToggleCollapse={vi.fn()}
+        onResetFilters={vi.fn()}
+        opacity={1}
+        translateXPercent={0}
+        pointerEvents={true}
+      />
+    );
+
+    const sourceLinks = screen.getAllByRole('link', { name: /Go to Source/i });
+    expect(sourceLinks.length).toBe(7);
+    expect(sourceLinks[0].getAttribute('target')).toBe('_blank');
+    expect(sourceLinks[0].getAttribute('rel')).toBe('noopener noreferrer');
+    expect(sourceLinks[0].getAttribute('href')).toBeTruthy();
+
+    fireEvent.click(sourceLinks[0]);
+    expect(handleSelectNode).not.toHaveBeenCalled();
+  });
 });

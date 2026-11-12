@@ -230,7 +230,22 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                         <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
                         {ms.nodeName}
                       </span>
-                      <span className="text-blue-400">Focus Node →</span>
+                      <div className="flex items-center gap-2">
+                        {ms.citationUrl && (
+                          <a
+                            href={ms.citationUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-600/25 hover:bg-blue-600/40 text-sky-200 hover:text-white border border-blue-400/40 font-mono text-[9px] font-semibold transition cursor-pointer"
+                            title="Go to Source"
+                          >
+                            <span>Go to Source</span>
+                            <ExternalLink className="w-2.5 h-2.5 text-blue-400" />
+                          </a>
+                        )}
+                        <span className="text-blue-400">Focus Node →</span>
+                      </div>
                     </div>
                   </div>
                 );
@@ -293,7 +308,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     </div>
 
                     <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-300">
-                      <span className="text-slate-300 truncate max-w-[180px]">
+                      <span className="text-slate-300 truncate max-w-[150px]">
                         Authority: {myth.authority}
                       </span>
                       {myth.citationUrl && (
@@ -302,10 +317,11 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-blue-400 hover:text-sky-300 flex items-center gap-0.5"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-600/25 hover:bg-blue-600/40 text-sky-200 hover:text-white border border-blue-400/40 font-mono text-[9px] font-semibold transition cursor-pointer"
+                          title="Go to Source"
                         >
-                          <span>Verify</span>
-                          <ExternalLink className="w-2.5 h-2.5" />
+                          <span>Go to Source</span>
+                          <ExternalLink className="w-2.5 h-2.5 text-blue-400" />
                         </a>
                       )}
                     </div>

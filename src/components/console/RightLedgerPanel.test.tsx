@@ -71,4 +71,58 @@ describe('RightLedgerPanel', () => {
     expect(screen.getAllByText(/DISPROVEN/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/BCDA CEO Joshua Bingcang & Palace Legal Team/i)).toBeDefined();
   });
+
+  it('renders "Go to Source" links on Milestones tab and stops click propagation', () => {
+    const handleSelectNode = vi.fn();
+
+    render(
+      <RightLedgerPanel
+        activeTab="milestones"
+        onTabChange={vi.fn()}
+        onSelectNode={handleSelectNode}
+        onHoverNode={vi.fn()}
+        isCollapsed={false}
+        onToggleCollapse={vi.fn()}
+        opacity={1}
+        translateXPercent={0}
+        pointerEvents={true}
+      />
+    );
+
+    const sourceLinks = screen.getAllByRole('link', { name: /Go to Source/i });
+    expect(sourceLinks.length).toBe(7);
+    expect(sourceLinks[0].getAttribute('target')).toBe('_blank');
+    expect(sourceLinks[0].getAttribute('rel')).toBe('noopener noreferrer');
+    expect(sourceLinks[0].getAttribute('href')).toBeTruthy();
+
+    fireEvent.click(sourceLinks[0]);
+    expect(handleSelectNode).not.toHaveBeenCalled();
+  });
+
+  it('renders "Go to Source" links on Law Audit tab and stops click propagation', () => {
+    const handleSelectNode = vi.fn();
+
+    render(
+      <RightLedgerPanel
+        activeTab="myths"
+        onTabChange={vi.fn()}
+        onSelectNode={handleSelectNode}
+        onHoverNode={vi.fn()}
+        isCollapsed={false}
+        onToggleCollapse={vi.fn()}
+        opacity={1}
+        translateXPercent={0}
+        pointerEvents={true}
+      />
+    );
+
+    const sourceLinks = screen.getAllByRole('link', { name: /Go to Source/i });
+    expect(sourceLinks.length).toBe(5);
+    expect(sourceLinks[0].getAttribute('target')).toBe('_blank');
+    expect(sourceLinks[0].getAttribute('rel')).toBe('noopener noreferrer');
+    expect(sourceLinks[0].getAttribute('href')).toBeTruthy();
+
+    fireEvent.click(sourceLinks[0]);
+    expect(handleSelectNode).not.toHaveBeenCalled();
+  });
 });
