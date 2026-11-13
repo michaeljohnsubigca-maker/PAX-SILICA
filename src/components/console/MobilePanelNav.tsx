@@ -18,7 +18,7 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
     'h-8 px-2 rounded-lg text-[10px] font-mono font-medium bg-white/5 text-slate-300 border border-white/5 hover:text-white flex items-center justify-center gap-2 cursor-pointer';
 
   return (
-    <div className="lg:hidden absolute bottom-2 left-2 right-2 z-30 glass-panel rounded-2xl p-2 flex items-center justify-between gap-2 shadow-glass-elevated">
+    <div className="lg:hidden absolute bottom-[max(0.5rem,env(safe-area-inset-bottom))] left-[max(0.5rem,env(safe-area-inset-left))] right-[max(0.5rem,env(safe-area-inset-right))] z-30 glass-panel rounded-2xl p-2 flex items-center justify-between gap-2 shadow-glass-elevated">
       <button
         id="mobileTabNews"
         onClick={() => onSelectMobilePanel('news')}

@@ -127,7 +127,7 @@ export const App: React.FC = () => {
   return (
     <div id="scrollRunway" className="relative w-full h-[220vh] selection:bg-blue-500/30 selection:text-white">
       {/* FIXED 100VW x 100VH GEOSPATIAL STAGE */}
-      <div id="viewportStage" className="fixed inset-0 w-screen h-screen overflow-hidden bg-deepNavy">
+      <div id="viewportStage" className="fixed inset-0 w-full h-[100dvh] overflow-hidden bg-deepNavy">
         {/* LEAFLET MAP OF LUZON */}
         <LuzonMapStage
           selectedNodeId={selectedNodeId}
