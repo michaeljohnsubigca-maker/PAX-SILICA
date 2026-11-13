@@ -21,13 +21,21 @@ describe('Domain Data Integrity', () => {
     });
   });
 
+const GENERIC_SOURCE_PATHS = new Set(['', '/', '/news', '/news/', '/business', '/business/']);
+
+function expectSpecificSourceUrl(url?: string) {
+  expect(url).toBeDefined();
+  expect(url?.startsWith('https://')).toBe(true);
+  const parsed = new URL(url!);
+  expect(GENERIC_SOURCE_PATHS.has(parsed.pathname)).toBe(false);
+}
+
   it('contains verified myth provisions with valid authorities and citation URLs', () => {
     expect(MYTH_PROVISIONS.length).toBeGreaterThanOrEqual(4);
     MYTH_PROVISIONS.forEach((myth) => {
       expect(myth.authority.length).toBeGreaterThan(0);
       expect(myth.explanation.length).toBeGreaterThan(0);
-      expect(myth.citationUrl).toBeDefined();
-      expect(myth.citationUrl?.startsWith('https://')).toBe(true);
+      expectSpecificSourceUrl(myth.citationUrl);
     });
   });
 
@@ -40,8 +48,7 @@ describe('Domain Data Integrity', () => {
     NEWS_CARDS.forEach((card) => {
       expect(card.headline.length).toBeGreaterThan(0);
       expect(card.source.length).toBeGreaterThan(0);
-      expect(card.citationUrl).toBeDefined();
-      expect(card.citationUrl?.startsWith('https://')).toBe(true);
+      expectSpecificSourceUrl(card.citationUrl);
     });
   });
 
@@ -49,8 +56,7 @@ describe('Domain Data Integrity', () => {
     expect(MILESTONES.length).toBeGreaterThanOrEqual(3);
     MILESTONES.forEach((ms) => {
       expect(['COMPLETED', 'IMMINENT', 'IN PROGRESS', 'SCHEDULED']).toContain(ms.status);
-      expect(ms.citationUrl).toBeDefined();
-      expect(ms.citationUrl?.startsWith('https://')).toBe(true);
+      expectSpecificSourceUrl(ms.citationUrl);
     });
   });
 });
