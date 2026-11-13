@@ -3,6 +3,12 @@ import L from 'leaflet';
 import { CORRIDOR_NODES } from '../../data/nodes';
 import { CorridorNode } from '../../types/domain';
 
+interface WebKitGestureEvent extends Event {
+  scale?: number;
+  clientX?: number;
+  clientY?: number;
+}
+
 interface LuzonMapStageProps {
   selectedNodeId: string;
   hoveredNodeId: string | null;
@@ -40,18 +46,24 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
 
   // Initialize Map
   useEffect(() => {
-    if (!mapContainerRef.current) return;
+    const container = mapContainerRef.current;
+    if (!container) return;
     if (mapInstanceRef.current) return;
 
     try {
-      const map = L.map(mapContainerRef.current, {
+      const map = L.map(container, {
         center: [14.68, 120.7],
         zoom: 8,
         minZoom: 6,
         maxZoom: 13,
         zoomControl: false,
         scrollWheelZoom: false,
+        touchZoom: true,
+        bounceAtZoomLimits: false,
+        zoomSnap: 0,
+        zoomDelta: 0.5,
       });
+      mapInstanceRef.current = map;
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
@@ -212,11 +224,83 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
 
         markersRef.current[node.id] = marker;
       });
-
-      mapInstanceRef.current = map;
     } catch {
       // Graceful fallback for non-browser/test environments
     }
+
+    let lastWheelPinchTime = 0;
+    let gestureStartZoom = mapInstanceRef.current?.getZoom() ?? 8;
+
+    const getPinchPoint = (clientX?: number, clientY?: number) => {
+      const rect = container.getBoundingClientRect();
+      const hasClientCoords =
+        typeof clientX === 'number' &&
+        typeof clientY === 'number' &&
+        (clientX !== 0 || clientY !== 0);
+
+      return hasClientCoords
+        ? L.point(clientX - rect.left, clientY - rect.top)
+        : L.point(rect.width / 2, rect.height / 2);
+    };
+
+    const applyPinchZoom = (targetZoom: number, clientX?: number, clientY?: number) => {
+      const map = mapInstanceRef.current;
+      if (!map) return;
+
+      const minZoom = map.getMinZoom();
+      const maxZoom = map.getMaxZoom();
+      const nextZoom = Math.min(maxZoom, Math.max(minZoom, targetZoom));
+      if (nextZoom !== map.getZoom()) {
+        map.setZoomAround(getPinchPoint(clientX, clientY), nextZoom, { animate: false });
+      }
+    };
+
+    const handleWheelPinch = (e: WheelEvent) => {
+      // Only intercept trackpad pinch gestures; leave normal scroll for #scrollRunway
+      if (!e.ctrlKey && !e.metaKey) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      lastWheelPinchTime = Date.now();
+
+      const map = mapInstanceRef.current;
+      if (!map) return;
+
+      const modeMultiplier = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 100 : 1;
+      const rawDelta = -e.deltaY * modeMultiplier * 0.015;
+      const clampedDelta = Math.max(-0.6, Math.min(0.6, rawDelta));
+      applyPinchZoom(map.getZoom() + clampedDelta, e.clientX, e.clientY);
+    };
+
+    const handleGestureStart = (e: Event) => {
+      e.preventDefault();
+      if (mapInstanceRef.current) {
+        gestureStartZoom = mapInstanceRef.current.getZoom();
+      }
+    };
+
+    const handleGestureChange = (e: Event) => {
+      e.preventDefault();
+      if (Date.now() - lastWheelPinchTime < 100) return;
+
+      const gestureEvent = e as WebKitGestureEvent;
+      const map = mapInstanceRef.current;
+      if (!map || typeof gestureEvent.scale !== 'number' || gestureEvent.scale <= 0) {
+        return;
+      }
+
+      const targetZoom = map.getScaleZoom(gestureEvent.scale, gestureStartZoom);
+      applyPinchZoom(targetZoom, gestureEvent.clientX, gestureEvent.clientY);
+    };
+
+    const handleGestureEnd = (e: Event) => {
+      e.preventDefault();
+    };
+
+    container.addEventListener('wheel', handleWheelPinch, { passive: false });
+    container.addEventListener('gesturestart', handleGestureStart, { passive: false });
+    container.addEventListener('gesturechange', handleGestureChange, { passive: false });
+    container.addEventListener('gestureend', handleGestureEnd, { passive: false });
 
     const handleResize = () => {
       if (mapInstanceRef.current) {
@@ -231,6 +315,10 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
+      container.removeEventListener('wheel', handleWheelPinch);
+      container.removeEventListener('gesturestart', handleGestureStart);
+      container.removeEventListener('gesturechange', handleGestureChange);
+      container.removeEventListener('gestureend', handleGestureEnd);
       if (mapInstanceRef.current) {
         try {
           mapInstanceRef.current.remove();
