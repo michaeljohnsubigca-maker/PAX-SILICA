@@ -242,7 +242,12 @@ export const App: React.FC = () => {
         {/* MOBILE NAVIGATION DOCK */}
         <MobilePanelNav
           activeMobilePanel={mobilePanel}
-          onSelectMobilePanel={setMobilePanel}
+          onSelectMobilePanel={(panel) => {
+            setMobilePanel(panel);
+            setLeftPanelCollapsed(false);
+            setRightPanelCollapsed(false);
+            if (scrollProgress < 0.9) scrollToWorkspace();
+          }}
           dispatchesCount={NEWS_CARDS.length}
         />
       </div>

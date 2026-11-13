@@ -86,9 +86,9 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
   return (
     <aside
       id="leftGlassPanel"
-      className="hidden lg:flex absolute top-[106px] lg:top-[72px] bottom-[60px] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 glass-panel rounded-2xl flex-col overflow-hidden transition-none"
+      className="flex absolute top-[106px] lg:top-[72px] bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 glass-panel rounded-2xl flex-col overflow-hidden transition-none"
       style={{
-        top: topOffset !== undefined ? `${topOffset}px` : undefined,
+        top: topOffset !== undefined ? `calc(${topOffset}px + env(safe-area-inset-top, 0px))` : undefined,
         transform: `translate3d(${isCollapsed ? -115 : translateXPercent}%, 0, 0)`,
         opacity: isCollapsed ? 0 : opacity,
         pointerEvents: !isCollapsed && pointerEvents ? 'auto' : 'none',
