@@ -1,7 +1,49 @@
 import React from 'react';
 import { Radio, ChevronLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { NEWS_CARDS } from '../../data/dispatches';
-import { IntelligenceDispatch } from '../../types/domain';
+import {
+  DISPATCH_STAKEHOLDERS,
+  DISPATCH_TOPICS,
+  DispatchStakeholder,
+  DispatchTopic,
+  IntelligenceDispatch,
+} from '../../types/domain';
+
+const STAKEHOLDER_META: Record<
+  DispatchStakeholder,
+  { shortLabel: string; pill: string; quoteBorder: string }
+> = {
+  'State / Official': {
+    shortLabel: 'State',
+    pill: 'bg-blue-500/20 text-white border-blue-400/40',
+    quoteBorder: 'border-blue-400',
+  },
+  'Think Tank / Academic': {
+    shortLabel: 'Think Tank',
+    pill: 'bg-sky-500/15 text-sky-200 border-sky-400/35',
+    quoteBorder: 'border-sky-400',
+  },
+  'Civil Society / Local': {
+    shortLabel: 'Civil Society',
+    pill: 'bg-rose-500/15 text-rose-200 border-rose-400/35',
+    quoteBorder: 'border-rose-400',
+  },
+};
+
+const TOPIC_LABELS: Record<DispatchTopic, string> = {
+  'Semiconductors & AI': 'Semiconductors, Wafer Lab & AI',
+  'Sovereignty & Legal': 'Sovereignty & RA 12252 Legal',
+  'Minerals & Power': 'Critical Minerals & Power Grid',
+  'Land & Community': 'Watershed & Ancestral Domain',
+};
+
+const STAKEHOLDER_PILLS: Array<{ id: 'ALL' | DispatchStakeholder; label: string }> = [
+  { id: 'ALL', label: 'All' },
+  ...DISPATCH_STAKEHOLDERS.map((id) => ({
+    id,
+    label: STAKEHOLDER_META[id].shortLabel,
+  })),
+];
 
 export interface LeftDispatchesPanelProps {
   selectedNodeId: string;
@@ -45,7 +87,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
     const matchesNode =
       selectedNodeId === 'ALL' ||
       card.nodeId === selectedNodeId ||
-      (card.secondaryNodes && card.secondaryNodes.includes(selectedNodeId));
+      Boolean(card.secondaryNodes?.some((node) => node === selectedNodeId));
 
     const matchesStakeholder =
       stakeholderFilter === 'ALL' || card.stakeholder === stakeholderFilter;
@@ -63,25 +105,6 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
     return matchesNode && matchesStakeholder && matchesTopic && matchesSearch;
   });
-
-  const getStakeholderStyles = (stakeholder: string) => {
-    if (stakeholder === 'Think Tank / Academic') {
-      return {
-        pill: 'bg-sky-500/15 text-sky-200 border-sky-400/35',
-        quoteBorder: 'border-sky-400',
-      };
-    }
-    if (stakeholder === 'Civil Society / Local') {
-      return {
-        pill: 'bg-rose-500/15 text-rose-200 border-rose-400/35',
-        quoteBorder: 'border-rose-400',
-      };
-    }
-    return {
-      pill: 'bg-blue-500/20 text-white border-blue-400/40',
-      quoteBorder: 'border-blue-400',
-    };
-  };
 
   return (
     <aside
@@ -123,12 +146,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
         {/* Stakeholder Filter Pills */}
         <div className="flex flex-wrap gap-2" id="stakeholderPillsContainer">
-          {[
-            { id: 'ALL', label: 'All' },
-            { id: 'State / Official', label: 'State' },
-            { id: 'Think Tank / Academic', label: 'Think Tank' },
-            { id: 'Civil Society / Local', label: 'Civil Society' },
-          ].map((item) => {
+          {STAKEHOLDER_PILLS.map((item) => {
             const isActive = stakeholderFilter === item.id;
             return (
               <button
@@ -158,10 +176,11 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
             className="flex-1 bg-white/[0.06] border border-white/15 rounded-lg px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-blue-400/80 truncate cursor-pointer"
           >
             <option value="ALL">All Vectors</option>
-            <option value="Semiconductors & AI">Semiconductors, Wafer Lab & AI</option>
-            <option value="Sovereignty & Legal">Sovereignty & RA 12252 Legal</option>
-            <option value="Minerals & Power">Critical Minerals & Power Grid</option>
-            <option value="Land & Community">Watershed & Ancestral Domain</option>
+            {DISPATCH_TOPICS.map((topic) => (
+              <option key={topic} value={topic}>
+                {TOPIC_LABELS[topic]}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -181,7 +200,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
           </div>
         ) : (
           filteredCards.map((card: IntelligenceDispatch) => {
-            const { pill, quoteBorder } = getStakeholderStyles(card.stakeholder);
+            const { pill, quoteBorder } = STAKEHOLDER_META[card.stakeholder];
             const isNodeActive = selectedNodeId === card.nodeId;
 
             return (

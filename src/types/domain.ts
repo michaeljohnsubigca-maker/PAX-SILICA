@@ -1,3 +1,21 @@
+export const CORRIDOR_NODE_IDS = ['ncc', 'bulacan', 'subic', 'manila', 'batangas'] as const;
+export type CorridorNodeId = (typeof CORRIDOR_NODE_IDS)[number];
+
+export const DISPATCH_STAKEHOLDERS = [
+  'State / Official',
+  'Think Tank / Academic',
+  'Civil Society / Local',
+] as const;
+export type DispatchStakeholder = (typeof DISPATCH_STAKEHOLDERS)[number];
+
+export const DISPATCH_TOPICS = [
+  'Semiconductors & AI',
+  'Sovereignty & Legal',
+  'Minerals & Power',
+  'Land & Community',
+] as const;
+export type DispatchTopic = (typeof DISPATCH_TOPICS)[number];
+
 export interface CorridorNode {
   id: string;
   name: string;
@@ -47,11 +65,11 @@ export interface IntelligenceDispatch {
   id: string;
   source: string;
   date: string;
-  stakeholder: string;
-  topic: string;
-  nodeId: string;
+  stakeholder: DispatchStakeholder;
+  topic: DispatchTopic;
+  nodeId: CorridorNodeId;
   nodeLabel: string;
-  secondaryNodes?: string[];
+  secondaryNodes?: CorridorNodeId[];
   headline: string;
   summary: string;
   quote: string;
