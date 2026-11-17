@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   ShieldCheck,
   ChevronRight,
@@ -8,11 +8,31 @@ import {
   Clock,
   Layers,
   ArrowDown,
+  ArrowRight,
   ExternalLink,
 } from 'lucide-react';
 import { MILESTONES } from '../../data/milestones';
 import { MYTHS_DATA } from '../../data/myths';
 import { SUPPLY_CHAIN_STAGES } from '../../data/supplyChain';
+
+const ACRONYMS = new Set(['NCC', 'BCDA', 'DTI', 'AI', 'SCMB', 'RA', 'US', 'UK', 'PH', 'ASEAN', 'DOST', 'BOI', 'DOE', 'NSCR', 'LNG', 'R&D', 'STEM', 'CPU']);
+
+function formatDisplayLabel(text: string): string {
+  const cleaned = text.replace(/\s*•\s*/g, ', ');
+  if (cleaned !== cleaned.toUpperCase()) return cleaned;
+  return cleaned
+    .toLowerCase()
+    .replace(/\b([a-z0-9&-]+)\b/g, (word, _g1, offset) => {
+      const upper = word.toUpperCase();
+      if (ACRONYMS.has(upper)) return upper;
+      if (offset === 0) return word.charAt(0).toUpperCase() + word.slice(1);
+      return word;
+    });
+}
+
+function formatMiddleDots(text: string): string {
+  return text.replace(/\s*•\s*/g, ', ');
+}
 
 export interface RightLedgerPanelProps {
   activeTab: 'milestones' | 'myths' | 'supply';
@@ -39,175 +59,158 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
   pointerEvents,
   topOffset,
 }) => {
+  const isHidden = isCollapsed || opacity <= 0.02;
+  const panelRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    (el as HTMLElement & { inert?: boolean }).inert = isHidden;
+  }, [isHidden]);
+
   return (
     <aside
+      ref={panelRef}
       id="rightGlassPanel"
-      className="flex absolute top-[106px] lg:top-[72px] bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 lg:left-auto sm:right-2 lg:w-[320px] z-20 glass-panel rounded-2xl flex-col overflow-hidden transition-none"
+      className="flex absolute top-[106px] lg:top-[72px] bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 lg:left-auto sm:right-2 lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
       style={{
         top: topOffset !== undefined ? `calc(${topOffset}px + env(safe-area-inset-top, 0px))` : undefined,
         transform: `translate3d(${isCollapsed ? 118 : translateXPercent}%, 0, 0)`,
         opacity: isCollapsed ? 0 : opacity,
-        pointerEvents: !isCollapsed && pointerEvents ? 'auto' : 'none',
+        pointerEvents: !isHidden && pointerEvents ? 'auto' : 'none',
       }}
     >
-      {/* KPI Bento Grid (2x2) */}
-      <div className="p-2.5 border-b border-white/12 bg-white/[0.06] shrink-0">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-blue-400" />
-              Project Ledger
-            </h2>
+      {/* Panel Header */}
+      <div className="px-3 py-2.5 border-b border-rule bg-paper-2 flex items-center justify-between shrink-0">
+        <h2 className="text-[17px] text-ink flex items-center gap-2">
+          <ShieldCheck className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+          <span>Project Ledger</span>
+        </h2>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-ink-2 bg-paper-3 border border-rule-2 px-2 py-0.5 font-medium">
+            DTI / BCDA
+          </span>
+          <button
+            type="button"
+            className="ctrl w-7 h-7 flex items-center justify-center text-ink-2"
+            onClick={onToggleCollapse}
+            title="Minimize Ledger Panel"
+            aria-label="Minimize Ledger Panel"
+          >
+            <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+
+      {/* 2x2 Hairline Figures Grid */}
+      <div className="grid grid-cols-2 border-b border-rule shrink-0">
+        <div className="p-2.5 border-r border-b border-rule">
+          <div className="flex items-center justify-between gap-1 text-xs text-muted">
+            <span>Capas zone</span>
+            <span className="text-ink-2 num">17.1% NCC</span>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="font-mono text-[9px] text-sky-300 bg-sky-500/15 border border-sky-400/35 px-1.5 py-0.5 rounded-full font-semibold">
-              DTI / BCDA
-            </span>
-            <button
-              className="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white flex items-center justify-center border border-white/10 transition cursor-pointer"
-              onClick={onToggleCollapse}
-              title="Minimize Ledger Panel"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
+          <div className="text-base font-medium text-ink mt-1 leading-none num">
+            1,620 ha
           </div>
+          <div className="text-xs text-muted mt-1 leading-snug">4,000 acres in 9,450ha</div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
-          {/* KPI 1 */}
-          <div className="glass-subtle rounded-lg p-2 border border-white/12">
-            <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
-              <span>CAPAS ZONE</span>
-              <span className="text-sky-300 font-semibold">17.1% NCC</span>
-            </div>
-            <div className="font-mono text-base font-bold text-white mt-0.5 leading-none">
-              1,620 ha
-            </div>
-            <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
-              <div className="h-full bg-blue-500 rounded-full" style={{ width: '68%' }}></div>
-            </div>
-            <div className="text-[10px] text-slate-200 mt-1 truncate">
-              4,000 acres in 9,450ha
-            </div>
+        <div className="p-2.5 border-b border-rule">
+          <div className="flex items-center justify-between gap-1 text-xs text-muted">
+            <span>Capex target</span>
+            <span className="text-ink-2 num">50+ suitors</span>
           </div>
+          <div className="text-base font-medium text-accent mt-1 leading-none num">
+            $40B–$70B
+          </div>
+          <div className="text-xs text-muted mt-1 leading-snug">KR, SG, US, JP, TW</div>
+        </div>
 
-          {/* KPI 2 */}
-          <div className="glass-subtle rounded-lg p-2 border border-white/12">
-            <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
-              <span>CAPEX TARGET</span>
-              <span className="text-sky-300 font-semibold">50+ SUITORS</span>
-            </div>
-            <div className="font-mono text-base font-bold text-sky-300 mt-0.5 leading-none">
-              $40B–$70B
-            </div>
-            <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
-              <div className="h-full bg-sky-400 rounded-full" style={{ width: '82%' }}></div>
-            </div>
-            <div className="text-[10px] text-slate-200 mt-1 truncate">
-              KR, SG, US, JP, TW
-            </div>
+        <div className="p-2.5 border-r border-rule">
+          <div className="flex items-center justify-between gap-1 text-xs text-muted">
+            <span>Gross yield</span>
+            <span className="text-success">Maturity</span>
           </div>
+          <div className="text-base font-medium text-success mt-1 leading-none num">
+            ₱180B / yr
+          </div>
+          <div className="text-xs text-muted mt-1 leading-snug">Recurring industrial</div>
+        </div>
 
-          {/* KPI 3 */}
-          <div className="glass-subtle rounded-lg p-2 border border-white/12">
-            <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
-              <span>GROSS YIELD</span>
-              <span className="text-emerald-400 font-semibold">MATURITY</span>
-            </div>
-            <div className="font-mono text-base font-bold text-emerald-400 mt-0.5 leading-none">
-              ₱180B / yr
-            </div>
-            <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
-              <div className="h-full bg-emerald-400 rounded-full" style={{ width: '55%' }}></div>
-            </div>
-            <div className="text-[10px] text-slate-200 mt-1 truncate">
-              Recurring industrial
-            </div>
+        <div className="p-2.5">
+          <div className="flex items-center justify-between gap-1 text-xs text-muted">
+            <span>Workforce</span>
+            <span className="text-ink-2">STEM / Fab</span>
           </div>
-
-          {/* KPI 4 */}
-          <div className="glass-subtle rounded-lg p-2 border border-white/12">
-            <div className="flex items-center justify-between text-[9px] font-mono text-slate-300">
-              <span>WORKFORCE</span>
-              <span className="text-blue-200 font-semibold">STEM / FAB</span>
-            </div>
-            <div className="font-mono text-base font-bold text-white mt-0.5 leading-none">
-              130K–200K
-            </div>
-            <div className="w-full h-1 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
-              <div className="h-full bg-blue-400 rounded-full" style={{ width: '75%' }}></div>
-            </div>
-            <div className="text-[10px] text-slate-200 mt-1 truncate">
-              Wafer R&amp;D &amp; mineral fab
-            </div>
+          <div className="text-base font-medium text-ink mt-1 leading-none num">
+            130K–200K
           </div>
+          <div className="text-xs text-muted mt-1 leading-snug">Wafer R&amp;D &amp; mineral fab</div>
         </div>
       </div>
 
       {/* Ledger Tab Switcher */}
-      <div className="px-2.5 pt-2 pb-2 border-b border-white/12 shrink-0">
-        <div className="grid grid-cols-3 gap-2 bg-white/[0.06] p-1.5 rounded-xl border border-white/15">
-          <button
-            onClick={() => onTabChange('milestones')}
-            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
-              activeTab === 'milestones'
-                ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
-                : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            <Milestone className="w-3 h-3 text-blue-400" />
-            <span>Milestones</span>
-          </button>
+      <div className="grid grid-cols-3 border-b border-rule bg-paper-2 shrink-0">
+        <button
+          type="button"
+          onClick={() => onTabChange('milestones')}
+          className={`py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 transition-colors focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+            activeTab === 'milestones'
+              ? 'border-accent text-ink bg-paper'
+              : 'border-transparent text-muted hover:text-ink'
+          }`}
+        >
+          <Milestone className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+          <span>Milestones</span>
+        </button>
 
-          <button
-            onClick={() => onTabChange('myths')}
-            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
-              activeTab === 'myths'
-                ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
-                : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            <Scale className="w-3 h-3 text-blue-400" />
-            <span>Law Audit</span>
-          </button>
+        <button
+          type="button"
+          onClick={() => onTabChange('myths')}
+          className={`py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 transition-colors focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+            activeTab === 'myths'
+              ? 'border-accent text-ink bg-paper'
+              : 'border-transparent text-muted hover:text-ink'
+          }`}
+        >
+          <Scale className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+          <span>Law Audit</span>
+        </button>
 
-          <button
-            onClick={() => onTabChange('supply')}
-            className={`py-1 px-1.5 rounded-lg font-mono text-[10px] font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
-              activeTab === 'supply'
-                ? 'bg-blue-600/35 text-white border border-blue-400/60 shadow-sm'
-                : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            <Network className="w-3 h-3 text-blue-400" />
-            <span>Value Chain</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => onTabChange('supply')}
+          className={`py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 transition-colors focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+            activeTab === 'supply'
+              ? 'border-accent text-ink bg-paper'
+              : 'border-transparent text-muted hover:text-ink'
+          }`}
+        >
+          <Network className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+          <span>Value Chain</span>
+        </button>
       </div>
 
       {/* Scrollable Ledger Content */}
-      <div className="flex-1 overflow-y-auto glass-scroll p-2 space-y-2" id="rightPanelContent">
+      <div className="flex-1 overflow-y-auto console-scroll" id="rightPanelContent">
         {/* TAB 1: MILESTONES */}
         {activeTab === 'milestones' && (
-          <div className="space-y-2">
-            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
-              <Clock className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
+          <div>
+            <div className="bg-paper-2 border-b border-rule px-3 py-2 text-xs text-ink-2 flex items-start gap-2">
+              <Clock className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
-                <span className="font-mono font-bold text-white">
-                  PHASED INDUSTRIAL TIMELINE:
-                </span>{' '}
-                Click any milestone to focus geographical anchor.
+                <span className="font-medium text-ink">Phased industrial timeline:</span>{' '}
+                Select any milestone to focus its geographical anchor.
               </div>
             </div>
 
-            <div className="space-y-2 border-l border-slate-800 ml-2 pl-3">
+            <div className="divide-y divide-rule">
               {MILESTONES.map((ms) => {
-                let badgeClass = 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30';
+                let badgeClass = 'text-success bg-paper-2 border-success/40';
                 if (ms.statusColor === 'amber') {
-                  badgeClass = 'text-sky-300 bg-sky-500/15 border-sky-400/30';
+                  badgeClass = 'text-accent bg-paper-2 border-accent/40';
                 } else if (ms.statusColor === 'stone' || ms.statusColor === 'slate') {
-                  badgeClass = 'text-slate-300 bg-slate-800 border-slate-700';
+                  badgeClass = 'text-muted bg-paper-2 border-rule-2';
                 }
 
                 return (
@@ -215,39 +218,41 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     key={ms.id}
                     onMouseEnter={() => onHoverNode(ms.nodeId)}
                     onMouseLeave={() => onHoverNode(null)}
-                    onClick={() => onSelectNode(ms.nodeId)}
-                    className="intel-card rounded-xl p-2.5 space-y-1.5 cursor-pointer hover:border-blue-400/60 transition"
+                    className="ledger-row p-3 space-y-1.5"
                   >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <span className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded border ${badgeClass}`}>
-                        {ms.status}
+                    <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
+                      <span className={`font-medium px-1.5 py-0.5 border ${badgeClass}`}>
+                        {formatDisplayLabel(ms.status)}
                       </span>
-                      <span className="font-mono text-[9px] text-slate-300">{ms.date}</span>
+                      <span className="text-muted num">{formatDisplayLabel(ms.date)}</span>
                     </div>
 
-                    <h4 className="text-xs font-semibold text-white leading-snug">{ms.title}</h4>
-                    <p className="text-[10px] text-slate-300 leading-relaxed">{ms.details}</p>
+                    <h3 className="text-sm font-medium text-ink leading-snug">{ms.title}</h3>
+                    <p className="text-xs text-ink-2 leading-relaxed">{ms.details}</p>
 
-                    <div className="pt-1 flex items-center justify-between text-[9px] font-mono text-slate-300 border-t border-slate-800/80">
-                      <span className="flex items-center gap-1 text-sky-200">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                        {ms.nodeName}
-                      </span>
+                    <div className="pt-1 flex items-center justify-between gap-2 text-xs text-muted">
+                      <span className="text-ink-2">{ms.nodeName}</span>
                       <div className="flex items-center gap-2">
                         {ms.citationUrl && (
                           <a
                             href={ms.citationUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-600/25 hover:bg-blue-600/40 text-sky-200 hover:text-white border border-blue-400/40 font-mono text-[9px] font-semibold transition cursor-pointer"
+                            className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-xs text-ink-2"
                             title="Go to Source"
                           >
                             <span>Go to Source</span>
-                            <ExternalLink className="w-2.5 h-2.5 text-blue-400" />
+                            <ExternalLink className="w-3 h-3 text-accent" aria-hidden="true" />
                           </a>
                         )}
-                        <span className="text-blue-400">Focus Node →</span>
+                        <button
+                          type="button"
+                          onClick={() => onSelectNode(ms.nodeId)}
+                          className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-xs text-accent border-rule"
+                        >
+                          <span>Focus Node</span>
+                          <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -259,24 +264,24 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
         {/* TAB 2: LAW AUDIT / MYTHS */}
         {activeTab === 'myths' && (
-          <div className="space-y-2">
-            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
-              <Scale className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
+          <div>
+            <div className="bg-paper-2 border-b border-rule px-3 py-2 text-xs text-ink-2 flex items-start gap-2">
+              <Scale className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
-                <span className="font-mono font-bold text-white">
-                  CONSTITUTIONAL &amp; SOVEREIGNTY AUDIT:
+                <span className="font-medium text-ink">
+                  Constitutional &amp; sovereignty audit:
                 </span>{' '}
                 Fact-checked provisions under Philippine jurisdiction.
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="divide-y divide-rule">
               {MYTHS_DATA.map((myth) => {
-                let verdictPill = 'bg-rose-500/15 text-rose-300 border-rose-400/35';
+                let verdictPill = 'bg-paper-3 text-ink border-rule-2';
                 if (myth.verdictType === 'amber') {
-                  verdictPill = 'bg-sky-500/15 text-sky-300 border-sky-400/35';
+                  verdictPill = 'bg-paper-2 text-accent border-accent/50';
                 } else if (myth.verdictType === 'emerald') {
-                  verdictPill = 'bg-emerald-500/15 text-emerald-400 border-emerald-500/35';
+                  verdictPill = 'bg-paper-2 text-success border-success/50';
                 }
 
                 return (
@@ -284,49 +289,49 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     key={myth.id}
                     onMouseEnter={() => onHoverNode(myth.nodeId)}
                     onMouseLeave={() => onHoverNode(null)}
-                    onClick={() => onSelectNode(myth.nodeId)}
-                    className="intel-card rounded-xl p-2.5 space-y-1.5 cursor-pointer"
+                    className="ledger-row p-3 space-y-2"
                   >
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="font-mono text-[9px] font-bold text-slate-300">CLAIM CHECK</span>
-                      <span className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded border ${verdictPill}`}>
-                        {myth.verdict}
+                    <div className="flex items-center justify-between gap-2 text-xs">
+                      <span className="text-muted font-medium">Claim check</span>
+                      <span className={`font-medium px-1.5 py-0.5 border ${verdictPill}`}>
+                        {formatDisplayLabel(myth.verdict)}
                       </span>
                     </div>
 
-                    <p className="text-xs font-medium text-slate-100">
-                      “{myth.claim}”
-                    </p>
+                    <h3 className="text-xs font-medium text-ink leading-snug">{myth.claim}</h3>
 
-                    <div className="bg-white/[0.06] rounded-lg p-2 border border-white/10 space-y-1">
-                      <div className="font-mono text-[9px] text-blue-400 flex items-center justify-between">
-                        <span>LEGAL REF:</span>
-                        <span className="text-white font-semibold truncate max-w-[170px]">
-                          {myth.legalRef}
-                        </span>
+                    <div className="midnight-well p-2.5 space-y-1">
+                      <div className="text-xs flex flex-wrap items-baseline justify-between gap-1">
+                        <span className="text-accent shrink-0">Legal ref:</span>
+                        <span className="text-ink font-medium">{formatMiddleDots(myth.legalRef)}</span>
                       </div>
-                      <p className="text-[10px] text-slate-300 leading-relaxed font-normal">
-                        {myth.explanation}
-                      </p>
+                      <p className="text-xs text-ink-2 leading-relaxed">{myth.explanation}</p>
                     </div>
 
-                    <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-300">
-                      <span className="text-slate-300 truncate max-w-[150px]">
-                        Authority: {myth.authority}
-                      </span>
-                      {myth.citationUrl && (
-                        <a
-                          href={myth.citationUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-600/25 hover:bg-blue-600/40 text-sky-200 hover:text-white border border-blue-400/40 font-mono text-[9px] font-semibold transition cursor-pointer"
-                          title="Go to Source"
+                    <div className="pt-0.5 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
+                      <span>Authority: {myth.authority}</span>
+                      <div className="flex items-center gap-2">
+                        {myth.citationUrl && (
+                          <a
+                            href={myth.citationUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-xs text-ink-2"
+                            title="Go to Source"
+                          >
+                            <span>Go to Source</span>
+                            <ExternalLink className="w-3 h-3 text-accent" aria-hidden="true" />
+                          </a>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => onSelectNode(myth.nodeId)}
+                          className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-xs text-accent border-rule"
                         >
-                          <span>Go to Source</span>
-                          <ExternalLink className="w-2.5 h-2.5 text-blue-400" />
-                        </a>
-                      )}
+                          <span>Focus</span>
+                          <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
@@ -337,33 +342,26 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
         {/* TAB 3: VALUE CHAIN */}
         {activeTab === 'supply' && (
-          <div className="space-y-2">
-            <div className="glass-subtle rounded-xl p-2.5 text-[10px] text-slate-300 flex items-start gap-1.5 border border-white/12">
-              <Layers className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
+          <div>
+            <div className="bg-paper-2 border-b border-rule px-3 py-2 text-xs text-ink-2 flex items-start gap-2">
+              <Layers className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
-                <span className="font-mono font-bold text-blue-400">
-                  MINERAL-TO-WAFER:
-                </span>{' '}
-                Click any phase to inspect geographic anchor node.
+                <span className="font-medium text-ink">Mineral-to-wafer:</span>{' '}
+                Select any phase to inspect its geographic anchor node.
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="divide-y divide-rule">
               {SUPPLY_CHAIN_STAGES.map((st, idx) => {
-                let borderAccent = 'border-l-blue-500';
-                let pillStyle = 'bg-blue-500/20 text-white border-blue-400/40';
+                let borderAccent = 'border-l-accent';
                 if (st.color === 'terracotta') {
-                  borderAccent = 'border-l-blue-600';
-                  pillStyle = 'bg-blue-600/25 text-white border-blue-400/40';
+                  borderAccent = 'border-l-accent-2';
                 } else if (st.color === 'siliconGold' || st.color === 'amber') {
-                  borderAccent = 'border-l-sky-400';
-                  pillStyle = 'bg-sky-500/20 text-sky-200 border-sky-400/40';
+                  borderAccent = 'border-l-ink-2';
                 } else if (st.color === 'emerald') {
-                  borderAccent = 'border-l-cyan-400';
-                  pillStyle = 'bg-cyan-500/20 text-cyan-200 border-cyan-400/40';
+                  borderAccent = 'border-l-success';
                 } else if (st.color === 'sandstone') {
-                  borderAccent = 'border-l-indigo-400';
-                  pillStyle = 'bg-indigo-500/20 text-indigo-200 border-indigo-400/40';
+                  borderAccent = 'border-l-muted';
                 }
 
                 return (
@@ -371,29 +369,34 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     <div
                       onMouseEnter={() => onHoverNode(st.nodeId)}
                       onMouseLeave={() => onHoverNode(null)}
-                      onClick={() => onSelectNode(st.nodeId)}
-                      className={`intel-card border-l-4 ${borderAccent} rounded-r-xl p-2.5 space-y-1 cursor-pointer`}
+                      className={`ledger-row border-l-2 ${borderAccent} p-3 space-y-1.5`}
                     >
-                      <div className="flex items-center justify-between gap-1 flex-wrap">
-                        <span className="font-mono text-[9px] font-bold text-slate-300">
-                          {st.stage}
-                        </span>
-                        <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded border ${pillStyle} font-semibold`}>
+                      <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
+                        <span className="font-medium text-muted">{formatDisplayLabel(st.stage)}</span>
+                        <span className="px-1.5 py-0.5 bg-paper-2 border border-rule-2 text-ink-2 font-medium">
                           {st.nodeTag}
                         </span>
                       </div>
 
-                      <h4 className="text-[11px] font-bold text-white">{st.title}</h4>
-                      <div className="font-mono text-[9px] text-sky-300 font-semibold">
-                        {st.metrics}
+                      <h3 className="text-sm font-medium text-ink">
+                        <button
+                          type="button"
+                          onClick={() => onSelectNode(st.nodeId)}
+                          className="text-left hover:text-accent focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 transition-colors cursor-pointer"
+                        >
+                          {st.title}
+                        </button>
+                      </h3>
+                      <div className="text-xs text-accent font-medium num">
+                        {formatMiddleDots(st.metrics)}
                       </div>
-                      <p className="text-[10px] text-slate-300 leading-relaxed">{st.description}</p>
+                      <p className="text-xs text-ink-2 leading-relaxed">{st.description}</p>
                     </div>
 
                     {idx < SUPPLY_CHAIN_STAGES.length - 1 && (
-                      <div className="flex items-center justify-center gap-1 text-slate-400 font-mono text-[9px] py-0.5">
-                        <ArrowDown className="w-2.5 h-2.5 text-blue-400/80" />
-                        <span>SCMB RAIL FEED</span>
+                      <div className="flex items-center justify-center gap-1.5 text-muted text-xs py-1.5 bg-paper-2">
+                        <ArrowDown className="w-3 h-3 text-accent" aria-hidden="true" />
+                        <span>SCMB rail feed</span>
                       </div>
                     )}
                   </React.Fragment>

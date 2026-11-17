@@ -1,0 +1,29 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "app",
+  "shape": "app screen",
+  "theme": "midnight",
+  "axes": "dark/grotesk-sans/cool",
+  "hero": "left-anchored dossier overlay",
+  "nav": "top command bar (kept)",
+  "footer": "bottom node hud and mobile nav",
+  "imagery": "live Leaflet Luzon corridor map",
+  "photos": 0,
+  "entry": "src/App.tsx",
+  "fingerprint": "app-screen-midnight-dossier",
+  "sections": [
+   "LandingHeroOverlay",
+   "TopCommandHeader",
+   "LeftDispatchesPanel",
+   "RightLedgerPanel",
+   "BottomHud",
+   "MobilePanelNav"
+  ],
+  "signature": "live Luzon corridor map with square-cut midnight dossier panels",
+  "waived": [],
+  "prompt": "geospatial intelligence command console for the Philippines Pax Silica semiconductor and critical mineral corridor",
+  "date": "2026-11-17"
+ }
+]

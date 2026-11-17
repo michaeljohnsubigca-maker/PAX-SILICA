@@ -17,6 +17,12 @@ interface LuzonMapStageProps {
   isWideView?: boolean;
 }
 
+function readTokenColor(tokenName: string, fallback: string): string {
+  if (typeof window === 'undefined' || !document?.documentElement) return fallback;
+  const val = getComputedStyle(document.documentElement).getPropertyValue(tokenName).trim();
+  return val || fallback;
+}
+
 export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
   selectedNodeId,
   hoveredNodeId,
@@ -29,15 +35,14 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
   const markersRef = useRef<Record<string, L.Marker>>({});
 
   const createMarkerHtml = (node: CorridorNode, isHighlighted: boolean, isSelected: boolean) => {
-    const haloClass = isHighlighted ? 'node-halo-fast' : 'node-halo';
-    const haloSize = isHighlighted ? 'w-12 h-12' : 'w-9 h-9';
-    const coreScale = isHighlighted ? 'scale-125' : isSelected ? 'scale-110' : 'scale-100';
+    const activeState = isHighlighted || isSelected ? 'is-active' : '';
+    const ringSize = isHighlighted ? 'w-8 h-8' : 'w-6 h-6';
 
     return `
       <div class="corridor-node-wrapper w-12 h-12 group cursor-pointer">
-        <span class="${haloClass} ${haloSize}" style="background-color: ${node.color}33; border: 1.5px solid ${node.color};"></span>
-        <div class="relative z-10 w-3.5 h-3.5 rounded-full border-2 border-[#ffffff] transition-transform duration-200 ${coreScale}" style="background-color: ${node.color}; box-shadow: 0 0 16px ${node.color};"></div>
-        <div class="absolute left-9 top-1/2 -translate-y-1/2 whitespace-nowrap px-2.5 py-0.5 rounded-lg bg-[#0a1226]/95 backdrop-blur-md border text-[10px] font-mono font-bold tracking-tight shadow-xl pointer-events-none" style="border-color: ${node.color}aa; color: #ffffff;">
+        <span class="corridor-node-ring ${ringSize} ${activeState}"></span>
+        <div class="corridor-node-core relative z-10 w-3 h-3 ${activeState}"></div>
+        <div class="corridor-node-label absolute left-9 top-1/2 -translate-y-1/2 whitespace-nowrap px-2 py-0.5 text-xs font-medium pointer-events-none">
           ${node.name}
         </div>
       </div>
@@ -49,6 +54,12 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
     const container = mapContainerRef.current;
     if (!container) return;
     if (mapInstanceRef.current) return;
+
+    const accentColor = readTokenColor('--color-accent', 'currentColor');
+    const accentSubtle = readTokenColor('--color-accent-2', 'currentColor');
+    const inkSecondary = readTokenColor('--color-ink-2', 'currentColor');
+    const mutedColor = readTokenColor('--color-muted', 'currentColor');
+    const ruleSecondary = readTokenColor('--color-rule-2', 'currentColor');
 
     try {
       const map = L.map(container, {
@@ -99,7 +110,7 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
         onUpdateCoords(formatted);
       });
 
-      // 1. SCMB Rail Line
+      // 1. SCMB Rail Line (crisp vector spine, no animated dash or neon glow)
       const railCoords: [number, number][] = [
         CORRIDOR_NODES.subic.coords,
         CORRIDOR_NODES.ncc.coords,
@@ -108,27 +119,25 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
         CORRIDOR_NODES.batangas.coords,
       ];
 
-      const railGlow = L.polyline(railCoords, { color: '#1d4ed8', weight: 6, opacity: 0.4 });
-      const railCore = L.polyline(railCoords, {
-        color: '#38bdf8',
+      L.polyline(railCoords, {
+        color: accentColor,
         weight: 2.5,
-        opacity: 0.95,
-        className: 'rail-spine-flow',
-      }).bindTooltip('SCMB Freight Rail Spine (Subic → Clark → Bulacan → Manila → Batangas)', {
-        sticky: true,
-        className: 'pax-tooltip',
-      });
-
-      L.layerGroup([railGlow, railCore]).addTo(map);
+        opacity: 0.9,
+      })
+        .bindTooltip('SCMB Freight Rail Spine (Subic, Clark, Bulacan, Manila, Batangas)', {
+          sticky: true,
+          className: 'pax-tooltip',
+        })
+        .addTo(map);
 
       // 2. 1,620-ha Economic Security Zone
       const nccRing = L.circle(CORRIDOR_NODES.ncc.coords, {
         radius: 11500,
-        color: '#38bdf8',
+        color: accentSubtle,
         weight: 1.2,
         dashArray: '4, 6',
-        fillColor: '#38bdf8',
-        fillOpacity: 0.08,
+        fillColor: accentSubtle,
+        fillOpacity: 0.06,
       });
 
       const eszPoly = L.polygon(
@@ -139,10 +148,10 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
           [15.298, 120.502],
         ],
         {
-          color: '#60a5fa',
-          weight: 2,
-          fillColor: '#3b82f6',
-          fillOpacity: 0.22,
+          color: accentColor,
+          weight: 1.5,
+          fillColor: accentSubtle,
+          fillOpacity: 0.2,
         }
       ).bindTooltip('1,620-ha (4,000-acre) Pax Silica Security Zone (Capas, Tarlac)', {
         sticky: true,
@@ -160,12 +169,12 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
           CORRIDOR_NODES.ncc.coords,
         ],
         {
-          color: '#93c5fd',
-          weight: 2.2,
-          opacity: 0.95,
-          className: 'mineral-feed-flow',
+          color: inkSecondary,
+          weight: 1.8,
+          dashArray: '6, 6',
+          opacity: 0.85,
         }
-      ).bindTooltip('Zambales Critical Mineral Feed (Nickel, Copper, Chromite → Tarlac)', {
+      ).bindTooltip('Zambales Critical Mineral Feed (Nickel, Copper, Chromite to Tarlac)', {
         sticky: true,
         className: 'pax-tooltip',
       });
@@ -173,19 +182,19 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
       const batangasGridConnect = L.polyline(
         [CORRIDOR_NODES.batangas.coords, [14.15, 121.15], CORRIDOR_NODES.manila.coords],
         {
-          color: '#38bdf8',
-          weight: 2,
+          color: mutedColor,
+          weight: 1.8,
           dashArray: '3, 6',
-          opacity: 0.9,
+          opacity: 0.85,
         }
-      ).bindTooltip('Southern Luzon Clean Power Grid (Batangas LNG/Solar → Corridor)', {
+      ).bindTooltip('Southern Luzon Clean Power Grid (Batangas LNG and Solar to Corridor)', {
         sticky: true,
         className: 'pax-tooltip',
       });
 
       L.layerGroup([mineralFeed, batangasGridConnect]).addTo(map);
 
-      // 4. Watershed Protected Boundary
+      // 4. Watershed Protected Boundary (cool Midnight boundary tone)
       L.polygon(
         [
           [15.25, 120.35],
@@ -195,10 +204,10 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
           [15.18, 120.36],
         ],
         {
-          color: '#ef4444',
+          color: ruleSecondary,
           weight: 1.5,
           dashArray: '6, 6',
-          fillColor: '#ef4444',
+          fillColor: inkSecondary,
           fillOpacity: 0.08,
         }
       )

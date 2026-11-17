@@ -1,0 +1,20 @@
+{
+  "scanned": "2026-11-17",
+  "findings": {
+    "fonts": "Manrope + JetBrains Mono (index.html L17-20, tailwind.config.js L64-69; EB Garamond loaded in index.html L18 but unused)",
+    "palette": "Deep navy #050a18, surface obsidian #0a1226, panel base #0d1730, electric blue #3b82f6, cyan #38bdf8, frost white #f8fafc (tailwind.config.js L8-63, src/index.css L8-106)",
+    "motion": "CSS keyframes haloPulse/haloPulseFast/vectorDash/scrollWheel (src/index.css L146-188) and scroll-linked inline transforms (src/App.tsx L41-79)",
+    "spacing": "Tailwind default scale (tailwind.config.js)",
+    "framework": "React 18 + Vite 5 + Tailwind CSS 3 + Leaflet 1.9.4 + Vitest (package.json L12-32)"
+  },
+  "preserve": [
+    "All domain data and primary-source links (src/data/*)",
+    "Leaflet map stage, corridor geometry, and scroll choreography wiring (src/App.tsx, LuzonMapStage.tsx)",
+    "Existing unit test IDs, handlers, and layout bounds tested in src/App.test.tsx and component tests"
+  ],
+  "introduce": [
+    "CSS custom property token block (:root tokens.css and base.css)",
+    "Hallmark atmospheric design direction, restrained surfaces, and typographic/state discipline",
+    "Floor/Reflex/Finish gate compliance and accessibility states (focus-visible, reduced-motion, overflow-x: clip)"
+  ]
+}

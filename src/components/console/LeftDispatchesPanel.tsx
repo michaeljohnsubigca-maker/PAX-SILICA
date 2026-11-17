@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Radio, ChevronLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { NEWS_CARDS } from '../../data/dispatches';
 import {
@@ -11,22 +11,22 @@ import {
 
 const STAKEHOLDER_META: Record<
   DispatchStakeholder,
-  { shortLabel: string; pill: string; quoteBorder: string }
+  { shortLabel: string; tag: string; quoteBorder: string }
 > = {
   'State / Official': {
     shortLabel: 'State',
-    pill: 'bg-blue-500/20 text-white border-blue-400/40',
-    quoteBorder: 'border-blue-400',
+    tag: 'bg-paper-2 text-ink-2 border-rule-2',
+    quoteBorder: 'border-accent',
   },
   'Think Tank / Academic': {
     shortLabel: 'Think Tank',
-    pill: 'bg-sky-500/15 text-sky-200 border-sky-400/35',
-    quoteBorder: 'border-sky-400',
+    tag: 'bg-paper-2 text-muted border-rule',
+    quoteBorder: 'border-ink-2',
   },
   'Civil Society / Local': {
     shortLabel: 'Civil Society',
-    pill: 'bg-rose-500/15 text-rose-200 border-rose-400/35',
-    quoteBorder: 'border-rose-400',
+    tag: 'bg-paper-3 text-ink border-rule-2',
+    quoteBorder: 'border-muted',
   },
 };
 
@@ -82,6 +82,14 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
   topOffset,
 }) => {
   const query = searchQuery.trim().toLowerCase();
+  const isHidden = isCollapsed || opacity <= 0.02;
+  const panelRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    (el as HTMLElement & { inert?: boolean }).inert = isHidden;
+  }, [isHidden]);
 
   const filteredCards = NEWS_CARDS.filter((card) => {
     const matchesNode =
@@ -108,54 +116,55 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
   return (
     <aside
+      ref={panelRef}
       id="leftGlassPanel"
-      className="flex absolute top-[106px] lg:top-[72px] bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 glass-panel rounded-2xl flex-col overflow-hidden transition-none"
+      className="flex absolute top-[106px] lg:top-[72px] bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
       style={{
         top: topOffset !== undefined ? `calc(${topOffset}px + env(safe-area-inset-top, 0px))` : undefined,
         transform: `translate3d(${isCollapsed ? -115 : translateXPercent}%, 0, 0)`,
         opacity: isCollapsed ? 0 : opacity,
-        pointerEvents: !isCollapsed && pointerEvents ? 'auto' : 'none',
+        pointerEvents: !isHidden && pointerEvents ? 'auto' : 'none',
       }}
     >
       {/* Panel Header */}
-      <div className="p-2.5 border-b border-white/12 bg-white/[0.06] space-y-2 shrink-0">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white flex items-center gap-1.5">
-              <Radio className="w-3 h-3 text-blue-400" />
-              Intelligence Dispatches
-            </h2>
-          </div>
+      <div className="p-3 border-b border-rule bg-paper-2 space-y-2.5 shrink-0">
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="text-[17px] text-ink flex items-center gap-2">
+            <Radio className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+            <span>Intelligence Dispatches</span>
+          </h2>
           <div className="flex items-center gap-2">
             <span
               id="newsCountIndicator"
-              className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full bg-blue-600/25 text-white border border-blue-400/40"
+              className="text-xs font-medium px-2 py-0.5 bg-paper-3 text-ink-2 border border-rule-2 num"
             >
               {filteredCards.length}
             </span>
             <button
-              className="hidden lg:flex w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white items-center justify-center border border-white/10 transition cursor-pointer"
+              type="button"
+              className="hidden lg:flex ctrl w-7 h-7 items-center justify-center text-ink-2"
               onClick={onToggleCollapse}
               title="Minimize Dispatches Panel"
+              aria-label="Minimize Dispatches Panel"
             >
-              <ChevronLeft className="w-3.5 h-3.5" />
+              <ChevronLeft className="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </div>
         </div>
 
-        {/* Stakeholder Filter Pills */}
-        <div className="flex flex-wrap gap-2" id="stakeholderPillsContainer">
+        {/* Stakeholder Filter Tabs (filled ink when chosen) */}
+        <div className="flex flex-wrap gap-1.5" id="stakeholderPillsContainer">
           {STAKEHOLDER_PILLS.map((item) => {
             const isActive = stakeholderFilter === item.id;
             return (
               <button
                 key={item.id}
+                type="button"
                 onClick={() => onStakeholderFilterChange(item.id)}
-                className={`stakeholder-pill px-2 py-0.5 rounded-md text-[9px] font-mono transition font-semibold cursor-pointer ${
+                className={`stakeholder-pill ctrl px-2 py-1 text-xs ${
                   isActive
-                    ? 'bg-blue-600/35 text-white border border-blue-400/70 shadow-sm'
-                    : 'bg-white/[0.05] text-slate-300 border border-white/10 hover:text-white hover:bg-slate-800/60'
+                    ? 'bg-ink text-paper border-ink'
+                    : 'text-ink-2 border-rule'
                 }`}
               >
                 {item.label}
@@ -166,14 +175,14 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
         {/* Vector Select */}
         <div className="flex items-center gap-2">
-          <span className="text-[9px] font-mono uppercase tracking-wider text-slate-300 shrink-0">
-            Vector:
-          </span>
+          <label htmlFor="topicFilterSelect" className="text-xs text-muted shrink-0">
+            Vector
+          </label>
           <select
             id="topicFilterSelect"
             value={topicFilter}
             onChange={(e) => onTopicFilterChange(e.target.value)}
-            className="flex-1 bg-white/[0.06] border border-white/15 rounded-lg px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-blue-400/80 truncate cursor-pointer"
+            className="ctrl-input flex-1 h-8 px-2 text-xs truncate cursor-pointer"
           >
             <option value="ALL">All Vectors</option>
             {DISPATCH_TOPICS.map((topic) => (
@@ -185,22 +194,23 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
         </div>
       </div>
 
-      {/* Scrollable Feed */}
-      <div className="flex-1 overflow-y-auto glass-scroll p-2 space-y-2" id="newsFeedContainer">
+      {/* Scrollable Ledger Feed */}
+      <div className="flex-1 overflow-y-auto console-scroll divide-y divide-rule" id="newsFeedContainer">
         {filteredCards.length === 0 ? (
-          <div className="intel-card rounded-xl p-4 text-center space-y-2">
-            <div className="font-mono text-[10px] text-slate-300">NO DISPATCHES MATCH FILTER</div>
-            <p className="text-[11px] text-slate-300">Reset scope or search parameters.</p>
+          <div className="p-6 text-center space-y-2">
+            <div className="text-xs font-medium text-ink">No dispatches match filter</div>
+            <p className="text-xs text-muted">Reset scope or search parameters to view all reports.</p>
             <button
+              type="button"
               onClick={onResetFilters}
-              className="mt-1 px-3 py-1 rounded-lg bg-blue-600/20 text-white border border-blue-400/40 font-mono text-[10px] hover:bg-blue-600/30 transition cursor-pointer"
+              className="ctrl mt-2 px-3 py-1.5 text-xs text-ink"
             >
               Reset Filters
             </button>
           </div>
         ) : (
           filteredCards.map((card: IntelligenceDispatch) => {
-            const { pill, quoteBorder } = STAKEHOLDER_META[card.stakeholder];
+            const { tag, quoteBorder } = STAKEHOLDER_META[card.stakeholder];
             const isNodeActive = selectedNodeId === card.nodeId;
 
             return (
@@ -208,88 +218,73 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 key={card.id}
                 onMouseEnter={() => onHoverNode(card.nodeId)}
                 onMouseLeave={() => onHoverNode(null)}
-                onClick={() => onSelectNode(card.nodeId)}
-                className={`intel-card cursor-pointer rounded-xl p-2.5 space-y-2 ${
-                  isNodeActive
-                    ? 'ring-1 ring-blue-400/80 border-blue-400/70 shadow-glow-blue'
-                    : ''
+                className={`ledger-row p-3 space-y-2 ${
+                  isNodeActive ? 'ledger-row-active' : ''
                 }`}
               >
                 {/* Top Row */}
-                <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-900 text-white border border-white/12">
-                      {card.source}
-                    </span>
-                    <span className="font-mono text-[9px] text-slate-300">{card.date}</span>
+                <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-ink">{card.source}</span>
+                    <span className="text-muted num">{card.date}</span>
                   </div>
-
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-sky-200 border border-blue-400/30 flex items-center gap-1 font-medium">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                    {card.nodeLabel}
-                  </span>
+                  <span className="text-accent font-medium">{card.nodeLabel}</span>
                 </div>
 
                 {/* Tags */}
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded border ${pill} font-semibold`}>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className={`text-xs px-1.5 py-0.5 border ${tag} font-medium`}>
                     {card.stakeholder}
                   </span>
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-white/[0.06] text-slate-300 border border-white/10 truncate max-w-[170px]">
+                  <span className="text-xs px-1.5 py-0.5 bg-paper-2 text-muted border border-rule">
                     {card.topic}
                   </span>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-xs font-semibold text-white leading-snug">{card.headline}</h3>
+                {/* Title (keyboard-accessible button trigger for node selection) */}
+                <h3 className="text-sm font-medium text-ink leading-snug">
+                  <button
+                    type="button"
+                    onClick={() => onSelectNode(card.nodeId)}
+                    className="text-left hover:text-accent focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 transition-colors cursor-pointer"
+                  >
+                    {card.headline}
+                  </button>
+                </h3>
 
                 {/* Summary */}
-                <p className="text-[11px] text-slate-300 leading-relaxed font-normal">
-                  {card.summary}
-                </p>
+                <p className="text-xs text-ink-2 leading-relaxed">{card.summary}</p>
 
-                {/* Verbatim Soundbite with High-Contrast Polish */}
-                <blockquote
-                  className={`bg-white/[0.06] border-l-2 ${quoteBorder} rounded-r-lg p-2 space-y-1 shadow-sm`}
-                >
-                  <p className="font-sans text-[12px] text-slate-100 leading-snug font-medium">
-                    “{card.quote}”
-                  </p>
-                  <footer className="font-mono text-[9px] text-slate-300 font-medium">
-                    — {card.speaker}
-                  </footer>
+                {/* Verbatim Soundbite */}
+                <blockquote className={`border-l-2 ${quoteBorder} pl-2.5 py-0.5 space-y-1`}>
+                  <p className="text-xs text-ink leading-snug">{card.quote}</p>
+                  <footer className="text-xs text-muted">{card.speaker}</footer>
                 </blockquote>
 
-                {/* Footer Action */}
-                <div className="pt-0.5 flex items-center justify-between text-[9px] font-mono text-slate-300">
-                  <span className="text-blue-400 flex items-center gap-1">
-                    <span>Focus Map</span>
-                    <ArrowRight className="w-2.5 h-2.5 text-blue-400" />
-                  </span>
-                  <div className="flex items-center gap-2">
-                    {card.citationUrl && (
-                      <a
-                        href={card.citationUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="px-1.5 py-0.5 rounded bg-blue-500/15 hover:bg-blue-500/25 text-sky-200 border border-blue-400/30 transition flex items-center gap-1 cursor-pointer"
-                        title="Go to primary source document"
-                      >
-                        <span>Go to Source</span>
-                        <ExternalLink className="w-2.5 h-2.5 text-sky-300" />
-                      </a>
-                    )}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectNode(card.nodeId);
-                      }}
-                      className="px-1.5 py-0.5 rounded bg-slate-800/60 hover:bg-slate-700/80 text-white border border-white/15 transition cursor-pointer"
+                {/* Footer Actions (distinct Go to Source link and Isolate button) */}
+                <div className="pt-1 flex items-center justify-between gap-2 text-xs">
+                  {card.citationUrl ? (
+                    <a
+                      href={card.citationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ctrl px-2 py-1 text-xs text-ink-2 inline-flex items-center gap-1"
+                      title="Go to primary source document"
                     >
-                      Isolate
-                    </button>
-                  </div>
+                      <span>Go to Source</span>
+                      <ExternalLink className="w-3 h-3 text-accent" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <span />
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => onSelectNode(card.nodeId)}
+                    className="ctrl px-2 py-1 text-xs text-ink inline-flex items-center gap-1"
+                  >
+                    <span>Isolate</span>
+                    <ArrowRight className="w-3 h-3 text-accent" aria-hidden="true" />
+                  </button>
                 </div>
               </article>
             );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, ChevronUp, ChevronDown } from 'lucide-react';
 import { LuzonMapStage } from './components/console/LuzonMapStage';
 import { LandingHeroOverlay } from './components/console/LandingHeroOverlay';
 import { TopCommandHeader } from './components/console/TopCommandHeader';
@@ -8,6 +8,7 @@ import { RightLedgerPanel } from './components/console/RightLedgerPanel';
 import { BottomHud } from './components/console/BottomHud';
 import { MobilePanelNav } from './components/console/MobilePanelNav';
 import { NEWS_CARDS } from './data/dispatches';
+import { CORRIDOR_NODES } from './data/nodes';
 
 function easeOutCubic(x: number): number {
   return 1 - Math.pow(1 - x, 3);
@@ -113,6 +114,7 @@ export const App: React.FC = () => {
   }, []);
 
   const isWideView = leftPanelCollapsed && rightPanelCollapsed;
+  const inspectedNode = CORRIDOR_NODES[inspectedNodeId] || CORRIDOR_NODES.ncc;
 
   const toggleWideView = useCallback(() => {
     if (isWideView) {
@@ -125,9 +127,9 @@ export const App: React.FC = () => {
   }, [isWideView]);
 
   return (
-    <div id="scrollRunway" className="relative w-full h-[220vh] selection:bg-blue-500/30 selection:text-white">
-      {/* FIXED 100VW x 100VH GEOSPATIAL STAGE */}
-      <div id="viewportStage" className="fixed inset-0 w-full h-[100dvh] overflow-hidden bg-deepNavy">
+    <div id="scrollRunway" className="relative w-full h-[220vh]">
+      {/* FIXED 100% x 100dvh GEOSPATIAL STAGE */}
+      <div id="viewportStage" className="fixed inset-0 w-full h-[100dvh] overflow-hidden bg-paper">
         {/* LEAFLET MAP OF LUZON */}
         <LuzonMapStage
           selectedNodeId={selectedNodeId}
@@ -188,11 +190,13 @@ export const App: React.FC = () => {
         {scrollProgress > 0.4 && leftPanelCollapsed && (
           <button
             id="floatingLeftOpenBtn"
+            type="button"
             onClick={() => setLeftPanelCollapsed(false)}
-            className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-blue-400 hover:text-white transition cursor-pointer border border-white/20"
+            className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 z-30 midnight-frame ctrl w-9 h-9 items-center justify-center text-ink"
             title="Expand Dispatches Panel"
+            aria-label="Expand Dispatches Panel"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4" aria-hidden="true" />
           </button>
         )}
 
@@ -216,11 +220,13 @@ export const App: React.FC = () => {
         {scrollProgress > 0.4 && rightPanelCollapsed && (
           <button
             id="floatingRightOpenBtn"
+            type="button"
             onClick={() => setRightPanelCollapsed(false)}
-            className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 z-30 glass-panel panel-dock-pill rounded-full p-2 text-blue-400 hover:text-white transition cursor-pointer border border-white/20"
+            className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 z-30 midnight-frame ctrl w-9 h-9 items-center justify-center text-ink"
             title="Expand Ledger Panel"
+            aria-label="Expand Ledger Panel"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4" aria-hidden="true" />
           </button>
         )}
 
@@ -238,6 +244,63 @@ export const App: React.FC = () => {
           translateY={bottomY}
           pointerEvents={bottomPointerEvents}
         />
+
+        {/* MOBILE NODE SPECS DRAWER (visible when scrolled into workspace on mobile map view) */}
+        {scrollProgress > 0.35 && mobilePanel === 'map' && (
+          <div className="lg:hidden absolute bottom-[calc(4.75rem+env(safe-area-inset-bottom))] left-[max(0.5rem,env(safe-area-inset-left))] right-[max(0.5rem,env(safe-area-inset-right))] z-30 flex flex-col gap-2">
+            {isDrawerOpen && (
+              <div className="midnight-frame p-3 space-y-2 max-h-[45dvh] overflow-y-auto console-scroll text-xs">
+                <div className="flex items-center justify-between gap-2 border-b border-rule pb-2">
+                  <h3 className="text-sm font-medium text-ink">{inspectedNode.fullTitle}</h3>
+                  <span className="text-muted num">{inspectedNode.coordsText}</span>
+                </div>
+                <div className="space-y-1.5">
+                  <div>
+                    <span className="text-accent font-medium">Zone Allocation: </span>
+                    <span className="text-ink-2">{inspectedNode.allocation}</span>
+                  </div>
+                  <div>
+                    <span className="text-accent font-medium">Suitors &amp; Consortia: </span>
+                    <span className="text-ink-2">{inspectedNode.suitors.replace(/\s*•\s*/g, ', ')}</span>
+                  </div>
+                  <div>
+                    <span className="text-accent font-medium">Critical Dependencies: </span>
+                    <span className="text-ink-2">{inspectedNode.dependencies}</span>
+                  </div>
+                </div>
+                <p className="text-ink-2 leading-relaxed midnight-well p-2.5">{inspectedNode.summary}</p>
+              </div>
+            )}
+            <div className="midnight-frame p-1.5 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1 overflow-x-auto">
+                {(['ncc', 'bulacan', 'batangas', 'subic', 'manila'] as const).map((id) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => handleSelectNode(id)}
+                    className={`ctrl h-8 px-2 text-xs ${
+                      selectedNodeId === id ? 'bg-ink text-paper border-ink' : 'text-ink-2 border-rule'
+                    }`}
+                  >
+                    {CORRIDOR_NODES[id].name}
+                  </button>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsDrawerOpen((prev) => !prev)}
+                className="ctrl h-8 px-2.5 text-xs text-ink flex items-center gap-1 shrink-0"
+              >
+                <span>{inspectedNode.name} Specs</span>
+                {isDrawerOpen ? (
+                  <ChevronDown className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
+                ) : (
+                  <ChevronUp className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
+                )}
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* MOBILE NAVIGATION DOCK */}
         <MobilePanelNav

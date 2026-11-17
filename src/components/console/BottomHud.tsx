@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ChevronUp, ChevronDown, MapPin, ExternalLink, Cpu } from 'lucide-react';
 import { CORRIDOR_NODES } from '../../data/nodes';
+
+const ACRONYMS = new Set(['NCC', 'BCDA', 'RA', 'AI', 'R&D', 'LNG', 'ICT', 'PEZA', 'BPO']);
+
+function formatRoleLabel(text: string): string {
+  const cleaned = text.replace(/\s*•\s*/g, ', ');
+  if (cleaned !== cleaned.toUpperCase()) return cleaned;
+  return cleaned
+    .toLowerCase()
+    .replace(/\b([a-z0-9&-]+)\b/g, (word, _g1, offset) => {
+      const upper = word.toUpperCase();
+      if (ACRONYMS.has(upper)) return upper;
+      if (offset === 0) return word.charAt(0).toUpperCase() + word.slice(1);
+      return word;
+    });
+}
+
+function formatMiddleDots(text: string): string {
+  return text.replace(/\s*•\s*/g, ', ');
+}
 
 export interface BottomHudProps {
   selectedNodeId: string;
@@ -16,6 +35,14 @@ export interface BottomHudProps {
   pointerEvents: boolean;
 }
 
+const NODE_JUMP_ITEMS = [
+  { id: 'ncc', label: 'Capas Hub' },
+  { id: 'bulacan', label: 'Wafer Lab' },
+  { id: 'batangas', label: 'Batangas AI' },
+  { id: 'subic', label: 'Subic Port' },
+  { id: 'manila', label: 'Metro Manila' },
+];
+
 export const BottomHud: React.FC<BottomHudProps> = ({
   selectedNodeId,
   inspectedNodeId,
@@ -30,6 +57,14 @@ export const BottomHud: React.FC<BottomHudProps> = ({
   pointerEvents,
 }) => {
   const inspectedNode = CORRIDOR_NODES[inspectedNodeId] || CORRIDOR_NODES.ncc;
+  const isHidden = opacity <= 0.02;
+  const hudRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = hudRef.current;
+    if (!el) return;
+    (el as HTMLElement & { inert?: boolean }).inert = isHidden;
+  }, [isHidden]);
 
   // 8px viewport margin + 320px panel + 8px gap = 336px
   const leftOffset = leftPanelCollapsed ? 'left-2' : 'left-[336px]';
@@ -37,137 +72,121 @@ export const BottomHud: React.FC<BottomHudProps> = ({
 
   return (
     <div
+      ref={hudRef}
       id="bottomCenterHud"
-      className={`hidden lg:flex absolute bottom-2 ${leftOffset} ${rightOffset} z-20 flex-col gap-2 transition-all duration-300`}
+      className={`hidden lg:flex absolute bottom-2 ${leftOffset} ${rightOffset} z-20 flex-col gap-2 transition-none`}
       style={{
         transform: `translate3d(0, ${translateY}px, 0)`,
         opacity,
-        pointerEvents: pointerEvents ? 'auto' : 'none',
+        pointerEvents: !isHidden && pointerEvents ? 'auto' : 'none',
       }}
     >
       {/* Node Inspector Drawer */}
       {isDrawerOpen && (
         <div
           id="nodeInspectorDrawer"
-          className="glass-panel rounded-2xl p-3 border border-white/18 shadow-glass-elevated space-y-2 transition-all duration-300 animate-in fade-in"
+          className="midnight-frame p-4 space-y-3 transition-none"
         >
-          <div className="flex items-center justify-between border-b border-white/12 pb-2">
-            <div className="flex items-center gap-2">
-              <span
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ backgroundColor: inspectedNode.color }}
-              ></span>
-              <h3 className="font-mono text-xs font-bold text-white uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2 border-b border-rule pb-2.5">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-sm font-medium text-ink">
                 {inspectedNode.fullTitle}
               </h3>
-              <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full border ${inspectedNode.badgeClass}`}>
-                {inspectedNode.role}
+              <span className="text-xs px-2 py-0.5 bg-paper-2 border border-rule-2 text-ink-2">
+                {formatRoleLabel(inspectedNode.role)}
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-[10px] text-slate-300">
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-xs text-muted num">
                 {inspectedNode.coordsText}
               </span>
               <button
+                type="button"
                 onClick={() => onSelectNode(inspectedNode.id)}
-                className="h-7 px-2 rounded-lg bg-blue-600/25 hover:bg-blue-600/40 text-white border border-blue-400/40 font-mono text-[10px] flex items-center gap-1 transition cursor-pointer"
+                className="ctrl h-8 px-2.5 text-xs flex items-center gap-1.5"
               >
                 <span>Focus Camera</span>
-                <ExternalLink className="w-2.5 h-2.5 text-blue-400" />
+                <ExternalLink className="w-3 h-3 text-accent" aria-hidden="true" />
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
-            {/* Allocation */}
-            <div className="bg-white/[0.06] rounded-xl p-2.5 border border-white/12 space-y-1">
-              <div className="font-mono text-[9px] uppercase tracking-wider text-blue-400 font-bold flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-blue-400" />
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-rule text-xs">
+            <div className="py-2 md:py-0 md:pr-3 space-y-1">
+              <div className="text-accent font-medium flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
                 <span>Zone Allocation</span>
               </div>
-              <p className="text-slate-200 leading-snug">{inspectedNode.allocation}</p>
+              <p className="text-ink-2 leading-snug">{inspectedNode.allocation}</p>
             </div>
 
-            {/* Suitors */}
-            <div className="bg-white/[0.06] rounded-xl p-2.5 border border-white/12 space-y-1">
-              <div className="font-mono text-[9px] uppercase tracking-wider text-sky-300 font-bold flex items-center gap-1">
-                <Cpu className="w-3 h-3 text-sky-300" />
+            <div className="py-2 md:py-0 md:px-3 space-y-1">
+              <div className="text-accent font-medium flex items-center gap-1.5">
+                <Cpu className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
                 <span>Suitors &amp; Consortia</span>
               </div>
-              <p className="text-slate-200 leading-snug">{inspectedNode.suitors}</p>
+              <p className="text-ink-2 leading-snug">{formatMiddleDots(inspectedNode.suitors)}</p>
             </div>
 
-            {/* Dependencies */}
-            <div className="bg-white/[0.06] rounded-xl p-2.5 border border-white/12 space-y-1">
-              <div className="font-mono text-[9px] uppercase tracking-wider text-cyan-300 font-bold">
-                Critical Dependencies
-              </div>
-              <p className="text-slate-200 leading-snug">{inspectedNode.dependencies}</p>
+            <div className="py-2 md:py-0 md:pl-3 space-y-1">
+              <div className="text-accent font-medium">Critical Dependencies</div>
+              <p className="text-ink-2 leading-snug">{inspectedNode.dependencies}</p>
             </div>
           </div>
 
-          <p className="text-[11px] text-slate-300 leading-relaxed font-normal bg-white/[0.05] p-2 rounded-lg border border-white/10">
+          <p className="text-xs text-ink-2 leading-relaxed midnight-well p-3">
             {inspectedNode.summary}
           </p>
         </div>
       )}
 
-      {/* Floating Control Bar */}
-      <div className="glass-panel rounded-2xl px-3 py-1.5 flex items-center justify-between gap-2 border border-white/18 shadow-glass-elevated">
-        {/* Node Buttons */}
-        <div className="flex items-center gap-2 overflow-x-auto py-0.5">
-          {[
-            { id: 'ncc', label: 'Capas Hub', dotColor: '#3b82f6' },
-            { id: 'bulacan', label: 'Wafer Lab', dotColor: '#38bdf8' },
-            { id: 'batangas', label: 'Batangas AI', dotColor: '#0284c7' },
-            { id: 'subic', label: 'Subic Port', dotColor: '#2563eb' },
-            { id: 'manila', label: 'Metro Manila', dotColor: '#60a5fa' },
-          ].map((item) => {
+      {/* Floating Control Bar (segmented choices filled ink when chosen) */}
+      <div className="midnight-frame p-2 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 overflow-x-auto">
+          {NODE_JUMP_ITEMS.map((item) => {
             const isSelected = selectedNodeId === item.id;
             return (
               <button
                 key={item.id}
+                type="button"
                 onMouseEnter={() => onHoverNode(item.id)}
                 onMouseLeave={() => onHoverNode(null)}
                 onClick={() => onSelectNode(item.id)}
-                className={`h-8 px-2.5 rounded-xl font-mono text-[11px] transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                className={`ctrl h-8 px-2.5 text-xs ${
                   isSelected
-                    ? 'bg-blue-600/35 text-white border border-blue-400/70 shadow-sm'
-                    : 'bg-white/[0.06] hover:bg-slate-800/80 text-slate-300 border border-white/12'
+                    ? 'bg-ink text-paper border-ink'
+                    : 'text-ink-2 border-rule'
                 }`}
               >
-                <span
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{ backgroundColor: item.dotColor }}
-                ></span>
-                <span>{item.label}</span>
+                {item.label}
               </button>
             );
           })}
 
           <button
+            type="button"
             onClick={() => onSelectNode('ALL')}
-            className={`h-8 px-2.5 rounded-xl font-mono text-[11px] transition cursor-pointer whitespace-nowrap ${
+            className={`ctrl h-8 px-2.5 text-xs ${
               selectedNodeId === 'ALL'
-                ? 'bg-blue-600/35 text-white border border-blue-400/70'
-                : 'bg-white/[0.06] hover:bg-slate-800/80 text-slate-300 border border-white/12'
+                ? 'bg-paper-3 text-ink border-rule-2'
+                : 'text-muted border-rule'
             }`}
           >
             Reset
           </button>
         </div>
 
-        {/* Toggle Drawer Button */}
         <button
+          type="button"
           onClick={onToggleDrawer}
-          className="h-8 px-3 rounded-xl bg-blue-600/20 hover:bg-blue-600/35 border border-blue-400/40 font-mono text-[11px] text-white flex items-center gap-2 shrink-0 transition cursor-pointer"
+          className="ctrl h-8 px-3 text-xs text-ink flex items-center gap-2 shrink-0"
         >
           <span>{inspectedNode.name} Specs</span>
           {isDrawerOpen ? (
-            <ChevronDown className="w-3.5 h-3.5 text-blue-400" />
+            <ChevronDown className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
           ) : (
-            <ChevronUp className="w-3.5 h-3.5 text-blue-400" />
+            <ChevronUp className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
           )}
         </button>
       </div>
