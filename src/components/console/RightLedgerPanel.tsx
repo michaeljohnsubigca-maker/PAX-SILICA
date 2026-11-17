@@ -154,7 +154,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         <button
           type="button"
           onClick={() => onTabChange('milestones')}
-          className={`py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 transition-colors focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+          className={`ledger-tab min-h-11 lg:min-h-0 py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
             activeTab === 'milestones'
               ? 'border-accent text-ink bg-paper'
               : 'border-transparent text-muted hover:text-ink'
@@ -167,7 +167,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         <button
           type="button"
           onClick={() => onTabChange('myths')}
-          className={`py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 transition-colors focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+          className={`ledger-tab min-h-11 lg:min-h-0 py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
             activeTab === 'myths'
               ? 'border-accent text-ink bg-paper'
               : 'border-transparent text-muted hover:text-ink'
@@ -180,7 +180,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         <button
           type="button"
           onClick={() => onTabChange('supply')}
-          className={`py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 transition-colors focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+          className={`ledger-tab min-h-11 lg:min-h-0 py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
             activeTab === 'supply'
               ? 'border-accent text-ink bg-paper'
               : 'border-transparent text-muted hover:text-ink'

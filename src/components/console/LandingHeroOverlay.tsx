@@ -24,7 +24,7 @@ export const LandingHeroOverlay: React.FC<LandingHeroOverlayProps> = ({
     <div
       id="landingHeroOverlay"
       aria-hidden={isHidden}
-      className="absolute inset-0 z-20 pointer-events-none flex flex-col justify-between gap-4 px-4 sm:px-8 pt-[max(1rem,env(safe-area-inset-top))] pb-[calc(5.25rem+env(safe-area-inset-bottom))] lg:pb-8 sm:pt-8 overflow-hidden transition-none"
+      className="absolute inset-0 z-20 pointer-events-none flex flex-col justify-between gap-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:px-8 pt-[max(1rem,env(safe-area-inset-top))] pb-[calc(5.25rem+env(safe-area-inset-bottom))] lg:pb-8 sm:pt-8 overflow-hidden transition-none"
       style={{
         opacity,
         transform: `translate3d(0, ${translateY}px, 0)`,
@@ -53,7 +53,7 @@ export const LandingHeroOverlay: React.FC<LandingHeroOverlayProps> = ({
           </div>
           <button
             type="button"
-            className="ctrl h-8 px-3 text-xs inline-flex items-center gap-1.5"
+            className="ctrl h-10 lg:h-8 px-3 text-xs inline-flex items-center gap-1.5"
             onClick={onEnterConsole}
           >
             <span>Command View</span>
@@ -92,7 +92,7 @@ export const LandingHeroOverlay: React.FC<LandingHeroOverlayProps> = ({
           <div className="mt-6 pt-5 border-t border-rule flex flex-wrap items-center gap-2">
             <button
               type="button"
-              className="ctrl ctrl-primary h-10 px-5 text-sm inline-flex items-center justify-center gap-2 w-full sm:w-auto whitespace-nowrap"
+              className="ctrl ctrl-primary h-11 lg:h-10 px-5 text-sm inline-flex items-center justify-center gap-2 w-full sm:w-auto whitespace-nowrap"
               onClick={onEnterConsole}
             >
               <span>Enter Intelligence Console</span>
@@ -102,21 +102,21 @@ export const LandingHeroOverlay: React.FC<LandingHeroOverlayProps> = ({
             <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
-                className="ctrl h-10 px-3 text-xs text-ink-2"
+                className="ctrl h-11 lg:h-10 px-3 text-xs text-ink-2"
                 onClick={() => onFocusNode('ncc')}
               >
                 Capas Hub
               </button>
               <button
                 type="button"
-                className="ctrl h-10 px-3 text-xs text-ink-2"
+                className="ctrl h-11 lg:h-10 px-3 text-xs text-ink-2"
                 onClick={() => onFocusNode('bulacan')}
               >
                 Wafer Lab
               </button>
               <button
                 type="button"
-                className="ctrl h-10 px-3 text-xs text-ink-2"
+                className="ctrl h-11 lg:h-10 px-3 text-xs text-ink-2"
                 onClick={() => onFocusNode('batangas')}
               >
                 Batangas AI

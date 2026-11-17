@@ -143,7 +143,7 @@ export const BottomHud: React.FC<BottomHudProps> = ({
 
       {/* Floating Control Bar (segmented choices filled ink when chosen) */}
       <div className="midnight-frame p-2 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 overflow-x-auto">
+        <div className="touch-scroll-x flex items-center gap-1.5">
           {NODE_JUMP_ITEMS.map((item) => {
             const isSelected = selectedNodeId === item.id;
             return (

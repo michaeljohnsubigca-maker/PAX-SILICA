@@ -13,9 +13,9 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
   dispatchesCount,
 }) => {
   const activeClass =
-    'ctrl h-9 px-2 text-xs bg-ink text-paper border-ink flex items-center justify-center gap-1.5';
+    'ctrl h-11 px-2 text-xs bg-ink text-paper border-ink flex items-center justify-center gap-1.5';
   const inactiveClass =
-    'ctrl h-9 px-2 text-xs text-ink-2 border-rule flex items-center justify-center gap-1.5';
+    'ctrl h-11 px-2 text-xs text-ink-2 border-rule flex items-center justify-center gap-1.5';
 
   return (
     <nav

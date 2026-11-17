@@ -161,7 +161,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 key={item.id}
                 type="button"
                 onClick={() => onStakeholderFilterChange(item.id)}
-                className={`stakeholder-pill ctrl px-2 py-1 text-xs ${
+                className={`stakeholder-pill ctrl min-h-9 lg:min-h-0 px-2.5 py-1 text-xs ${
                   isActive
                     ? 'bg-ink text-paper border-ink'
                     : 'text-ink-2 border-rule'
@@ -182,7 +182,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
             id="topicFilterSelect"
             value={topicFilter}
             onChange={(e) => onTopicFilterChange(e.target.value)}
-            className="ctrl-input flex-1 h-8 px-2 text-xs truncate cursor-pointer"
+            className="ctrl-input flex-1 h-10 lg:h-8 px-2 text-base lg:text-xs truncate cursor-pointer"
           >
             <option value="ALL">All Vectors</option>
             {DISPATCH_TOPICS.map((topic) => (

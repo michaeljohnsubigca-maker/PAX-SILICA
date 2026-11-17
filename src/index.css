@@ -20,6 +20,10 @@
     overscroll-behavior: none;
   }
 
+  body {
+    overscroll-behavior: none;
+  }
+
   input, textarea, select {
     font-size: var(--text-md);
   }
@@ -28,7 +32,7 @@
     touch-action: manipulation;
   }
 
-  button, [role="button"] {
+  button, [role="button"], a.ctrl, .ledger-tab {
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
@@ -123,6 +127,7 @@
 }
 .ctrl:active:not(:disabled) {
   transform: translateY(1px);
+  background: var(--color-paper-2);
 }
 .ctrl:focus-visible {
   outline: 2px solid var(--color-focus);
@@ -145,6 +150,29 @@
     background: var(--color-ink-2);
     border-color: var(--color-ink-2);
   }
+}
+.ctrl-primary:active:not(:disabled) {
+  background: var(--color-ink-2);
+  border-color: var(--color-ink-2);
+}
+
+.ledger-tab {
+  transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+.ledger-tab:active {
+  transform: translateY(1px);
+  background: var(--color-paper-3);
+}
+
+/* Native horizontal strip scrolling without vertical gesture hijack */
+.touch-scroll-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+.touch-scroll-x > * {
+  scroll-snap-align: start;
 }
 
 .ctrl-input {
@@ -224,8 +252,31 @@
   border-color: var(--color-rule) !important;
   border-radius: var(--radius-card) !important;
 }
-.leaflet-bar a:hover {
-  background-color: var(--color-paper-2) !important;
+@media (hover: hover) and (pointer: fine) {
+  .leaflet-bar a:hover {
+    background-color: var(--color-paper-2) !important;
+  }
+}
+.leaflet-bar a:active {
+  background-color: var(--color-paper-3) !important;
+}
+
+@media (pointer: coarse) {
+  input, textarea, select {
+    font-size: var(--text-md) !important;
+  }
+}
+
+@media (max-width: 63.99rem) {
+  #topCommandHeader,
+  #leftGlassPanel,
+  #rightGlassPanel {
+    left: max(var(--space-xs), env(safe-area-inset-left, 0px));
+    right: max(var(--space-xs), env(safe-area-inset-right, 0px));
+  }
+  .leaflet-bottom {
+    bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 /* Map Viewport Overlay (kept for test selector; Midnight keeps canvas crisp with no bloom) */

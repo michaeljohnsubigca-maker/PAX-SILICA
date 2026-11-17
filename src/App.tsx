@@ -127,7 +127,7 @@ export const App: React.FC = () => {
   }, [isWideView]);
 
   return (
-    <div id="scrollRunway" className="relative w-full h-[220vh]">
+    <div id="scrollRunway" className="relative w-full min-h-[220svh]">
       {/* FIXED 100% x 100dvh GEOSPATIAL STAGE */}
       <div id="viewportStage" className="fixed inset-0 w-full h-[100dvh] overflow-hidden bg-paper">
         {/* LEAFLET MAP OF LUZON */}
@@ -247,9 +247,9 @@ export const App: React.FC = () => {
 
         {/* MOBILE NODE SPECS DRAWER (visible when scrolled into workspace on mobile map view) */}
         {scrollProgress > 0.35 && mobilePanel === 'map' && (
-          <div className="lg:hidden absolute bottom-[calc(4.75rem+env(safe-area-inset-bottom))] left-[max(0.5rem,env(safe-area-inset-left))] right-[max(0.5rem,env(safe-area-inset-right))] z-30 flex flex-col gap-2">
+          <div className="lg:hidden absolute bottom-[calc(5rem+env(safe-area-inset-bottom))] left-[max(0.5rem,env(safe-area-inset-left))] right-[max(0.5rem,env(safe-area-inset-right))] z-30 flex flex-col gap-2">
             {isDrawerOpen && (
-              <div className="midnight-frame p-3 space-y-2 max-h-[45dvh] overflow-y-auto console-scroll text-xs">
+              <div className="midnight-frame p-3 space-y-2 max-h-[42dvh] overflow-y-auto console-scroll text-xs">
                 <div className="flex items-center justify-between gap-2 border-b border-rule pb-2">
                   <h3 className="text-sm font-medium text-ink">{inspectedNode.fullTitle}</h3>
                   <span className="text-muted num">{inspectedNode.coordsText}</span>
@@ -272,13 +272,13 @@ export const App: React.FC = () => {
               </div>
             )}
             <div className="midnight-frame p-1.5 flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1 overflow-x-auto">
+              <div className="touch-scroll-x flex items-center gap-1.5">
                 {(['ncc', 'bulacan', 'batangas', 'subic', 'manila'] as const).map((id) => (
                   <button
                     key={id}
                     type="button"
                     onClick={() => handleSelectNode(id)}
-                    className={`ctrl h-8 px-2 text-xs ${
+                    className={`ctrl h-10 px-3 text-xs shrink-0 ${
                       selectedNodeId === id ? 'bg-ink text-paper border-ink' : 'text-ink-2 border-rule'
                     }`}
                   >
@@ -289,7 +289,7 @@ export const App: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen((prev) => !prev)}
-                className="ctrl h-8 px-2.5 text-xs text-ink flex items-center gap-1 shrink-0"
+                className="ctrl h-10 px-3 text-xs text-ink flex items-center gap-1 shrink-0"
               >
                 <span>{inspectedNode.name} Specs</span>
                 {isDrawerOpen ? (

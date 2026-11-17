@@ -107,7 +107,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({
 
           <button
             type="button"
-            className="lg:hidden ctrl h-8 px-2.5 text-xs text-ink-2 flex items-center gap-1"
+            className="lg:hidden ctrl h-10 px-3 text-xs text-ink-2 flex items-center gap-1"
             onClick={onScrollToTop}
           >
             <ArrowUp className="w-3 h-3" aria-hidden="true" />
@@ -125,11 +125,15 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({
             <input
               id="globalSearchInput"
               type="text"
+              enterKeyHint="search"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               aria-label="Search dispatches, laws, wafer specs, suitors"
               placeholder="Search dispatches, laws, wafer specs, suitors..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="ctrl-input w-full h-8 pl-8 pr-8 py-1 text-xs"
+              className="ctrl-input w-full h-10 lg:h-8 pl-8 pr-8 py-1 text-base lg:text-xs"
             />
             {searchQuery && (
               <button
@@ -144,7 +148,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 h-8 bg-paper-2 border border-rule px-2.5 text-xs shrink-0">
+          <div className="flex items-center gap-1.5 h-10 lg:h-8 bg-paper-2 border border-rule px-2.5 text-xs shrink-0">
             <span className="text-muted hidden sm:inline">Scope:</span>
             <span id="activeNodeHeaderText" className="text-ink font-medium whitespace-nowrap">
               {activeNodeText}
