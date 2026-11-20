@@ -91,14 +91,14 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({
             </button>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
-                <span className="text-sm sm:text-base lg:text-lg font-medium text-ink tracking-tight leading-none">
+                <span className="text-base lg:text-lg font-medium text-ink tracking-tight leading-none">
                   Pax Silica
                 </span>
-                <span className="border-l border-rule pl-1.5 sm:pl-2 text-[11px] sm:text-xs font-medium text-accent truncate">
+                <span className="border-l border-rule pl-1.5 sm:pl-2 text-sm lg:text-xs font-medium text-accent truncate">
                   Luzon Corridor
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-muted mt-0.5 leading-tight whitespace-nowrap overflow-hidden">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs text-muted mt-0.5 leading-tight whitespace-nowrap overflow-hidden">
                 <span className="text-success font-medium shrink-0">OP vetted (Oct 2026)</span>
                 <span className="hidden sm:inline border-l border-rule pl-2 shrink-0">
                   Bilateral signing: Q4 2026
@@ -109,7 +109,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({
 
           <button
             type="button"
-            className="lg:hidden ctrl min-h-[34px] px-2.5 py-1 text-xs text-ink-2 inline-flex items-center gap-1 shrink-0"
+            className="lg:hidden ctrl min-h-[32px] px-2.5 py-1 text-sm text-ink-2 inline-flex items-center gap-1 shrink-0"
             onClick={onScrollToTop}
           >
             <ArrowUp className="w-3 h-3" aria-hidden="true" />
@@ -135,7 +135,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({
               placeholder="Search dispatches, laws, wafer specs, suitors..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="ctrl-input w-full h-9 lg:h-8 pl-7 pr-7 py-1 text-xs"
+              className="ctrl-input w-full min-h-8 pl-7 pr-7 py-1 text-sm lg:text-xs"
             />
             {searchQuery && (
               <button
@@ -150,7 +150,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-1 h-9 lg:h-8 bg-paper-2 border border-rule px-2 lg:px-2.5 text-xs shrink-0 max-w-[44%] sm:max-w-none">
+          <div className="flex items-center gap-1 min-h-8 bg-paper-2 border border-rule px-2 lg:px-2.5 py-1 text-sm lg:text-xs shrink-0 max-w-[44%] sm:max-w-none">
             <span className="text-muted hidden sm:inline shrink-0">Scope:</span>
             <span id="activeNodeHeaderText" className="text-ink font-medium truncate">
               {activeNodeText}

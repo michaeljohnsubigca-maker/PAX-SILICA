@@ -13,7 +13,7 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
   dispatchesCount,
 }) => {
   const baseClass =
-    'mobile-nav-tab min-h-[48px] py-1.5 px-1 flex flex-col items-center justify-center gap-0.5 text-[11px] leading-tight font-medium cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px]';
+    'mobile-nav-tab min-h-[44px] py-1.5 px-1 flex flex-col items-center justify-center gap-0.5 text-xs leading-tight font-medium cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px]';
   const activeClass = `${baseClass} bg-paper-2 text-ink`;
   const inactiveClass = `${baseClass} bg-transparent text-muted`;
 
@@ -31,7 +31,7 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
           className={activeMobilePanel === 'news' ? activeClass : inactiveClass}
         >
           <Radio
-            className={`w-4 h-4 shrink-0 ${
+            className={`w-3.5 h-3.5 shrink-0 ${
               activeMobilePanel === 'news' ? 'text-accent' : 'text-muted'
             }`}
             aria-hidden="true"
@@ -40,7 +40,7 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
             <span>Dispatches</span>
             <span
               id="mobileNewsCountBadge"
-              className="text-[10px] px-1 py-0 bg-paper-3 text-ink-2 border border-rule num leading-tight"
+              className="text-xs px-1 py-0 bg-paper-3 text-ink-2 border border-rule num leading-tight"
             >
               {dispatchesCount}
             </span>
@@ -55,7 +55,7 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
           className={activeMobilePanel === 'map' ? activeClass : inactiveClass}
         >
           <Map
-            className={`w-4 h-4 shrink-0 ${
+            className={`w-3.5 h-3.5 shrink-0 ${
               activeMobilePanel === 'map' ? 'text-accent' : 'text-muted'
             }`}
             aria-hidden="true"
@@ -71,7 +71,7 @@ export const MobilePanelNav: React.FC<MobilePanelNavProps> = ({
           className={activeMobilePanel === 'ledger' ? activeClass : inactiveClass}
         >
           <ShieldCheck
-            className={`w-4 h-4 shrink-0 ${
+            className={`w-3.5 h-3.5 shrink-0 ${
               activeMobilePanel === 'ledger' ? 'text-accent' : 'text-muted'
             }`}
             aria-hidden="true"

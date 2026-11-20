@@ -118,7 +118,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
     <aside
       ref={panelRef}
       id="leftGlassPanel"
-      className="flex absolute top-[96px] lg:top-[72px] bottom-[calc(3.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
+      className="flex absolute top-[92px] lg:top-[72px] bottom-[calc(3.25rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
       style={{
         top: topOffset !== undefined ? `calc(${topOffset}px + env(safe-area-inset-top, 0px))` : undefined,
         transform: `translate3d(${isCollapsed ? -115 : translateXPercent}%, 0, 0)`,
@@ -129,14 +129,14 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
       {/* Panel Header */}
       <div className="p-2 lg:p-3 border-b border-rule bg-paper-2 space-y-1.5 lg:space-y-2.5 shrink-0">
         <div className="flex items-center justify-between gap-2">
-          <h2 className="text-[15px] lg:text-[17px] text-ink flex items-center gap-1.5 lg:gap-2 min-w-0">
+          <h2 className="text-section text-ink flex items-center gap-1.5 lg:gap-2 min-w-0">
             <Radio className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
             <span className="truncate">Intelligence Dispatches</span>
           </h2>
           <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
             <span
               id="newsCountIndicator"
-              className="text-[11px] lg:text-xs font-medium px-1.5 lg:px-2 py-0.5 bg-paper-3 text-ink-2 border border-rule-2 num"
+              className="text-xs font-medium px-1.5 lg:px-2 py-0.5 bg-paper-3 text-ink-2 border border-rule-2 num"
             >
               {filteredCards.length}
             </span>
@@ -164,7 +164,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 key={item.id}
                 type="button"
                 onClick={() => onStakeholderFilterChange(item.id)}
-                className={`stakeholder-pill ctrl min-h-[32px] lg:min-h-0 px-2 lg:px-2.5 py-1 text-xs shrink-0 ${
+                className={`stakeholder-pill ctrl min-h-[30px] lg:min-h-0 px-2 lg:px-2.5 py-1 text-sm lg:text-xs shrink-0 ${
                   isActive
                     ? 'bg-ink text-paper border-ink'
                     : 'text-ink-2 border-rule'
@@ -178,14 +178,14 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
 
         {/* Vector Select */}
         <div className="flex items-center gap-1.5 lg:gap-2">
-          <label htmlFor="topicFilterSelect" className="text-xs text-muted shrink-0">
+          <label htmlFor="topicFilterSelect" className="text-sm lg:text-xs text-muted shrink-0">
             Vector
           </label>
           <select
             id="topicFilterSelect"
             value={topicFilter}
             onChange={(e) => onTopicFilterChange(e.target.value)}
-            className="ctrl-input flex-1 min-w-0 h-9 lg:h-8 px-2 py-0 text-xs leading-normal truncate cursor-pointer"
+            className="ctrl-input flex-1 min-w-0 min-h-8 px-2 py-1 text-sm lg:text-xs leading-normal truncate cursor-pointer"
           >
             <option value="ALL">All Vectors</option>
             {DISPATCH_TOPICS.map((topic) => (
@@ -201,12 +201,12 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
       <div className="flex-1 overflow-y-auto console-scroll divide-y divide-rule" id="newsFeedContainer">
         {filteredCards.length === 0 ? (
           <div className="p-6 text-center space-y-2">
-            <div className="text-xs font-medium text-ink">No dispatches match filter</div>
-            <p className="text-xs text-muted">Reset scope or search parameters to view all reports.</p>
+            <div className="text-base lg:text-xs font-medium text-ink">No dispatches match filter</div>
+            <p className="text-sm lg:text-xs text-muted">Reset scope or search parameters to view all reports.</p>
             <button
               type="button"
               onClick={onResetFilters}
-              className="ctrl mt-2 px-3 py-1.5 text-xs text-ink"
+              className="ctrl mt-2 px-3 py-1.5 text-sm lg:text-xs text-ink"
             >
               Reset Filters
             </button>
@@ -245,7 +245,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 </div>
 
                 {/* Title (keyboard-accessible button trigger for node selection) */}
-                <h3 className="text-sm font-medium text-ink leading-snug">
+                <h3 className="text-base lg:text-sm font-medium text-ink leading-snug">
                   <button
                     type="button"
                     onClick={() => onSelectNode(card.nodeId)}
@@ -256,22 +256,22 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 </h3>
 
                 {/* Summary */}
-                <p className="text-xs text-ink-2 leading-relaxed">{card.summary}</p>
+                <p className="text-sm lg:text-xs text-ink-2 leading-relaxed">{card.summary}</p>
 
                 {/* Verbatim Soundbite */}
                 <blockquote className={`border-l-2 ${quoteBorder} pl-2.5 py-0.5 space-y-1`}>
-                  <p className="text-xs text-ink leading-snug">{card.quote}</p>
+                  <p className="text-sm lg:text-xs text-ink leading-snug">{card.quote}</p>
                   <footer className="text-xs text-muted">{card.speaker}</footer>
                 </blockquote>
 
                 {/* Footer Actions (distinct Go to Source link and Isolate button) */}
-                <div className="pt-1 flex items-center justify-between gap-2 text-xs">
+                <div className="pt-1 flex items-center justify-between gap-2 text-sm lg:text-xs">
                   {card.citationUrl ? (
                     <a
                       href={card.citationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="ctrl px-2 py-1 text-xs text-ink-2 inline-flex items-center gap-1"
+                      className="ctrl px-2 py-1 text-sm lg:text-xs text-ink-2 inline-flex items-center gap-1"
                       title="Go to primary source document"
                     >
                       <span>Go to Source</span>
@@ -283,7 +283,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                   <button
                     type="button"
                     onClick={() => onSelectNode(card.nodeId)}
-                    className="ctrl px-2 py-1 text-xs text-ink inline-flex items-center gap-1"
+                    className="ctrl px-2 py-1 text-sm lg:text-xs text-ink inline-flex items-center gap-1"
                   >
                     <span>Isolate</span>
                     <ArrowRight className="w-3 h-3 text-accent" aria-hidden="true" />

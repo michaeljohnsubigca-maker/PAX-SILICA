@@ -2,7 +2,7 @@
   color-scheme: dark;
   --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
   --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem; --text-3xl: 2.074rem;
-  --text-display-s: 1.44rem; --text-display: 1.728rem; --text-section: 1.2rem; --text-title: 1rem; --text-lead: 1rem;
+  --text-display-s: 1.44rem; --text-display: 1.728rem; --text-section: 1.0625rem; --text-title: 1rem; --text-lead: 1rem;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
   --color-error: oklch(72% 0.15 27); --color-success: oklch(76% 0.13 150);
@@ -19,4 +19,22 @@
   --radius-card: 0; --radius-pill: 0; --rule-hair: 1px;
   --shadow-card: 0 24px 48px -24px oklch(6% 0.04 264 / 0.7);
   --tracking-display: -0.015em; --display-weight: 300; --display-stretch: 125%;
+}
+
+/* Mobile typography scale: 8px (0.5rem) baseline with 2px (0.125rem) increments */
+@media (max-width: 63.99em) {
+  :root {
+    --text-xs: 0.5rem;        /*  8px — baseline: metadata, dates, badges, coords, nav labels */
+    --text-sm: 0.625rem;      /* 10px — +2px: body copy, controls, buttons, tabs, quotes */
+    --text-md: 0.75rem;       /* 12px — +4px: card headlines (h3), KPI values, primary CTA, wordmark */
+    --text-lg: 0.875rem;      /* 14px — +6px: panel/section headings (h2) */
+    --text-xl: 1rem;          /* 16px — +8px: hero display (h1) */
+    --text-2xl: 1.125rem;     /* 18px — +10px */
+    --text-3xl: 1.25rem;      /* 20px — +12px */
+    --text-lead: 0.625rem;
+    --text-title: 0.75rem;
+    --text-section: 0.875rem;
+    --text-display-s: 1rem;
+    --text-display: 1rem;
+  }
 }

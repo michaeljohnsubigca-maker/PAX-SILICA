@@ -80,7 +80,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
     <aside
       ref={panelRef}
       id="rightGlassPanel"
-      className="flex absolute top-[96px] lg:top-[72px] bottom-[calc(3.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 lg:left-auto sm:right-2 lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
+      className="flex absolute top-[92px] lg:top-[72px] bottom-[calc(3.25rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 lg:left-auto sm:right-2 lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
       style={{
         top: topOffset !== undefined ? `calc(${topOffset}px + env(safe-area-inset-top, 0px))` : undefined,
         transform: `translate3d(${isCollapsed ? 118 : translateXPercent}%, 0, 0)`,
@@ -90,12 +90,12 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
     >
       {/* Panel Header */}
       <div className="px-2.5 py-2 lg:px-3 lg:py-2.5 border-b border-rule bg-paper-2 flex items-center justify-between gap-2 shrink-0">
-        <h2 className="text-[15px] lg:text-[17px] text-ink flex items-center gap-1.5 lg:gap-2 min-w-0">
+        <h2 className="text-section text-ink flex items-center gap-1.5 lg:gap-2 min-w-0">
           <ShieldCheck className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
           <span className="truncate">Project Ledger</span>
         </h2>
         <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
-          <span className="text-[11px] lg:text-xs text-ink-2 bg-paper-3 border border-rule-2 px-1.5 lg:px-2 py-0.5 font-medium whitespace-nowrap">
+          <span className="text-xs text-ink-2 bg-paper-3 border border-rule-2 px-1.5 lg:px-2 py-0.5 font-medium whitespace-nowrap">
             DTI / BCDA
           </span>
           <button
@@ -115,53 +115,53 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* 2x2 Hairline Figures Grid */}
         <div className="kpi-grid-shell grid grid-cols-2 border-b border-rule">
           <div className="p-2 lg:p-2.5 border-r border-b border-rule">
-            <div className="flex items-center justify-between gap-1 text-[11px] lg:text-xs text-muted">
+            <div className="flex items-center justify-between gap-1 text-xs text-muted">
               <span className="truncate">Capas zone</span>
               <span className="text-ink-2 num shrink-0">17.1% NCC</span>
             </div>
-            <div className="text-sm lg:text-base font-medium text-ink mt-0.5 lg:mt-1 leading-none num">
+            <div className="text-base font-medium text-ink mt-0.5 lg:mt-1 leading-none num">
               1,620 ha
             </div>
-            <div className="kpi-cell-sub text-[11px] lg:text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
+            <div className="kpi-cell-sub text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
               4,000 acres in 9,450ha
             </div>
           </div>
 
           <div className="p-2 lg:p-2.5 border-b border-rule">
-            <div className="flex items-center justify-between gap-1 text-[11px] lg:text-xs text-muted">
+            <div className="flex items-center justify-between gap-1 text-xs text-muted">
               <span className="truncate">Capex target</span>
               <span className="text-ink-2 num shrink-0">50+ suitors</span>
             </div>
-            <div className="text-sm lg:text-base font-medium text-accent mt-0.5 lg:mt-1 leading-none num">
+            <div className="text-base font-medium text-accent mt-0.5 lg:mt-1 leading-none num">
               $40B–$70B
             </div>
-            <div className="kpi-cell-sub text-[11px] lg:text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
+            <div className="kpi-cell-sub text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
               KR, SG, US, JP, TW
             </div>
           </div>
 
           <div className="p-2 lg:p-2.5 border-r border-rule">
-            <div className="flex items-center justify-between gap-1 text-[11px] lg:text-xs text-muted">
+            <div className="flex items-center justify-between gap-1 text-xs text-muted">
               <span className="truncate">Gross yield</span>
               <span className="text-success shrink-0">Maturity</span>
             </div>
-            <div className="text-sm lg:text-base font-medium text-success mt-0.5 lg:mt-1 leading-none num">
+            <div className="text-base font-medium text-success mt-0.5 lg:mt-1 leading-none num">
               ₱180B / yr
             </div>
-            <div className="kpi-cell-sub text-[11px] lg:text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
+            <div className="kpi-cell-sub text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
               Recurring industrial
             </div>
           </div>
 
           <div className="p-2 lg:p-2.5">
-            <div className="flex items-center justify-between gap-1 text-[11px] lg:text-xs text-muted">
+            <div className="flex items-center justify-between gap-1 text-xs text-muted">
               <span className="truncate">Workforce</span>
               <span className="text-ink-2 shrink-0">STEM / Fab</span>
             </div>
-            <div className="text-sm lg:text-base font-medium text-ink mt-0.5 lg:mt-1 leading-none num">
+            <div className="text-base font-medium text-ink mt-0.5 lg:mt-1 leading-none num">
               130K–200K
             </div>
-            <div className="kpi-cell-sub text-[11px] lg:text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
+            <div className="kpi-cell-sub text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
               Wafer R&amp;D &amp; mineral fab
             </div>
           </div>
@@ -174,7 +174,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             data-active={activeTab === 'milestones' ? 'true' : undefined}
             aria-pressed={activeTab === 'milestones'}
             onClick={(e) => handleTabSelect('milestones', e.currentTarget)}
-            className={`ledger-tab flex-1 shrink-0 min-h-[38px] lg:min-h-[36px] py-1.5 px-2 text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+            className={`ledger-tab flex-1 shrink-0 min-h-[36px] py-1.5 px-2 text-sm lg:text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
               activeTab === 'milestones'
                 ? 'text-ink bg-paper'
                 : 'text-muted hover:text-ink'
@@ -189,7 +189,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             data-active={activeTab === 'myths' ? 'true' : undefined}
             aria-pressed={activeTab === 'myths'}
             onClick={(e) => handleTabSelect('myths', e.currentTarget)}
-            className={`ledger-tab flex-1 shrink-0 min-h-[38px] lg:min-h-[36px] py-1.5 px-2 text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+            className={`ledger-tab flex-1 shrink-0 min-h-[36px] py-1.5 px-2 text-sm lg:text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
               activeTab === 'myths'
                 ? 'text-ink bg-paper'
                 : 'text-muted hover:text-ink'
@@ -204,7 +204,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
             data-active={activeTab === 'supply' ? 'true' : undefined}
             aria-pressed={activeTab === 'supply'}
             onClick={(e) => handleTabSelect('supply', e.currentTarget)}
-            className={`ledger-tab flex-1 shrink-0 min-h-[38px] lg:min-h-[36px] py-1.5 px-2 text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+            className={`ledger-tab flex-1 shrink-0 min-h-[36px] py-1.5 px-2 text-sm lg:text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
               activeTab === 'supply'
                 ? 'text-ink bg-paper'
                 : 'text-muted hover:text-ink'
@@ -218,7 +218,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* TAB 1: MILESTONES */}
         {activeTab === 'milestones' && (
           <div>
-            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-xs text-ink-2 flex items-start gap-2">
+            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-sm lg:text-xs text-ink-2 flex items-start gap-2">
               <Clock className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <span className="font-medium text-ink">Phased industrial timeline:</span>{' '}
@@ -249,8 +249,8 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                       <span className="text-muted num">{formatDisplayLabel(ms.date)}</span>
                     </div>
 
-                    <h3 className="text-sm font-medium text-ink leading-snug">{ms.title}</h3>
-                    <p className="text-xs text-ink-2 leading-relaxed">{ms.details}</p>
+                    <h3 className="text-base lg:text-sm font-medium text-ink leading-snug">{ms.title}</h3>
+                    <p className="text-sm lg:text-xs text-ink-2 leading-relaxed">{ms.details}</p>
 
                     <div className="pt-1 flex items-center justify-between gap-2 text-xs text-muted">
                       <span className="text-ink-2">{ms.nodeName}</span>
@@ -260,7 +260,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                             href={ms.citationUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-xs text-ink-2"
+                            className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-sm lg:text-xs text-ink-2"
                             title="Go to Source"
                           >
                             <span>Go to Source</span>
@@ -270,7 +270,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                         <button
                           type="button"
                           onClick={() => onSelectNode(ms.nodeId)}
-                          className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-xs text-accent border-rule"
+                          className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-sm lg:text-xs text-accent border-rule"
                         >
                           <span>Focus Node</span>
                           <ArrowRight className="w-3 h-3" aria-hidden="true" />
@@ -287,7 +287,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* TAB 2: LAW AUDIT / MYTHS */}
         {activeTab === 'myths' && (
           <div>
-            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-xs text-ink-2 flex items-start gap-2">
+            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-sm lg:text-xs text-ink-2 flex items-start gap-2">
               <Scale className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <span className="font-medium text-ink">
@@ -320,14 +320,14 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                       </span>
                     </div>
 
-                    <h3 className="text-xs font-medium text-ink leading-snug">{myth.claim}</h3>
+                    <h3 className="text-base lg:text-xs font-medium text-ink leading-snug">{myth.claim}</h3>
 
                     <div className="midnight-well p-2 lg:p-2.5 space-y-1">
                       <div className="text-xs flex flex-wrap items-baseline justify-between gap-1">
                         <span className="text-accent shrink-0">Legal ref:</span>
                         <span className="text-ink font-medium">{formatMiddleDots(myth.legalRef)}</span>
                       </div>
-                      <p className="text-xs text-ink-2 leading-relaxed">{myth.explanation}</p>
+                      <p className="text-sm lg:text-xs text-ink-2 leading-relaxed">{myth.explanation}</p>
                     </div>
 
                     <div className="pt-0.5 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
@@ -338,7 +338,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                             href={myth.citationUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-xs text-ink-2"
+                            className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-sm lg:text-xs text-ink-2"
                             title="Go to Source"
                           >
                             <span>Go to Source</span>
@@ -348,7 +348,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                         <button
                           type="button"
                           onClick={() => onSelectNode(myth.nodeId)}
-                          className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-xs text-accent border-rule"
+                          className="ctrl inline-flex items-center gap-1 px-2 py-0.5 text-sm lg:text-xs text-accent border-rule"
                         >
                           <span>Focus</span>
                           <ArrowRight className="w-3 h-3" aria-hidden="true" />
@@ -365,7 +365,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* TAB 3: VALUE CHAIN */}
         {activeTab === 'supply' && (
           <div>
-            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-xs text-ink-2 flex items-start gap-2">
+            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-sm lg:text-xs text-ink-2 flex items-start gap-2">
               <Layers className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <span className="font-medium text-ink">Mineral-to-wafer:</span>{' '}
@@ -400,7 +400,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                         </span>
                       </div>
 
-                      <h3 className="text-sm font-medium text-ink">
+                      <h3 className="text-base lg:text-sm font-medium text-ink">
                         <button
                           type="button"
                           onClick={() => onSelectNode(st.nodeId)}
@@ -409,10 +409,10 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                           {st.title}
                         </button>
                       </h3>
-                      <div className="text-xs text-accent font-medium num">
+                      <div className="text-sm lg:text-xs text-accent font-medium num">
                         {formatMiddleDots(st.metrics)}
                       </div>
-                      <p className="text-xs text-ink-2 leading-relaxed">{st.description}</p>
+                      <p className="text-sm lg:text-xs text-ink-2 leading-relaxed">{st.description}</p>
                     </div>
 
                     {idx < SUPPLY_CHAIN_STAGES.length - 1 && (

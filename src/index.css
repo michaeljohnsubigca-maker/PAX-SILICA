@@ -327,7 +327,7 @@
 
 @media (pointer: coarse) {
   input, textarea, select {
-    font-size: var(--text-md) !important;
+    font-size: 1rem !important;
   }
 }
 
@@ -341,7 +341,7 @@
   }
 }
 
-@media (max-width: 63.99rem) {
+@media (max-width: 63.99em) {
   #topCommandHeader,
   #leftGlassPanel,
   #rightGlassPanel {
@@ -349,10 +349,10 @@
     right: max(var(--space-xs), env(safe-area-inset-right, 0px));
   }
   .leaflet-bottom {
-    bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(3.25rem + env(safe-area-inset-bottom, 0px));
   }
   #viewportStage[data-mobile-node-bar="true"] .leaflet-bottom {
-    bottom: calc(6.75rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
   }
   #viewportStage[data-stage-mode="hero"] .leaflet-bottom {
     opacity: 0;
@@ -363,7 +363,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 10px !important;
+    font-size: var(--text-xs) !important;
     line-height: 1.25;
   }
 }
