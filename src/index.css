@@ -24,15 +24,11 @@
     overscroll-behavior: none;
   }
 
-  input, textarea, select {
-    font-size: var(--text-md);
-  }
-
   button, a, [role="button"], select {
     touch-action: manipulation;
   }
 
-  button, [role="button"], a.ctrl, .ledger-tab {
+  button, [role="button"], a.ctrl, .ledger-tab, .mobile-nav-tab {
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
@@ -74,6 +70,8 @@
 /* Scrollbar inside Midnight console panels */
 .console-scroll {
   overscroll-behavior: contain;
+  scroll-padding-top: 2.75rem;
+  scroll-padding-bottom: 1rem;
 }
 .console-scroll::-webkit-scrollbar {
   width: 4px;
@@ -117,7 +115,7 @@
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+  transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out), scale var(--dur-micro) var(--ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
   .ctrl:hover:not(:disabled) {
@@ -126,7 +124,7 @@
   }
 }
 .ctrl:active:not(:disabled) {
-  transform: translateY(1px);
+  scale: 0.97;
   background: var(--color-paper-2);
 }
 .ctrl:focus-visible {
@@ -157,22 +155,88 @@
 }
 
 .ledger-tab {
-  transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+  position: relative;
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), scale var(--dur-micro) var(--ease-out);
 }
 .ledger-tab:active {
-  transform: translateY(1px);
+  scale: 0.98;
   background: var(--color-paper-3);
+}
+.ledger-tab[data-active="true"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  border-block-end: 2px solid var(--color-accent);
+  pointer-events: none;
+}
+
+.mobile-nav-tab {
+  position: relative;
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), scale var(--dur-micro) var(--ease-out);
+}
+.mobile-nav-tab:active {
+  scale: 0.97;
+  background: var(--color-paper-3);
+}
+.mobile-nav-tab[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  border-block-start: 2px solid var(--color-accent);
+  pointer-events: none;
 }
 
 /* Native horizontal strip scrolling without vertical gesture hijack */
+@property --fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 .touch-scroll-x {
   overflow-x: auto;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x proximity;
+  scroll-snap-type: inline proximity;
+  scrollbar-width: none;
+}
+.touch-scroll-x::-webkit-scrollbar {
+  display: none;
 }
 .touch-scroll-x > * {
   scroll-snap-align: start;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-fade-x {
+    --fade-size: 1.5rem;
+    scroll-padding-inline: var(--fade-size);
+    mask:
+      linear-gradient(black, black) no-clip subtract,
+      linear-gradient(to right, black, transparent) 0 0 / var(--fade-start) 100% no-repeat no-clip,
+      linear-gradient(to right, transparent, black) 100% 0 / var(--fade-end) 100% no-repeat no-clip;
+    animation: reveal-fade-start linear both, hide-fade-end linear both;
+    animation-timeline: scroll(self inline);
+    animation-range: 0 var(--fade-size), calc(100% - var(--fade-size)) 100%;
+  }
+}
+
+@keyframes reveal-fade-start {
+  to {
+    --fade-start: var(--fade-size);
+  }
+}
+
+@keyframes hide-fade-end {
+  from {
+    --fade-end: var(--fade-size);
+  }
 }
 
 .ctrl-input {
@@ -267,6 +331,16 @@
   }
 }
 
+/* Container-aware KPI grid */
+.kpi-grid-shell {
+  container: kpi-grid / inline-size;
+}
+@container kpi-grid (inline-size < 20rem) {
+  .kpi-cell-sub {
+    display: none;
+  }
+}
+
 @media (max-width: 63.99rem) {
   #topCommandHeader,
   #leftGlassPanel,
@@ -275,7 +349,22 @@
     right: max(var(--space-xs), env(safe-area-inset-right, 0px));
   }
   .leaflet-bottom {
-    bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  #viewportStage[data-mobile-node-bar="true"] .leaflet-bottom {
+    bottom: calc(6.75rem + env(safe-area-inset-bottom, 0px));
+  }
+  #viewportStage[data-stage-mode="hero"] .leaflet-bottom {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .leaflet-control-attribution {
+    max-width: min(11rem, calc(100vw - 4.5rem));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 10px !important;
+    line-height: 1.25;
   }
 }
 

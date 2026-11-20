@@ -19,6 +19,7 @@ describe('LandingHeroOverlay', () => {
     ).toBeDefined();
     expect(screen.getByText('15.3410° N, 120.5360° E')).toBeDefined();
     expect(screen.getByText(/13TH SIGNATORY: PHILIPPINES/i)).toBeDefined();
+    expect(screen.queryByText(/Luzon Atlas/i)).toBeNull();
   });
 
   it('triggers onEnterConsole callback when action buttons are clicked', () => {

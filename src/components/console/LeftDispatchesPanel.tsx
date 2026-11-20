@@ -118,7 +118,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
     <aside
       ref={panelRef}
       id="leftGlassPanel"
-      className="flex absolute top-[106px] lg:top-[72px] bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
+      className="flex absolute top-[96px] lg:top-[72px] bottom-[calc(3.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 sm:left-2 lg:right-auto lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
       style={{
         top: topOffset !== undefined ? `calc(${topOffset}px + env(safe-area-inset-top, 0px))` : undefined,
         transform: `translate3d(${isCollapsed ? -115 : translateXPercent}%, 0, 0)`,
@@ -127,16 +127,16 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
       }}
     >
       {/* Panel Header */}
-      <div className="p-3 border-b border-rule bg-paper-2 space-y-2.5 shrink-0">
+      <div className="p-2 lg:p-3 border-b border-rule bg-paper-2 space-y-1.5 lg:space-y-2.5 shrink-0">
         <div className="flex items-center justify-between gap-2">
-          <h2 className="text-[17px] text-ink flex items-center gap-2">
+          <h2 className="text-[15px] lg:text-[17px] text-ink flex items-center gap-1.5 lg:gap-2 min-w-0">
             <Radio className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
-            <span>Intelligence Dispatches</span>
+            <span className="truncate">Intelligence Dispatches</span>
           </h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
             <span
               id="newsCountIndicator"
-              className="text-xs font-medium px-2 py-0.5 bg-paper-3 text-ink-2 border border-rule-2 num"
+              className="text-[11px] lg:text-xs font-medium px-1.5 lg:px-2 py-0.5 bg-paper-3 text-ink-2 border border-rule-2 num"
             >
               {filteredCards.length}
             </span>
@@ -152,8 +152,11 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
           </div>
         </div>
 
-        {/* Stakeholder Filter Tabs (filled ink when chosen) */}
-        <div className="flex flex-wrap gap-1.5" id="stakeholderPillsContainer">
+        {/* Stakeholder Filter Tabs (single-row swipeable on mobile, filled ink when chosen) */}
+        <div
+          className="touch-scroll-x scroll-fade-x flex flex-nowrap sm:flex-wrap items-center gap-1 lg:gap-1.5"
+          id="stakeholderPillsContainer"
+        >
           {STAKEHOLDER_PILLS.map((item) => {
             const isActive = stakeholderFilter === item.id;
             return (
@@ -161,7 +164,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 key={item.id}
                 type="button"
                 onClick={() => onStakeholderFilterChange(item.id)}
-                className={`stakeholder-pill ctrl min-h-9 lg:min-h-0 px-2.5 py-1 text-xs ${
+                className={`stakeholder-pill ctrl min-h-[32px] lg:min-h-0 px-2 lg:px-2.5 py-1 text-xs shrink-0 ${
                   isActive
                     ? 'bg-ink text-paper border-ink'
                     : 'text-ink-2 border-rule'
@@ -174,7 +177,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
         </div>
 
         {/* Vector Select */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 lg:gap-2">
           <label htmlFor="topicFilterSelect" className="text-xs text-muted shrink-0">
             Vector
           </label>
@@ -182,7 +185,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
             id="topicFilterSelect"
             value={topicFilter}
             onChange={(e) => onTopicFilterChange(e.target.value)}
-            className="ctrl-input flex-1 h-10 lg:h-8 px-2 text-base lg:text-xs truncate cursor-pointer"
+            className="ctrl-input flex-1 min-w-0 h-9 lg:h-8 px-2 py-0 text-xs leading-normal truncate cursor-pointer"
           >
             <option value="ALL">All Vectors</option>
             {DISPATCH_TOPICS.map((topic) => (
@@ -218,7 +221,7 @@ export const LeftDispatchesPanel: React.FC<LeftDispatchesPanelProps> = ({
                 key={card.id}
                 onMouseEnter={() => onHoverNode(card.nodeId)}
                 onMouseLeave={() => onHoverNode(null)}
-                className={`ledger-row p-3 space-y-2 ${
+                className={`ledger-row p-2.5 lg:p-3 space-y-1.5 lg:space-y-2 ${
                   isNodeActive ? 'ledger-row-active' : ''
                 }`}
               >

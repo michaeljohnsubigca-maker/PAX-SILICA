@@ -68,11 +68,19 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
     (el as HTMLElement & { inert?: boolean }).inert = isHidden;
   }, [isHidden]);
 
+  const handleTabSelect = (
+    tab: 'milestones' | 'myths' | 'supply',
+    el: HTMLButtonElement
+  ) => {
+    onTabChange(tab);
+    el.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+  };
+
   return (
     <aside
       ref={panelRef}
       id="rightGlassPanel"
-      className="flex absolute top-[106px] lg:top-[72px] bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 lg:left-auto sm:right-2 lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
+      className="flex absolute top-[96px] lg:top-[72px] bottom-[calc(3.5rem+env(safe-area-inset-bottom))] lg:bottom-2 left-2 right-2 lg:left-auto sm:right-2 lg:w-[320px] z-20 midnight-frame flex-col overflow-hidden transition-none"
       style={{
         top: topOffset !== undefined ? `calc(${topOffset}px + env(safe-area-inset-top, 0px))` : undefined,
         transform: `translate3d(${isCollapsed ? 118 : translateXPercent}%, 0, 0)`,
@@ -81,18 +89,18 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
       }}
     >
       {/* Panel Header */}
-      <div className="px-3 py-2.5 border-b border-rule bg-paper-2 flex items-center justify-between shrink-0">
-        <h2 className="text-[17px] text-ink flex items-center gap-2">
+      <div className="px-2.5 py-2 lg:px-3 lg:py-2.5 border-b border-rule bg-paper-2 flex items-center justify-between gap-2 shrink-0">
+        <h2 className="text-[15px] lg:text-[17px] text-ink flex items-center gap-1.5 lg:gap-2 min-w-0">
           <ShieldCheck className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
-          <span>Project Ledger</span>
+          <span className="truncate">Project Ledger</span>
         </h2>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-ink-2 bg-paper-3 border border-rule-2 px-2 py-0.5 font-medium">
+        <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
+          <span className="text-[11px] lg:text-xs text-ink-2 bg-paper-3 border border-rule-2 px-1.5 lg:px-2 py-0.5 font-medium whitespace-nowrap">
             DTI / BCDA
           </span>
           <button
             type="button"
-            className="ctrl w-7 h-7 flex items-center justify-center text-ink-2"
+            className="hidden lg:flex ctrl w-7 h-7 items-center justify-center text-ink-2"
             onClick={onToggleCollapse}
             title="Minimize Ledger Panel"
             aria-label="Minimize Ledger Panel"
@@ -102,101 +110,115 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         </div>
       </div>
 
-      {/* 2x2 Hairline Figures Grid */}
-      <div className="grid grid-cols-2 border-b border-rule shrink-0">
-        <div className="p-2.5 border-r border-b border-rule">
-          <div className="flex items-center justify-between gap-1 text-xs text-muted">
-            <span>Capas zone</span>
-            <span className="text-ink-2 num">17.1% NCC</span>
-          </div>
-          <div className="text-base font-medium text-ink mt-1 leading-none num">
-            1,620 ha
-          </div>
-          <div className="text-xs text-muted mt-1 leading-snug">4,000 acres in 9,450ha</div>
-        </div>
-
-        <div className="p-2.5 border-b border-rule">
-          <div className="flex items-center justify-between gap-1 text-xs text-muted">
-            <span>Capex target</span>
-            <span className="text-ink-2 num">50+ suitors</span>
-          </div>
-          <div className="text-base font-medium text-accent mt-1 leading-none num">
-            $40B–$70B
-          </div>
-          <div className="text-xs text-muted mt-1 leading-snug">KR, SG, US, JP, TW</div>
-        </div>
-
-        <div className="p-2.5 border-r border-rule">
-          <div className="flex items-center justify-between gap-1 text-xs text-muted">
-            <span>Gross yield</span>
-            <span className="text-success">Maturity</span>
-          </div>
-          <div className="text-base font-medium text-success mt-1 leading-none num">
-            ₱180B / yr
-          </div>
-          <div className="text-xs text-muted mt-1 leading-snug">Recurring industrial</div>
-        </div>
-
-        <div className="p-2.5">
-          <div className="flex items-center justify-between gap-1 text-xs text-muted">
-            <span>Workforce</span>
-            <span className="text-ink-2">STEM / Fab</span>
-          </div>
-          <div className="text-base font-medium text-ink mt-1 leading-none num">
-            130K–200K
-          </div>
-          <div className="text-xs text-muted mt-1 leading-snug">Wafer R&amp;D &amp; mineral fab</div>
-        </div>
-      </div>
-
-      {/* Ledger Tab Switcher */}
-      <div className="grid grid-cols-3 border-b border-rule bg-paper-2 shrink-0">
-        <button
-          type="button"
-          onClick={() => onTabChange('milestones')}
-          className={`ledger-tab min-h-11 lg:min-h-0 py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
-            activeTab === 'milestones'
-              ? 'border-accent text-ink bg-paper'
-              : 'border-transparent text-muted hover:text-ink'
-          }`}
-        >
-          <Milestone className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
-          <span>Milestones</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => onTabChange('myths')}
-          className={`ledger-tab min-h-11 lg:min-h-0 py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
-            activeTab === 'myths'
-              ? 'border-accent text-ink bg-paper'
-              : 'border-transparent text-muted hover:text-ink'
-          }`}
-        >
-          <Scale className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
-          <span>Law Audit</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => onTabChange('supply')}
-          className={`ledger-tab min-h-11 lg:min-h-0 py-2 px-2 text-xs font-medium flex items-center justify-center gap-1.5 cursor-pointer border-b-2 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
-            activeTab === 'supply'
-              ? 'border-accent text-ink bg-paper'
-              : 'border-transparent text-muted hover:text-ink'
-          }`}
-        >
-          <Network className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
-          <span>Value Chain</span>
-        </button>
-      </div>
-
-      {/* Scrollable Ledger Content */}
+      {/* Scrollable Ledger Body (KPI summary scrolls smoothly while tab switcher pins cleanly at top) */}
       <div className="flex-1 overflow-y-auto console-scroll" id="rightPanelContent">
+        {/* 2x2 Hairline Figures Grid */}
+        <div className="kpi-grid-shell grid grid-cols-2 border-b border-rule">
+          <div className="p-2 lg:p-2.5 border-r border-b border-rule">
+            <div className="flex items-center justify-between gap-1 text-[11px] lg:text-xs text-muted">
+              <span className="truncate">Capas zone</span>
+              <span className="text-ink-2 num shrink-0">17.1% NCC</span>
+            </div>
+            <div className="text-sm lg:text-base font-medium text-ink mt-0.5 lg:mt-1 leading-none num">
+              1,620 ha
+            </div>
+            <div className="kpi-cell-sub text-[11px] lg:text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
+              4,000 acres in 9,450ha
+            </div>
+          </div>
+
+          <div className="p-2 lg:p-2.5 border-b border-rule">
+            <div className="flex items-center justify-between gap-1 text-[11px] lg:text-xs text-muted">
+              <span className="truncate">Capex target</span>
+              <span className="text-ink-2 num shrink-0">50+ suitors</span>
+            </div>
+            <div className="text-sm lg:text-base font-medium text-accent mt-0.5 lg:mt-1 leading-none num">
+              $40B–$70B
+            </div>
+            <div className="kpi-cell-sub text-[11px] lg:text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
+              KR, SG, US, JP, TW
+            </div>
+          </div>
+
+          <div className="p-2 lg:p-2.5 border-r border-rule">
+            <div className="flex items-center justify-between gap-1 text-[11px] lg:text-xs text-muted">
+              <span className="truncate">Gross yield</span>
+              <span className="text-success shrink-0">Maturity</span>
+            </div>
+            <div className="text-sm lg:text-base font-medium text-success mt-0.5 lg:mt-1 leading-none num">
+              ₱180B / yr
+            </div>
+            <div className="kpi-cell-sub text-[11px] lg:text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
+              Recurring industrial
+            </div>
+          </div>
+
+          <div className="p-2 lg:p-2.5">
+            <div className="flex items-center justify-between gap-1 text-[11px] lg:text-xs text-muted">
+              <span className="truncate">Workforce</span>
+              <span className="text-ink-2 shrink-0">STEM / Fab</span>
+            </div>
+            <div className="text-sm lg:text-base font-medium text-ink mt-0.5 lg:mt-1 leading-none num">
+              130K–200K
+            </div>
+            <div className="kpi-cell-sub text-[11px] lg:text-xs text-muted mt-0.5 lg:mt-1 leading-snug">
+              Wafer R&amp;D &amp; mineral fab
+            </div>
+          </div>
+        </div>
+
+        {/* Sticky Single-Row Ledger Tab Switcher */}
+        <div className="sticky top-0 z-10 touch-scroll-x scroll-fade-x flex flex-nowrap border-b border-rule bg-paper-2">
+          <button
+            type="button"
+            data-active={activeTab === 'milestones' ? 'true' : undefined}
+            aria-pressed={activeTab === 'milestones'}
+            onClick={(e) => handleTabSelect('milestones', e.currentTarget)}
+            className={`ledger-tab flex-1 shrink-0 min-h-[38px] lg:min-h-[36px] py-1.5 px-2 text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+              activeTab === 'milestones'
+                ? 'text-ink bg-paper'
+                : 'text-muted hover:text-ink'
+            }`}
+          >
+            <Milestone className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+            <span>Milestones</span>
+          </button>
+
+          <button
+            type="button"
+            data-active={activeTab === 'myths' ? 'true' : undefined}
+            aria-pressed={activeTab === 'myths'}
+            onClick={(e) => handleTabSelect('myths', e.currentTarget)}
+            className={`ledger-tab flex-1 shrink-0 min-h-[38px] lg:min-h-[36px] py-1.5 px-2 text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+              activeTab === 'myths'
+                ? 'text-ink bg-paper'
+                : 'text-muted hover:text-ink'
+            }`}
+          >
+            <Scale className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+            <span>Law Audit</span>
+          </button>
+
+          <button
+            type="button"
+            data-active={activeTab === 'supply' ? 'true' : undefined}
+            aria-pressed={activeTab === 'supply'}
+            onClick={(e) => handleTabSelect('supply', e.currentTarget)}
+            className={`ledger-tab flex-1 shrink-0 min-h-[38px] lg:min-h-[36px] py-1.5 px-2 text-xs font-medium flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-[-2px] ${
+              activeTab === 'supply'
+                ? 'text-ink bg-paper'
+                : 'text-muted hover:text-ink'
+            }`}
+          >
+            <Network className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+            <span>Value Chain</span>
+          </button>
+        </div>
+
         {/* TAB 1: MILESTONES */}
         {activeTab === 'milestones' && (
           <div>
-            <div className="bg-paper-2 border-b border-rule px-3 py-2 text-xs text-ink-2 flex items-start gap-2">
+            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-xs text-ink-2 flex items-start gap-2">
               <Clock className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <span className="font-medium text-ink">Phased industrial timeline:</span>{' '}
@@ -218,7 +240,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     key={ms.id}
                     onMouseEnter={() => onHoverNode(ms.nodeId)}
                     onMouseLeave={() => onHoverNode(null)}
-                    className="ledger-row p-3 space-y-1.5"
+                    className="ledger-row p-2.5 lg:p-3 space-y-1.5"
                   >
                     <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
                       <span className={`font-medium px-1.5 py-0.5 border ${badgeClass}`}>
@@ -265,7 +287,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* TAB 2: LAW AUDIT / MYTHS */}
         {activeTab === 'myths' && (
           <div>
-            <div className="bg-paper-2 border-b border-rule px-3 py-2 text-xs text-ink-2 flex items-start gap-2">
+            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-xs text-ink-2 flex items-start gap-2">
               <Scale className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <span className="font-medium text-ink">
@@ -289,7 +311,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     key={myth.id}
                     onMouseEnter={() => onHoverNode(myth.nodeId)}
                     onMouseLeave={() => onHoverNode(null)}
-                    className="ledger-row p-3 space-y-2"
+                    className="ledger-row p-2.5 lg:p-3 space-y-1.5 lg:space-y-2"
                   >
                     <div className="flex items-center justify-between gap-2 text-xs">
                       <span className="text-muted font-medium">Claim check</span>
@@ -300,7 +322,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
                     <h3 className="text-xs font-medium text-ink leading-snug">{myth.claim}</h3>
 
-                    <div className="midnight-well p-2.5 space-y-1">
+                    <div className="midnight-well p-2 lg:p-2.5 space-y-1">
                       <div className="text-xs flex flex-wrap items-baseline justify-between gap-1">
                         <span className="text-accent shrink-0">Legal ref:</span>
                         <span className="text-ink font-medium">{formatMiddleDots(myth.legalRef)}</span>
@@ -310,7 +332,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
 
                     <div className="pt-0.5 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
                       <span>Authority: {myth.authority}</span>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         {myth.citationUrl && (
                           <a
                             href={myth.citationUrl}
@@ -343,7 +365,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
         {/* TAB 3: VALUE CHAIN */}
         {activeTab === 'supply' && (
           <div>
-            <div className="bg-paper-2 border-b border-rule px-3 py-2 text-xs text-ink-2 flex items-start gap-2">
+            <div className="bg-paper-2 border-b border-rule px-2.5 py-1.5 lg:px-3 lg:py-2 text-xs text-ink-2 flex items-start gap-2">
               <Layers className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <span className="font-medium text-ink">Mineral-to-wafer:</span>{' '}
@@ -369,7 +391,7 @@ export const RightLedgerPanel: React.FC<RightLedgerPanelProps> = ({
                     <div
                       onMouseEnter={() => onHoverNode(st.nodeId)}
                       onMouseLeave={() => onHoverNode(null)}
-                      className={`ledger-row border-l-2 ${borderAccent} p-3 space-y-1.5`}
+                      className={`ledger-row border-l-2 ${borderAccent} p-2.5 lg:p-3 space-y-1.5`}
                     >
                       <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
                         <span className="font-medium text-muted">{formatDisplayLabel(st.stage)}</span>

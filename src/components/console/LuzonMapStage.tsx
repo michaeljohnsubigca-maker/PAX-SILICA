@@ -84,7 +84,7 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
         ? {
             url: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${cartoKey}`,
             attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a> | PAX SILICA ATLAS',
+              '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OSM</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 20,
             detectRetina: true,
@@ -92,7 +92,7 @@ export const LuzonMapStage: React.FC<LuzonMapStageProps> = ({
         : {
             url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
             attribution:
-              'Tiles &copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer">Esri</a> &mdash; Esri, DeLorme, NAVTEQ | PAX SILICA ATLAS',
+              '&copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer">Esri</a>',
             subdomains: 'abcd',
             maxZoom: 16,
             detectRetina: false,

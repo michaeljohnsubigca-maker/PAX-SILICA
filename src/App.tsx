@@ -115,6 +115,16 @@ export const App: React.FC = () => {
 
   const isWideView = leftPanelCollapsed && rightPanelCollapsed;
   const inspectedNode = CORRIDOR_NODES[inspectedNodeId] || CORRIDOR_NODES.ncc;
+  const isHeroStage = heroOpacity > 0.02;
+  const showMobileNodeBar = scrollProgress > 0.35 && mobilePanel === 'map';
+
+  const MOBILE_NODE_JUMPS: ReadonlyArray<{ id: 'ncc' | 'bulacan' | 'batangas' | 'subic' | 'manila'; label: string }> = [
+    { id: 'ncc', label: 'Capas Hub' },
+    { id: 'bulacan', label: 'Wafer Lab' },
+    { id: 'batangas', label: 'Batangas AI' },
+    { id: 'subic', label: 'Subic Port' },
+    { id: 'manila', label: 'Manila' },
+  ];
 
   const toggleWideView = useCallback(() => {
     if (isWideView) {
@@ -129,7 +139,12 @@ export const App: React.FC = () => {
   return (
     <div id="scrollRunway" className="relative w-full min-h-[220svh]">
       {/* FIXED 100% x 100dvh GEOSPATIAL STAGE */}
-      <div id="viewportStage" className="fixed inset-0 w-full h-[100dvh] overflow-hidden bg-paper">
+      <div
+        id="viewportStage"
+        data-stage-mode={isHeroStage ? 'hero' : 'console'}
+        data-mobile-node-bar={showMobileNodeBar ? 'true' : 'false'}
+        className="fixed inset-0 w-full h-[100dvh] overflow-hidden bg-paper"
+      >
         {/* LEAFLET MAP OF LUZON */}
         <LuzonMapStage
           selectedNodeId={selectedNodeId}
@@ -246,13 +261,17 @@ export const App: React.FC = () => {
         />
 
         {/* MOBILE NODE SPECS DRAWER (visible when scrolled into workspace on mobile map view) */}
-        {scrollProgress > 0.35 && mobilePanel === 'map' && (
-          <div className="lg:hidden absolute bottom-[calc(5rem+env(safe-area-inset-bottom))] left-[max(0.5rem,env(safe-area-inset-left))] right-[max(0.5rem,env(safe-area-inset-right))] z-30 flex flex-col gap-2">
+        {showMobileNodeBar && (
+          <div className="lg:hidden absolute bottom-[calc(3.5rem+env(safe-area-inset-bottom))] left-[max(0.5rem,env(safe-area-inset-left))] right-[max(0.5rem,env(safe-area-inset-right))] z-30 flex flex-col gap-1.5">
             {isDrawerOpen && (
-              <div className="midnight-frame p-3 space-y-2 max-h-[42dvh] overflow-y-auto console-scroll text-xs">
-                <div className="flex items-center justify-between gap-2 border-b border-rule pb-2">
-                  <h3 className="text-sm font-medium text-ink">{inspectedNode.fullTitle}</h3>
-                  <span className="text-muted num">{inspectedNode.coordsText}</span>
+              <div className="midnight-frame p-2.5 space-y-2 max-h-[40dvh] overflow-y-auto console-scroll text-xs">
+                <div className="flex items-center justify-between gap-2 border-b border-rule pb-1.5">
+                  <h3 className="text-sm font-medium text-ink min-w-0 truncate">
+                    {inspectedNode.fullTitle}
+                  </h3>
+                  <span className="text-[11px] text-muted num shrink-0">
+                    {inspectedNode.coordsText}
+                  </span>
                 </div>
                 <div className="space-y-1.5">
                   <div>
@@ -268,34 +287,36 @@ export const App: React.FC = () => {
                     <span className="text-ink-2">{inspectedNode.dependencies}</span>
                   </div>
                 </div>
-                <p className="text-ink-2 leading-relaxed midnight-well p-2.5">{inspectedNode.summary}</p>
+                <p className="text-ink-2 leading-relaxed midnight-well p-2">{inspectedNode.summary}</p>
               </div>
             )}
-            <div className="midnight-frame p-1.5 flex items-center justify-between gap-2">
-              <div className="touch-scroll-x flex items-center gap-1.5">
-                {(['ncc', 'bulacan', 'batangas', 'subic', 'manila'] as const).map((id) => (
+            <div className="midnight-frame p-1.5 flex items-center gap-1.5 min-w-0">
+              <div className="touch-scroll-x scroll-fade-x flex items-center gap-1 min-w-0 flex-1">
+                {MOBILE_NODE_JUMPS.map(({ id, label }) => (
                   <button
                     key={id}
                     type="button"
                     onClick={() => handleSelectNode(id)}
-                    className={`ctrl h-10 px-3 text-xs shrink-0 ${
+                    className={`ctrl min-h-[34px] px-2.5 py-1 text-xs shrink-0 ${
                       selectedNodeId === id ? 'bg-ink text-paper border-ink' : 'text-ink-2 border-rule'
                     }`}
                   >
-                    {CORRIDOR_NODES[id].name}
+                    {label}
                   </button>
                 ))}
               </div>
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen((prev) => !prev)}
-                className="ctrl h-10 px-3 text-xs text-ink flex items-center gap-1 shrink-0"
+                aria-label={`${inspectedNode.name} Specs`}
+                aria-expanded={isDrawerOpen}
+                className="ctrl min-h-[34px] px-2.5 py-1 text-xs text-ink inline-flex items-center gap-1 shrink-0"
               >
-                <span>{inspectedNode.name} Specs</span>
+                <span>Specs</span>
                 {isDrawerOpen ? (
-                  <ChevronDown className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
+                  <ChevronDown className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
                 ) : (
-                  <ChevronUp className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
+                  <ChevronUp className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
                 )}
               </button>
             </div>
